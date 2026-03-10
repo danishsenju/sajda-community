@@ -39,36 +39,79 @@ export default function QiblatPage() {
   const [deviceHeading, setDeviceHeading] = useState<number>(0)
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null)
   const [distance, setDistance] = useState<string>('')
+  const [compassReady, setCompassReady] = useState(false)
+  const [needsOrientationPermission, setNeedsOrientationPermission] = useState(false)
+
+  const startCompass = useCallback(() => {
+    const handler = (e: DeviceOrientationEvent) => {
+      const h = (e as any).webkitCompassHeading
+      if (h != null) {
+        setDeviceHeading(h)
+        setCompassReady(true)
+      } else if (e.absolute && e.alpha != null) {
+        setDeviceHeading((360 - e.alpha + 360) % 360)
+        setCompassReady(true)
+      } else if (e.alpha != null) {
+        setDeviceHeading((360 - e.alpha + 360) % 360)
+        setCompassReady(true)
+      }
+    }
+    window.addEventListener('deviceorientationabsolute', handler as EventListener, true)
+    window.addEventListener('deviceorientation', handler as EventListener, true)
+    return handler
+  }, [])
 
   const requestLocation = useCallback(() => {
     if (!navigator.geolocation) { setStatus('unsupported'); return }
     setStatus('loading')
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
+      async (pos) => {
         const { latitude: lat, longitude: lng } = pos.coords
         setCoords({ lat, lng })
         setQibla(calcQibla(lat, lng))
         setDistance(calcDistance(lat, lng))
         setStatus('granted')
+
+        // iOS 13+ requires explicit permission for DeviceOrientationEvent
+        const DevOri = DeviceOrientationEvent as any
+        if (typeof DevOri.requestPermission === 'function') {
+          setNeedsOrientationPermission(true)
+        } else {
+          startCompass()
+        }
       },
       () => setStatus('denied'),
       { enableHighAccuracy: true, timeout: 10000 }
     )
-  }, [])
+  }, [startCompass])
+
+  const requestOrientationPermission = useCallback(async () => {
+    try {
+      const DevOri = DeviceOrientationEvent as any
+      const result = await DevOri.requestPermission()
+      if (result === 'granted') {
+        setNeedsOrientationPermission(false)
+        startCompass()
+      }
+    } catch {
+      // Permission denied or not supported — compass stays static
+      setNeedsOrientationPermission(false)
+      startCompass()
+    }
+  }, [startCompass])
 
   useEffect(() => {
+    // Android: auto-start compass without permission prompt
     if (status !== 'granted') return
-    const handler = (e: DeviceOrientationEvent) => {
-      const heading = (e as any).webkitCompassHeading ?? (e.alpha ? 360 - e.alpha : 0)
-      setDeviceHeading(heading)
+    const DevOri = DeviceOrientationEvent as any
+    if (typeof DevOri.requestPermission !== 'function') {
+      const handler = startCompass()
+      return () => {
+        window.removeEventListener('deviceorientationabsolute', handler as EventListener)
+        window.removeEventListener('deviceorientation', handler as EventListener)
+      }
     }
-    window.addEventListener('deviceorientationabsolute', handler as EventListener, true)
-    window.addEventListener('deviceorientation', handler as EventListener, true)
-    return () => {
-      window.removeEventListener('deviceorientationabsolute', handler as EventListener)
-      window.removeEventListener('deviceorientation', handler as EventListener)
-    }
-  }, [status])
+  }, [status, startCompass])
 
   const needleAngle = qibla !== null ? (qibla - deviceHeading + 360) % 360 : 0
 
@@ -401,11 +444,41 @@ export default function QiblatPage() {
               </div>
             )}
 
+            {/* iOS orientation permission prompt */}
+            {needsOrientationPermission && (
+              <div style={{
+                padding: '16px 20px', borderRadius: '12px', marginBottom: '12px',
+                background: 'rgba(82,201,122,0.06)', border: '1px solid rgba(82,201,122,0.2)',
+                textAlign: 'center',
+              }}>
+                <p style={{
+                  fontFamily: 'var(--font-jakarta)', fontSize: '13px',
+                  color: 'var(--text-secondary)', marginBottom: '12px', lineHeight: 1.5,
+                }}>
+                  Benarkan akses sensor gerakan untuk kompas hidup
+                </p>
+                <button
+                  onClick={requestOrientationPermission}
+                  style={{
+                    padding: '10px 24px', borderRadius: '10px',
+                    background: '#52c97a', color: '#04080A',
+                    fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
+                    border: 'none', cursor: 'pointer',
+                  }}
+                >
+                  Aktifkan Kompas
+                </button>
+              </div>
+            )}
+
             <p style={{
               textAlign: 'center', fontFamily: 'var(--font-jakarta)', fontSize: '11px',
               color: 'var(--text-dim)', lineHeight: 1.6,
             }}>
-              Condongkan peranti anda untuk kompas hidup.<br />Pastikan kalibrasi kompas peranti tepat.
+              {compassReady
+                ? '✓ Kompas aktif — pusing peranti anda perlahan-lahan'
+                : 'Condongkan peranti anda untuk kompas hidup.'
+              }<br />Pastikan kalibrasi kompas peranti tepat.
             </p>
           </div>
         )}
