@@ -27,7 +27,7 @@ export async function updateUserRole(targetUserId: string, newRole: string) {
   const admin = createAdminClient()
   const { error } = await admin
     .from('profiles')
-    .update({ role: newRole })
+    .update({ role: newRole as 'jemaah' | 'ajk' | 'superadmin' })
     .eq('id', targetUserId)
 
   if (error) return { error: error.message }

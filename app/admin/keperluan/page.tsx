@@ -57,7 +57,7 @@ export default async function AdminKeperluanPage({
     .select('*, profiles!posted_by(full_name)')
     .order('created_at', { ascending: false })
 
-  if (filter !== 'all') q = q.eq('status', filter)
+  if (filter !== 'all') q = q.eq('status', filter as 'pending' | 'open' | 'in_progress' | 'resolved')
 
   const { data, error } = await q
   const items = (data ?? []) as unknown as Item[]
