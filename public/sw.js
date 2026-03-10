@@ -6,14 +6,14 @@ self.addEventListener('push', (event) => {
     title = 'Kariah',
     body  = 'Anda mempunyai pemberitahuan baru.',
     url   = '/',
-    icon  = '/icons/icon.svg',
+    icon  = '/icons/icon-192.png',
   } = data
 
   event.waitUntil(
     self.registration.showNotification(title, {
       body,
       icon,
-      badge: '/icons/icon.svg',
+      badge: '/icons/icon-192.png',
       data:  { url },
       vibrate: [200, 100, 200],
       requireInteraction: false,

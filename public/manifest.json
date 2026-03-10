@@ -1,18 +1,30 @@
 {
-  "name": "SAJDA — Komuniti Masjid Saujana Utama",
-  "short_name": "SAJDA",
+  "name": "Sajda — Komuniti Masjid Saujana Utama",
+  "short_name": "Sajda",
   "description": "Platform komuniti Masjid Saujana Utama",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#080C0A",
-  "theme_color": "#080C0A",
+  "background_color": "#08090E",
+  "theme_color": "#08090E",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/icons/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
