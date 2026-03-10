@@ -501,14 +501,9 @@ export default async function HomePage() {
 
             {/* Hadis Harian */}
             <Link href="/hadis" className="active:scale-95 transition-transform duration-150" style={{ textDecoration: 'none' }}>
-              <div style={{
-                borderRadius: '18px',
-                background: 'linear-gradient(145deg, #0C1C12 0%, #0A1810 100%)',
-                border: '1px solid rgba(34,197,94,0.14)',
-                padding: '16px 14px 18px',
-                display: 'flex', flexDirection: 'column',
-                minHeight: '110px',
-                boxShadow: '0 4px 20px rgba(34,197,94,0.06)',
+              <div className="quick-card-green" style={{
+                borderRadius: '18px', padding: '16px 14px 18px',
+                display: 'flex', flexDirection: 'column', minHeight: '110px',
               }}>
                 <BookMarked style={{ width: '18px', height: '18px', color: '#22C55E', marginBottom: '12px' }} strokeWidth={1.7} />
                 <span style={{ fontFamily: 'var(--font-playfair)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px' }}>Hadis</span>
@@ -518,14 +513,9 @@ export default async function HomePage() {
 
             {/* Qiblat */}
             <Link href="/qiblat" className="active:scale-95 transition-transform duration-150" style={{ textDecoration: 'none' }}>
-              <div style={{
-                borderRadius: '18px',
-                background: 'linear-gradient(145deg, #130E1E 0%, #100B1A 100%)',
-                border: '1px solid rgba(167,139,250,0.14)',
-                padding: '16px 14px 18px',
-                display: 'flex', flexDirection: 'column',
-                minHeight: '110px',
-                boxShadow: '0 4px 20px rgba(167,139,250,0.06)',
+              <div className="quick-card-purple" style={{
+                borderRadius: '18px', padding: '16px 14px 18px',
+                display: 'flex', flexDirection: 'column', minHeight: '110px',
               }}>
                 <Compass style={{ width: '18px', height: '18px', color: '#A78BFA', marginBottom: '12px' }} strokeWidth={1.7} />
                 <span style={{ fontFamily: 'var(--font-playfair)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px' }}>Qiblat</span>
@@ -535,14 +525,9 @@ export default async function HomePage() {
 
             {/* Berbuka */}
             <Link href="/buka-puasa" className="active:scale-95 transition-transform duration-150" style={{ textDecoration: 'none' }}>
-              <div style={{
-                borderRadius: '18px',
-                background: 'linear-gradient(145deg, #0D1520 0%, #0A1018 100%)',
-                border: '1px solid rgba(56,189,248,0.14)',
-                padding: '16px 14px 18px',
-                display: 'flex', flexDirection: 'column',
-                minHeight: '110px',
-                boxShadow: '0 4px 20px rgba(56,189,248,0.06)',
+              <div className="quick-card-blue" style={{
+                borderRadius: '18px', padding: '16px 14px 18px',
+                display: 'flex', flexDirection: 'column', minHeight: '110px',
               }}>
                 <Clock style={{ width: '18px', height: '18px', color: '#38BDF8', marginBottom: '12px' }} strokeWidth={1.7} />
                 <span style={{ fontFamily: 'var(--font-playfair)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px' }}>Berbuka</span>

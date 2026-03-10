@@ -19,10 +19,13 @@ interface PrayerData {
 
 async function fetchJakimPrayerTimes(): Promise<PrayerData | null> {
   try {
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), 3000) // 3s timeout
     const res = await fetch(
       `https://www.e-solat.gov.my/index.php?r=esolatApi/takwimsolat&period=today&zone=${JAKIM_ZONE}`,
-      { next: { revalidate: 3600 } }
+      { next: { revalidate: 3600 }, signal: controller.signal }
     )
+    clearTimeout(timer)
     if (!res.ok) return null
     const json = await res.json()
     const pt = json?.prayerTime?.[0]
@@ -71,27 +74,28 @@ export default async function BukaPuasaPage() {
   const supabase = await createClient()
   const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kuala_Lumpur' })
 
-  // Priority: JAKIM → Supabase → Aladhan
-  let times: PrayerData | null = await fetchJakimPrayerTimes()
-  let source = 'JAKIM e-Solat'
+  // Fetch JAKIM + Supabase + Aladhan in parallel — use first good result
+  const [jakimResult, supabaseResult, aladhanResult] = await Promise.all([
+    fetchJakimPrayerTimes(),
+    supabase.from('prayer_times').select('fajr, maghrib, date').eq('date', today).maybeSingle(),
+    fetchAladhanFallback(),
+  ])
 
-  if (!times?.maghrib) {
-    const { data: row } = await supabase
-      .from('prayer_times')
-      .select('fajr, maghrib, date')
-      .eq('date', today)
-      .maybeSingle()
-    if (row?.maghrib) {
-      times = {
-        imsak: null, fajr: row.fajr ?? null, syuruk: null,
-        dhuhr: null, asr: null, maghrib: row.maghrib, isha: null,
-      }
-      source = 'Data AJK'
+  let times: PrayerData | null = null
+  let source = ''
+
+  if (jakimResult?.maghrib) {
+    times = jakimResult
+    source = 'JAKIM e-Solat'
+  } else if (supabaseResult.data?.maghrib) {
+    const row = supabaseResult.data
+    times = {
+      imsak: null, fajr: row.fajr ?? null, syuruk: null,
+      dhuhr: null, asr: null, maghrib: row.maghrib, isha: null,
     }
-  }
-
-  if (!times?.maghrib) {
-    times = await fetchAladhanFallback()
+    source = 'Data AJK'
+  } else if (aladhanResult?.maghrib) {
+    times = aladhanResult
     source = 'Aladhan API'
   }
 

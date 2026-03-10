@@ -67,7 +67,7 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
     background: 'rgba(255,255,255,0.06)',
     border: '1px solid rgba(255,255,255,0.12)',
     borderRadius: '10px',
-    color: 'var(--text-primary)',
+    color: '#F0FDF4',
     fontSize: '14px',
     fontFamily: 'var(--font-dm-sans)',
     outline: 'none',
@@ -77,7 +77,7 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
     display: 'block',
     fontSize: '12px',
     fontWeight: 600,
-    color: 'var(--text-secondary)',
+    color: 'rgba(186,230,200,0.85)',
     fontFamily: 'var(--font-dm-sans)',
     marginBottom: '6px',
   }
@@ -131,7 +131,7 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
           <p style={{
             fontFamily: 'var(--font-dm-sans)',
             fontSize: '12px',
-            color: 'var(--text-dim)',
+            color: 'rgba(186,230,200,0.55)',
             letterSpacing: '0.06em',
           }}>
             Komuniti Masjid Saujana Utama
@@ -174,7 +174,7 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
                   cursor: 'pointer',
                   transition: 'all 0.15s ease',
                   background: mode === m ? 'rgba(255,255,255,0.10)' : 'transparent',
-                  color: mode === m ? 'var(--text-primary)' : 'var(--text-dim)',
+                  color: mode === m ? '#F0FDF4' : 'rgba(186,230,200,0.50)',
                   boxShadow: mode === m ? '0 1px 4px rgba(0,0,0,0.30)' : 'none',
                 }}
               >
@@ -198,7 +198,7 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
               borderRadius: '10px',
               background: googlePending ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.08)',
               border: '1px solid rgba(255,255,255,0.14)',
-              color: 'var(--text-primary)',
+              color: '#F0FDF4',
               fontSize: '14px',
               fontWeight: 600,
               fontFamily: 'var(--font-dm-sans)',
@@ -223,7 +223,7 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
             <span style={{
               fontFamily: 'var(--font-dm-sans)',
               fontSize: '11px',
-              color: 'var(--text-dim)',
+              color: 'rgba(186,230,200,0.55)',
               fontWeight: 500,
             }}>
               atau dengan emel
@@ -276,7 +276,7 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
                 />
                 <button type="button" onClick={() => setShowPw(v => !v)} style={{
                   position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)',
-                  background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-dim)', padding: '2px',
+                  background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(186,230,200,0.55)', padding: '2px',
                 }}>
                   {showPw ? <EyeOff style={{ width: '15px', height: '15px' }} /> : <Eye style={{ width: '15px', height: '15px' }} />}
                 </button>
@@ -302,7 +302,7 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
                   />
                   <button type="button" onClick={() => setShowPw2(v => !v)} style={{
                     position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)',
-                    background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-dim)', padding: '2px',
+                    background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(186,230,200,0.55)', padding: '2px',
                   }}>
                     {showPw2 ? <EyeOff style={{ width: '15px', height: '15px' }} /> : <Eye style={{ width: '15px', height: '15px' }} />}
                   </button>
@@ -311,7 +311,7 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
             )}
 
             {mode === 'signup' && (
-              <p style={{ fontSize: '11px', color: 'var(--text-dim)', fontFamily: 'var(--font-dm-sans)', marginTop: '-4px' }}>
+              <p style={{ fontSize: '11px', color: 'rgba(186,230,200,0.55)', fontFamily: 'var(--font-dm-sans)', marginTop: '-4px' }}>
                 Min. 6 aksara. Semak emel untuk mengesahkan akaun selepas daftar.
               </p>
             )}
@@ -367,7 +367,7 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
           {/* Guest link */}
           <div style={{ marginTop: '18px', textAlign: 'center' }}>
             <a href="/" style={{
-              fontSize: '12px', color: 'var(--text-dim)',
+              fontSize: '12px', color: 'rgba(186,230,200,0.55)',
               fontFamily: 'var(--font-dm-sans)', textDecoration: 'none',
             }}>
               Teruskan sebagai tetamu →

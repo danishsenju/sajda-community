@@ -1395,3 +1395,35 @@ html, body, * {
 html, body {
   transition: background-color 0.25s ease;
 }
+
+/* ── Quick-access icon cards (home page) ── */
+.quick-card-green {
+  background: linear-gradient(145deg, #0C1C12 0%, #0A1810 100%);
+  border: 1px solid rgba(34,197,94,0.14);
+  box-shadow: 0 4px 20px rgba(34,197,94,0.06);
+}
+.quick-card-purple {
+  background: linear-gradient(145deg, #130E1E 0%, #100B1A 100%);
+  border: 1px solid rgba(167,139,250,0.14);
+  box-shadow: 0 4px 20px rgba(167,139,250,0.06);
+}
+.quick-card-blue {
+  background: linear-gradient(145deg, #0D1520 0%, #0A1018 100%);
+  border: 1px solid rgba(56,189,248,0.14);
+  box-shadow: 0 4px 20px rgba(56,189,248,0.06);
+}
+html.light .quick-card-green {
+  background: linear-gradient(145deg, #DCFCE7 0%, #D1FAE5 100%);
+  border: 1px solid rgba(34,197,94,0.25);
+  box-shadow: 0 4px 16px rgba(34,197,94,0.10);
+}
+html.light .quick-card-purple {
+  background: linear-gradient(145deg, #EDE9FE 0%, #E5DFFE 100%);
+  border: 1px solid rgba(167,139,250,0.30);
+  box-shadow: 0 4px 16px rgba(167,139,250,0.12);
+}
+html.light .quick-card-blue {
+  background: linear-gradient(145deg, #E0F2FE 0%, #BAE6FD 100%);
+  border: 1px solid rgba(56,189,248,0.30);
+  box-shadow: 0 4px 16px rgba(56,189,248,0.12);
+}
