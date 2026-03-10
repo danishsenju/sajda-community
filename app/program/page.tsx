@@ -224,7 +224,7 @@ export default async function ProgramPage({
                       display: 'flex', gap: '0', textDecoration: 'none',
                       background: isFirst ? 'var(--elevated)' : 'var(--surface)',
                       border: `1px solid ${isFirst ? 'rgba(82,201,122,0.25)' : 'var(--border)'}`,
-                      borderLeft: `3px solid ${isFirst ? '#52c97a' : cfg.dot}`,
+                      boxShadow: `inset 3px 0 0 ${isFirst ? '#52c97a' : cfg.dot}`,
                       borderRadius: '12px', overflow: 'hidden',
                       transition: 'border-color 0.2s',
                       position: 'relative',
