@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { HandCoins, Info, Landmark, ArrowUpRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase-server'
 import { CopyButton } from './CopyButton'

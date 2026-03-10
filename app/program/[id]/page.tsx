@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { createClient } from '@/lib/supabase-server'
 import { Badge } from '@/components/ui/Badge'
 import { notFound } from 'next/navigation'

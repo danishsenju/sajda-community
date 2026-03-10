@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { Moon } from 'lucide-react'
 import { createClient } from '@/lib/supabase-server'
 import { BukaPuasaCountdown } from './BukaPuasaCountdown'

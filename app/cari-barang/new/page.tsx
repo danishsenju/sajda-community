@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 'use server'
 
 import { createClient } from '@/lib/supabase-server'

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { createClient } from '@/lib/supabase-server'
 import { MapPin, Phone, Droplets, Users, Car, Accessibility, ExternalLink, Clock, Globe, BookOpen, Heart } from 'lucide-react'
 import { PWAInstallInline } from '@/components/ui/PWAInstallButton'
