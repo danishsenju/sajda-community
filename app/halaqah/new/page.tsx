@@ -36,7 +36,8 @@ export default function NewHalaqahPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/login?redirect=/halaqah/new'); return }
 
-      const { data, error: insertErr } = await supabase
+      const db = supabase as any
+      const { data, error: insertErr } = await db
         .from('halaqah_groups')
         .insert({
           name: name.trim(),
@@ -53,7 +54,7 @@ export default function NewHalaqahPage() {
       if (insertErr) throw insertErr
 
       // auto-join creator as member
-      await supabase.from('halaqah_members').insert({
+      await db.from('halaqah_members').insert({
         group_id: data.id,
         user_id: user.id,
         role: 'ketua',

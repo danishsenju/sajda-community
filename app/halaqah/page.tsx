@@ -78,10 +78,11 @@ export default function HalaqahPage() {
     setLoading(true); setError(false)
     try {
       const supabase = createClient()
+      const db = supabase as any
       const { data: { user } } = await supabase.auth.getUser()
       if (user) setUserId(user.id)
 
-      const { data: groups, error: gErr } = await supabase
+      const { data: groups, error: gErr } = await db
         .from('halaqah_groups')
         .select(`*, halaqah_members(count)`)
         .order('created_at', { ascending: false })
@@ -89,30 +90,30 @@ export default function HalaqahPage() {
 
       // member groups for current user
       if (user) {
-        const { data: myM } = await supabase
+        const { data: myM } = await db
           .from('halaqah_members')
           .select('group_id')
           .eq('user_id', user.id)
-        setMyGroups((myM ?? []).map(m => m.group_id))
+        setMyGroups((myM ?? []).map((m: any) => m.group_id))
 
         // personal progress per group
-        const { data: prog } = await supabase
+        const { data: prog } = await db
           .from('halaqah_progress')
           .select('group_id')
           .eq('user_id', user.id)
 
         const progressMap: Record<string, number> = {}
-        ;(prog ?? []).forEach(p => {
+        ;(prog ?? []).forEach((p: any) => {
           progressMap[p.group_id] = (progressMap[p.group_id] ?? 0) + 1
         })
 
-        setGroups((groups ?? []).map(g => ({
+        setGroups((groups ?? []).map((g: any) => ({
           ...g,
           member_count: (g.halaqah_members as unknown as { count: number }[])?.[0]?.count ?? 0,
           my_progress: progressMap[g.id] ?? 0,
         })))
       } else {
-        setGroups((groups ?? []).map(g => ({
+        setGroups((groups ?? []).map((g: any) => ({
           ...g,
           member_count: (g.halaqah_members as unknown as { count: number }[])?.[0]?.count ?? 0,
         })))

@@ -74,14 +74,16 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
       if (user) setUserId(user.id)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const db = supabase as any
 
       const [{ data: grp, error: gErr }, { data: mems }, { data: prog }] = await Promise.all([
-        supabase.from('halaqah_groups').select('*').eq('id', id).single(),
-        supabase.from('halaqah_members')
+        db.from('halaqah_groups').select('*').eq('id', id).single(),
+        db.from('halaqah_members')
           .select('*, profiles(full_name, avatar_url)')
           .eq('group_id', id)
           .order('joined_at', { ascending: true }),
-        supabase.from('halaqah_progress')
+        db.from('halaqah_progress')
           .select('juzuk, user_id, created_at')
           .eq('group_id', id),
       ])
@@ -92,22 +94,22 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
 
       // compute juzuk count per member
       const juzukByUser: Record<string, number> = {}
-      ;(prog ?? []).forEach(p => {
+      ;(prog ?? []).forEach((p: any) => {
         juzukByUser[p.user_id] = (juzukByUser[p.user_id] ?? 0) + 1
       })
 
-      const membersWithProg = (mems ?? []).map(m => ({
+      const membersWithProg = (mems ?? []).map((m: any) => ({
         ...m,
         juzuk_done: juzukByUser[m.user_id] ?? 0,
       }))
       setMembers(membersWithProg)
 
       if (user) {
-        const memberIds = (mems ?? []).map(m => m.user_id)
+        const memberIds = (mems ?? []).map((m: any) => m.user_id)
         setIsMember(memberIds.includes(user.id))
         const myJuzuk = (prog ?? [])
-          .filter(p => p.user_id === user.id)
-          .map(p => p.juzuk)
+          .filter((p: any) => p.user_id === user.id)
+          .map((p: any) => p.juzuk)
         setMyProg(myJuzuk)
       }
     } catch { setError(true) }
@@ -120,7 +122,8 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
     if (!userId) { window.location.href = `/login?redirect=/halaqah/${id}`; return }
     setJoining(true)
     try {
-      const supabase = createClient()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const supabase = createClient() as any
       await supabase.from('halaqah_members').insert({ group_id: id, user_id: userId, role: 'ahli' })
       await load()
     } catch { /* ignore */ }
@@ -131,7 +134,8 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
     if (!userId) return
     const ok = confirm('Anda pasti ingin meninggalkan halaqah ini? Progress anda akan dikekalkan.')
     if (!ok) return
-    const supabase = createClient()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const supabase = createClient() as any
     await supabase.from('halaqah_members').delete().eq('group_id', id).eq('user_id', userId)
     await load()
   }
@@ -139,7 +143,8 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
   async function toggleJuzuk(juzuk: number) {
     if (!userId || !isMember) return
     setMarkingJuzuk(juzuk)
-    const supabase = createClient()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const supabase = createClient() as any
     if (myProgress.includes(juzuk)) {
       await supabase.from('halaqah_progress')
         .delete().eq('group_id', id).eq('user_id', userId).eq('juzuk', juzuk)
@@ -272,7 +277,8 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
                       onClick={async () => {
                         setMenu(false)
                         if (!confirm('Bubarkan halaqah ini? Semua data akan dipadam.')) return
-                        const supabase = createClient()
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        const supabase = createClient() as any
                         await supabase.from('halaqah_groups').delete().eq('id', id)
                         window.location.href = '/halaqah'
                       }}
