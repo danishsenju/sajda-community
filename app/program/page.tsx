@@ -30,14 +30,14 @@ export default async function ProgramPage({
 
   let upcomingQuery = supabase
     .from('programs')
-    .select('*, volunteer_signups(id)')
+    .select('id, title, description, category, program_date, start_time, end_time, location, needs_volunteers, volunteer_slots, image_url, volunteer_signups(id)')
     .eq('is_published', true)
     .gte('program_date', today)
     .order('program_date', { ascending: true })
 
   let pastQuery = supabase
     .from('programs')
-    .select('*')
+    .select('id, title, category, program_date')
     .eq('is_published', true)
     .lt('program_date', today)
     .order('program_date', { ascending: false })

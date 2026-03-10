@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { createClient } from '@/lib/supabase'
 import type { User } from '@supabase/supabase-js'
 import type { Profile } from '@/types/database.types'
@@ -9,19 +9,24 @@ export function useUser() {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
-  const supabase = createClient()
+  // Stable client instance — never recreated across renders
+  const supabase = useRef(createClient()).current
 
   useEffect(() => {
     async function fetchProfile(uid: string): Promise<Profile | null> {
-      const { data } = await supabase.from('profiles').select('*').eq('id', uid).single()
+      const { data } = await supabase
+        .from('profiles')
+        .select('id, full_name, role, avatar_url, phone, unit_blok')
+        .eq('id', uid)
+        .single()
       return data
     }
 
     async function load() {
-      const { data: { user } } = await supabase.auth.getUser()
-      const profile = user ? await fetchProfile(user.id) : null
-      // Batch: prevent brief render where user != null but profile = null
-      setUser(user)
+      // getSession() reads from localStorage — instant, no network roundtrip
+      const { data: { session } } = await supabase.auth.getSession()
+      const profile = session?.user ? await fetchProfile(session.user.id) : null
+      setUser(session?.user ?? null)
       setProfile(profile)
       setLoading(false)
     }

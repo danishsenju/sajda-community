@@ -6,7 +6,9 @@ import { PWAInstallInline } from '@/components/ui/PWAInstallButton'
 
 export default async function MasjidPage() {
   const supabase = await createClient()
-  const { data: mosque } = await supabase.from('mosque_info').select('*').eq('id', 1).single()
+  const { data: mosque } = await supabase.from('mosque_info')
+    .select('name, address, phone, gmaps_url, description, has_wudhu, has_womens_section, has_parking, has_accessibility, parking_notes, operating_notes')
+    .eq('id', 1).single()
 
   const name     = mosque?.name     ?? 'Masjid Saujana Utama'
   const address  = mosque?.address  ?? 'Jalan Kemboja 2, Saujana Utama 2, 47000 Sungai Buloh, Selangor'

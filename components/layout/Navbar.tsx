@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -12,7 +12,6 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUser } from '@/hooks/useUser'
-import { useTheme } from 'next-themes'
 import sajdaLogo from '@/images/sajda-logo.png'
 import { NotificationPanel } from '@/components/ui/NotificationPanel'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
@@ -73,7 +72,6 @@ const bottomNav = [
 
 /* ── SAJDA LOGO ── */
 function SajdaLogo({ height = 32 }: { height?: number }) {
-  const { resolvedTheme } = useTheme()
   const width = Math.round(height * 3.2)
   return (
     <Image
@@ -81,12 +79,7 @@ function SajdaLogo({ height = 32 }: { height?: number }) {
       alt="Sajda"
       width={width}
       height={height}
-      className="object-contain"
-      style={{
-        filter: resolvedTheme === 'light'
-          ? 'none'
-          : 'brightness(0) invert(1)',
-      }}
+      className="object-contain sajda-logo"
     />
   )
 }
@@ -94,8 +87,6 @@ function SajdaLogo({ height = 32 }: { height?: number }) {
 /* ── MOBILE BOTTOM NAV — Liquid Glass Floating Pill ── */
 function BottomNav() {
   const pathname = usePathname()
-  const { resolvedTheme } = useTheme()
-  const isLight = resolvedTheme === 'light'
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
@@ -151,22 +142,21 @@ function BottomNav() {
             >
               {/* Active pill glow behind icon */}
               {active && (
-                <span
-                  style={{
-                    position: 'absolute',
-                    inset: '4px 6px',
-                    borderRadius: '100px',
-                    background: isLight ? 'rgba(10,112,64,0.12)' : 'rgba(82,201,122,0.13)',
-                    border: isLight ? '1px solid rgba(10,112,64,0.22)' : '1px solid rgba(82,201,122,0.18)',
-                    boxShadow: isLight ? '0 0 12px rgba(10,112,64,0.18) inset' : '0 0 12px rgba(82,201,122,0.15) inset',
-                  }}
-                />
+                <span className="bottom-nav-active-glow" style={{
+                  position: 'absolute',
+                  inset: '4px 6px',
+                  borderRadius: '100px',
+                  background: 'rgba(82,201,122,0.13)',
+                  border: '1px solid rgba(82,201,122,0.18)',
+                  boxShadow: '0 0 12px rgba(82,201,122,0.15) inset',
+                }} />
               )}
               <Icon
+                className={`bottom-nav-icon${active ? ' active' : ''}`}
                 style={{
                   width: '19px',
                   height: '19px',
-                  color: active ? '#0A7040' : (isLight ? 'rgba(10,60,30,0.55)' : 'rgba(255,255,255,0.32)'),
+                  color: active ? '#0A7040' : 'rgba(255,255,255,0.32)',
                   filter: active ? 'drop-shadow(0 0 5px rgba(10,112,64,0.45))' : 'none',
                   transition: 'all 0.18s ease',
                   position: 'relative',
@@ -176,11 +166,12 @@ function BottomNav() {
                 strokeWidth={active ? 2.2 : 1.6}
               />
               <span
+                className={`bottom-nav-label${active ? ' active' : ''}`}
                 style={{
                   fontFamily: 'var(--font-jakarta)',
                   fontSize: '9px',
                   letterSpacing: '0.04em',
-                  color: active ? '#0A7040' : (isLight ? 'rgba(10,60,30,0.55)' : 'rgba(255,255,255,0.22)'),
+                  color: active ? '#0A7040' : 'rgba(255,255,255,0.22)',
                   fontWeight: active ? 700 : 400,
                   transition: 'color 0.18s ease',
                   position: 'relative',
@@ -216,8 +207,14 @@ export function Navbar() {
   const [adminOpen, setAdminOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
-  const initials = (profile?.full_name || user?.email || 'U').charAt(0).toUpperCase()
-  const visibleAdminNav = adminNavItems.filter(i => !i.superadminOnly || isSuperAdmin)
+  const initials = useMemo(
+    () => (profile?.full_name || user?.email || 'U').charAt(0).toUpperCase(),
+    [profile?.full_name, user?.email]
+  )
+  const visibleAdminNav = useMemo(
+    () => adminNavItems.filter(i => !i.superadminOnly || isSuperAdmin),
+    [isSuperAdmin]
+  )
 
   useEffect(() => { setDrawerOpen(false); setAdminOpen(false) }, [pathname])
 

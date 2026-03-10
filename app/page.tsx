@@ -90,11 +90,11 @@ export default async function HomePage() {
     { count: totalPrograms },
     { count: resolvedKeperluan },
   ] = await Promise.all([
-    supabase.from('announcements').select('*')
+    supabase.from('announcements').select('id, title, content, category, is_pinned, created_at')
       .order('is_pinned', { ascending: false })
       .order('created_at', { ascending: false })
       .limit(4),
-    supabase.from('programs').select('*').eq('is_published', true)
+    supabase.from('programs').select('id, title, category, program_date, start_time, end_time, location, needs_volunteers, volunteer_slots, image_url').eq('is_published', true)
       .gte('program_date', today).order('program_date').limit(3),
     supabase.from('profiles').select('id', { count: 'exact', head: true }),
     supabase.from('programs').select('id', { count: 'exact', head: true }).eq('is_published', true),

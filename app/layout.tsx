@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, Plus_Jakarta_Sans, Amiri, JetBrains_Mono, Poppins } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/layout/Navbar'
-import { PWAInstallButton } from '@/components/ui/PWAInstallButton'
+import { InstallPWA } from '@/components/ui/InstallPWA'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { ServiceWorkerRegister } from '@/components/ui/ServiceWorkerRegister'
 
@@ -83,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="min-h-screen pt-16 md:pt-16 pb-[82px] md:pb-0">
             {children}
           </main>
-          <PWAInstallButton />
+          <InstallPWA />
           <ServiceWorkerRegister />
         </ThemeProvider>
       </body>

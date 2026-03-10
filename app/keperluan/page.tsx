@@ -60,32 +60,37 @@ export default async function KeperluanPage({
   const { cat, urgency } = await searchParams
   const supabase = await createClient()
 
-  // Get current user to show their own pending posts
-  const { data: { user } } = await supabase.auth.getUser()
+  type KCat = 'bantuan_fizikal' | 'ilmu_tuisyen' | 'transport' | 'barangan' | 'lain'
 
-  // Fetch public items (open + in_progress)
+  // Build main query before awaiting so we can parallelise with getUser()
   let q = supabase.from('keperluan')
-    .select('*, keperluan_helpers(count)')
+    .select('id, title, description, category, urgency, status, created_at, keperluan_helpers(count)')
     .in('status', ['open', 'in_progress'])
     .order('urgency', { ascending: false })
     .order('created_at', { ascending: false })
 
-  if (cat && cat !== 'semua') q = q.eq('category', cat as 'bantuan_fizikal' | 'ilmu_tuisyen' | 'transport' | 'barangan' | 'lain')
+  if (cat && cat !== 'semua') q = q.eq('category', cat as KCat)
   if (urgency === 'urgent') q = q.eq('urgency', 'urgent')
 
-  const { data: items } = await q
+  // Run auth check + main DB query in parallel — saves one full roundtrip
+  const [{ data: { user } }, { data: items }] = await Promise.all([
+    supabase.auth.getUser(),
+    q,
+  ])
+
   const safeItems = items ?? []
   const urgentCount = safeItems.filter((i: Keperluan) => i.urgency === 'urgent').length
 
-  // Fetch current user's own pending posts (not visible to others)
+  // Pending items only needed if user is logged in — runs after parallel block
   let pendingItems: any[] = []
   if (user) {
     let pq = supabase.from('keperluan')
-      .select('*, keperluan_helpers(count)')
+      .select('id, title, description, category, urgency, status, created_at')
       .eq('status', 'pending')
       .eq('posted_by', user.id)
       .order('created_at', { ascending: false })
-    if (cat && cat !== 'semua') pq = pq.eq('category', cat as 'bantuan_fizikal' | 'ilmu_tuisyen' | 'transport' | 'barangan' | 'lain')
+      .limit(20)
+    if (cat && cat !== 'semua') pq = pq.eq('category', cat as KCat)
     const { data: pData } = await pq
     pendingItems = pData ?? []
   }

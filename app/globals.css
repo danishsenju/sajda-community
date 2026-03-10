@@ -1352,6 +1352,17 @@ html.light .bottom-nav-pill {
     0 1.5px 0 rgba(255, 255, 255, 0.98) inset !important;
 }
 
+/* ── Sajda logo — dark mode inverts to white, light mode shows original ── */
+.sajda-logo { filter: brightness(0) invert(1); }
+html.light .sajda-logo { filter: none !important; }
+
+/* ── Bottom nav icon/label — light mode colors ── */
+html.light .bottom-nav-icon { color: rgba(10,60,30,0.55) !important; }
+html.light .bottom-nav-icon.active { color: #0A7040 !important; filter: drop-shadow(0 0 5px rgba(10,112,64,0.45)) !important; }
+html.light .bottom-nav-label { color: rgba(10,60,30,0.55) !important; }
+html.light .bottom-nav-label.active { color: #0A7040 !important; }
+html.light .bottom-nav-active-glow { background: rgba(10,112,64,0.12) !important; border: 1px solid rgba(10,112,64,0.22) !important; box-shadow: 0 0 12px rgba(10,112,64,0.18) inset !important; }
+
 /* ── Top nav header — light mode ── */
 html.light .top-nav-header {
   background: rgba(200, 230, 212, 0.96) !important;

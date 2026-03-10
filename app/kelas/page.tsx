@@ -18,7 +18,7 @@ export default async function KelasPage() {
 
   const { data: kelasList } = await supabase
     .from('kelas')
-    .select('*, kelas_bookings(id)')
+    .select('id, title, description, category, ustaz_name, schedule_day, time_start, time_end, location, capacity, created_at, kelas_bookings(id)')
     .eq('is_active', true)
     .order('created_at', { ascending: false })
 

@@ -25,7 +25,7 @@ export default async function CariBarangPage() {
 
   const { data: items } = await supabase
     .from('lost_found')
-    .select('*')
+    .select('id, type, item_name, description, location, contact, is_resolved, created_at')
     .eq('is_resolved', false)
     .order('created_at', { ascending: false })
 
