@@ -1,26 +1,1397 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* ── DEEP SANCTUARY — Premium dark Islamic forest ── */
+
+  /* Backgrounds */
+  --color-void:     #070C09;
+  --color-base:     #0B1410;
+  --color-surface:  #101E18;
+  --color-elevated: #172A21;
+  --color-overlay:  rgba(4,10,7,0.70);
+
+  /* Borders */
+  --color-border:       #1C3028;
+  --color-border-lit:   #2A4438;
+  --color-border-glow:  rgba(34,197,94,0.22);
+
+  /* Primary — vivid emerald green */
+  --color-primary:       #22C55E;
+  --color-primary-dim:   #16A34A;
+  --color-primary-ghost: rgba(34,197,94,0.08);
+  --color-primary-glow:  rgba(34,197,94,0.16);
+  --color-primary-pulse: rgba(34,197,94,0.28);
+
+  /* Semantic */
+  --color-amber: #F59E0B;
+  --color-red:   #EF4444;
+  --color-blue:  #3B82F6;
+  --color-gold:  #EAB308;
+
+  /* Text — green-white */
+  --color-text-primary:   #E0EDE5;
+  --color-text-secondary: #7A9E88;
+  --color-text-dim:       #3E5A4A;
+  --color-text-inverse:   #070C09;
+
+  /* Legacy aliases */
+  --color-bg-base:        #0B1410;
+  --color-bg-surface:     #101E18;
+  --color-bg-elevated:    #172A21;
+  --color-border-accent:  #2A4438;
+  --color-accent-gold:    #EAB308;
+  --color-accent-red:     #EF4444;
+
+  /* Fonts */
+  --font-display: var(--font-playfair);
+  --font-body:    var(--font-dm-sans);
+  --font-arabic:  var(--font-amiri);
+  --font-mono:    var(--font-jetbrains);
+
+  /* Legacy font aliases */
+  --font-syne:    var(--font-playfair);
+  --font-jakarta: var(--font-dm-sans);
+  --font-jetbrains-mono: var(--font-jetbrains);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ======================================
+   CSS CUSTOM PROPERTIES
+====================================== */
+:root {
+  /* Backgrounds — deep forest sanctuary */
+  --void:    #070C09;
+  --base:    #0B1410;
+  --surface: #101E18;
+  --elevated:#172A21;
+  --overlay: rgba(4,10,7,0.70);
+
+  /* Borders */
+  --border:       #1C3028;
+  --border-lit:   #2A4438;
+  --border-glow:  rgba(34,197,94,0.22);
+
+  /* Primary — vivid emerald */
+  --primary:       #22C55E;
+  --primary-dim:   #16A34A;
+  --primary-ghost: rgba(34,197,94,0.08);
+  --primary-glow:  rgba(34,197,94,0.16);
+  --primary-pulse: rgba(34,197,94,0.28);
+  --primary-pale:  rgba(34,197,94,0.10);
+
+  /* Gold / amber */
+  --gold:       #EAB308;
+  --gold-pale:  rgba(234,179,8,0.10);
+  --gold-light: #FBBF24;
+
+  /* Semantic */
+  --amber: #F59E0B;
+  --red:   #EF4444;
+  --blue:  #3B82F6;
+
+  /* Text — green-tinted near-white */
+  --text-primary:   #E0EDE5;
+  --text-secondary: #7A9E88;
+  --text-dim:       #3E5A4A;
+  --text-muted:     #28402F;
+  --text-inverse:   #070C09;
+
+  /* Legacy aliases */
+  --bg-base:       #0B1410;
+  --bg-surface:    #101E18;
+  --bg-elevated:   #172A21;
+  --border-accent: #2A4438;
+  --accent-gold:   #EAB308;
+  --accent-red:    #EF4444;
+}
+
+/* ======================================
+   RESET & BASE
+====================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+html.light {
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--void);
+  color: var(--text-primary);
+  font-family: var(--font-dm-sans, 'Plus Jakarta Sans', sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ======================================
+   TYPOGRAPHY UTILITIES
+====================================== */
+.font-display { font-family: var(--font-playfair, 'Cormorant Garamond', serif); }
+.font-body    { font-family: var(--font-dm-sans, 'Plus Jakarta Sans', sans-serif); }
+.font-arabic  { font-family: var(--font-amiri, 'Amiri', serif); }
+.font-mono    { font-family: var(--font-jetbrains, 'JetBrains Mono', monospace); }
+
+/* ======================================
+   ANIMATIONS
+====================================== */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes sheetUp {
+  from { opacity: 0; transform: translateY(100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes roleDropDown {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Spring-physics enter — bouncy and alive */
+@keyframes springUp {
+  0%   { opacity: 0; transform: translateY(24px) scale(0.94); }
+  55%  { opacity: 1; transform: translateY(-5px) scale(1.02); }
+  75%  { transform: translateY(2px) scale(0.99); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 3D perspective emerge from below */
+@keyframes emerge3d {
+  0%   { opacity: 0; transform: perspective(900px) rotateX(10deg) translateY(20px) scale(0.96); }
+  60%  { opacity: 1; transform: perspective(900px) rotateX(-1deg) translateY(-3px) scale(1.01); }
+  100% { opacity: 1; transform: perspective(900px) rotateX(0deg) translateY(0) scale(1); }
+}
+
+/* Rubber stamp press — for badges/labels */
+@keyframes stamp {
+  0%   { opacity: 0; transform: scale(1.2) rotate(-2deg); }
+  50%  { opacity: 1; transform: scale(0.95) rotate(0.5deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* Gentle float — for decorative elements */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* Material fall — like a leaf drifting down */
+@keyframes materialFall {
+  0%   { opacity: 0; transform: translateY(-12px) rotate(-1deg); }
+  70%  { opacity: 1; transform: translateY(3px) rotate(0.3deg); }
+  100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.20); }
+  50%       { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes ping {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes tickPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+@keyframes countdownTick {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}
+
+/* Woodgrain shimmer — subtle horizontal sweep */
+@keyframes woodSweep {
+  0%   { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Reveal from left — like ink on paper */
+@keyframes inkReveal {
+  from { clip-path: inset(0 100% 0 0); opacity: 0.5; }
+  to   { clip-path: inset(0 0% 0 0); opacity: 1; }
+}
+
+/* ======================================
+   ANIMATION CLASSES
+====================================== */
+.animate-slideUp    { animation: slideUp    0.45s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-slideDown  { animation: slideDown  0.25s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-fadeIn     { animation: fadeIn     0.35s ease both; }
+.animate-fadeUp     { animation: fadeUp     0.4s ease both; }
+.animate-springUp   { animation: springUp   0.55s cubic-bezier(0.34,1.56,0.64,1) both; }
+.animate-emerge3d   { animation: emerge3d   0.60s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-stamp      { animation: stamp      0.35s cubic-bezier(0.34,1.4,0.64,1) both; }
+.animate-float      { animation: float      3.5s ease-in-out infinite; }
+.animate-materialFall { animation: materialFall 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-spin-slow  { animation: spin-slow  60s linear infinite; }
+.animate-ping       { animation: ping       1.5s cubic-bezier(0,0,0.2,1) infinite; }
+.animate-breathe    { animation: breathe    2.5s ease-in-out infinite; }
+.glow-pulse         { animation: breathe    2.5s ease-in-out infinite; }
+.animate-tick       { animation: tickPulse  1s ease-in-out infinite; }
+
+/* Stagger delays */
+.delay-0 { animation-delay: 0s; }
+.delay-1 { animation-delay: 0.07s; }
+.delay-2 { animation-delay: 0.14s; }
+.delay-3 { animation-delay: 0.21s; }
+.delay-4 { animation-delay: 0.28s; }
+.delay-5 { animation-delay: 0.35s; }
+.delay-6 { animation-delay: 0.42s; }
+
+/* ======================================
+   KEN BURNS — cinematic image zoom
+====================================== */
+@keyframes kenBurns {
+  from { transform: scale(1.06); }
+  to   { transform: scale(1.0); }
+}
+@keyframes kenBurns2 {
+  from { transform: scale(1.05) translateX(1%); }
+  to   { transform: scale(1.0)  translateX(0%); }
+}
+
+/* ======================================
+   MARQUEE TICKER
+====================================== */
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track { overflow: hidden; }
+.marquee-inner {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 55s linear infinite;
+  will-change: transform;
+}
+.marquee-track:hover .marquee-inner { animation-play-state: paused; }
+
+/* ======================================
+   SCATTERED CARDS — no rotation on mobile
+====================================== */
+@media (max-width: 768px) {
+  .scatter-card { transform: none !important; }
+}
+.scatter-card {
+  transition: transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1),
+              box-shadow 0.25s ease,
+              z-index 0s;
+}
+.scatter-card:hover {
+  transform: rotate(0deg) translateY(-4px) !important;
+  z-index: 10;
+  position: relative;
+}
+
+/* ======================================
+   GRADIENT TEXT
+====================================== */
+.text-gradient-green {
+  background: linear-gradient(135deg, #22C55E 0%, #4ADE80 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ======================================
+   SKELETON
+====================================== */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #1A2E24 25%,
+    #223830 50%,
+    #1A2E24 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+/* ======================================
+   SCROLLBAR
+====================================== */
+::-webkit-scrollbar       { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--void); }
+::-webkit-scrollbar-thumb { background: #2A4438; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #3A5A4A; }
+.scrollbar-none { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+
+/* ======================================
+   LIQUID GLASS — iOS 26 3D Glass System
+   Three layers of depth:
+   1. Frosted translucent fill
+   2. Specular inset highlights (top/left bright, bottom dark)
+   3. ::before gradient for curved-glass light falloff
+====================================== */
+
+/* ── Base glass (dark surfaces) ── */
+.liquid-glass {
+  position: relative;
+  isolation: isolate;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(40px) saturate(150%) brightness(0.96);
+  -webkit-backdrop-filter: blur(40px) saturate(150%) brightness(0.96);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 1.5px 0 0 rgba(255, 255, 255, 0.10) inset,
+    1px 0 0 0 rgba(255, 255, 255, 0.05) inset,
+    0 -1px 0 0 rgba(0, 0, 0, 0.30) inset,
+    -1px 0 0 0 rgba(0, 0, 0, 0.10) inset,
+    0 8px 32px rgba(0, 0, 0, 0.40),
+    0 2px 8px rgba(0, 0, 0, 0.25),
+    0 1px 2px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+/* top-to-bottom specular gradient — simulates curved glass surface */
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.20) 0%,
+    rgba(255, 255, 255, 0.06) 28%,
+    transparent 55%,
+    rgba(0, 0, 0, 0.02) 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* bottom rim specular — thin bright line at the base of the glass */
+.liquid-glass::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.45) 30%,
+    rgba(255, 255, 255, 0.45) 70%,
+    transparent
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── Dark glass — for surface-level panels ── */
+.liquid-glass-warm {
+  position: relative;
+  isolation: isolate;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(48px) saturate(150%) brightness(0.96);
+  -webkit-backdrop-filter: blur(48px) saturate(150%) brightness(0.96);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 1.5px 0 rgba(255, 255, 255, 0.08) inset,
+    1px 0 0 rgba(255, 255, 255, 0.04) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.30) inset,
+    -1px 0 0 rgba(0, 0, 0, 0.10) inset,
+    0 8px 40px rgba(0, 0, 0, 0.40),
+    0 2px 12px rgba(0, 0, 0, 0.25),
+    0 1px 3px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.liquid-glass-warm::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.02) 30%,
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.liquid-glass-warm::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.12) 25%,
+    rgba(255, 255, 255, 0.12) 75%,
+    transparent
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── Dark glass — for hero/image/dark backgrounds ── */
+.liquid-glass-dark {
+  position: relative;
+  isolation: isolate;
+  background: rgba(8, 18, 12, 0.32);
+  backdrop-filter: blur(40px) saturate(150%) brightness(0.94);
+  -webkit-backdrop-filter: blur(40px) saturate(150%) brightness(0.94);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 1.5px 0 rgba(255, 255, 255, 0.38) inset,
+    1px 0 0 rgba(255, 255, 255, 0.14) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.18) inset,
+    -1px 0 0 rgba(0, 0, 0, 0.08) inset,
+    0 12px 48px rgba(0, 0, 0, 0.22),
+    0 4px 16px rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+}
+
+.liquid-glass-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.03) 30%,
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── Glass card — dark surface variant ── */
+.glass-card {
+  position: relative;
+  isolation: isolate;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.07) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.25) inset,
+    0 4px 16px rgba(0, 0, 0, 0.30),
+    0 1px 4px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.glass-card:hover {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.09) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.28) inset,
+    0 10px 32px rgba(0, 0, 0, 0.40),
+    0 3px 10px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── Colored glass cards — tinted frosted surfaces ── */
+
+/* Green — prayer, hadis, community */
+.glass-card-green {
+  position: relative;
+  isolation: isolate;
+  background: rgba(45, 106, 79, 0.10);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(45, 106, 79, 0.28);
+  box-shadow:
+    0 1.5px 0 rgba(130, 230, 170, 0.55) inset,
+    1px 0 0 rgba(130, 230, 170, 0.20) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.04) inset,
+    0 6px 24px rgba(45, 106, 79, 0.14),
+    0 2px 8px rgba(45, 106, 79, 0.08);
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.glass-card-green::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(130,230,170,0.14) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+.glass-card-green:hover {
+  box-shadow:
+    0 1.5px 0 rgba(130, 230, 170, 0.60) inset,
+    1px 0 0 rgba(130, 230, 170, 0.22) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.05) inset,
+    0 12px 40px rgba(45, 106, 79, 0.18),
+    0 4px 12px rgba(45, 106, 79, 0.10);
+  transform: translateY(-3px);
+}
+
+/* Amber — programs, events, time */
+.glass-card-amber {
+  position: relative;
+  isolation: isolate;
+  background: rgba(217, 119, 6, 0.08);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(217, 119, 6, 0.26);
+  box-shadow:
+    0 1.5px 0 rgba(255, 210, 80, 0.58) inset,
+    1px 0 0 rgba(255, 210, 80, 0.22) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.04) inset,
+    0 6px 24px rgba(217, 119, 6, 0.12),
+    0 2px 8px rgba(217, 119, 6, 0.07);
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.glass-card-amber::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,210,80,0.14) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+.glass-card-amber:hover {
+  box-shadow:
+    0 1.5px 0 rgba(255, 210, 80, 0.65) inset,
+    1px 0 0 rgba(255, 210, 80, 0.25) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.05) inset,
+    0 12px 40px rgba(217, 119, 6, 0.16),
+    0 4px 12px rgba(217, 119, 6, 0.09);
+  transform: translateY(-3px);
+}
+
+/* Indigo — qiblat, navigation, direction */
+.glass-card-indigo {
+  position: relative;
+  isolation: isolate;
+  background: rgba(99, 102, 241, 0.09);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  box-shadow:
+    0 1.5px 0 rgba(180, 190, 255, 0.55) inset,
+    1px 0 0 rgba(180, 190, 255, 0.20) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.04) inset,
+    0 6px 24px rgba(99, 102, 241, 0.12),
+    0 2px 8px rgba(99, 102, 241, 0.07);
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.glass-card-indigo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(180,190,255,0.14) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+.glass-card-indigo:hover {
+  box-shadow:
+    0 1.5px 0 rgba(180, 190, 255, 0.62) inset,
+    1px 0 0 rgba(180, 190, 255, 0.24) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.05) inset,
+    0 12px 40px rgba(99, 102, 241, 0.15),
+    0 4px 12px rgba(99, 102, 241, 0.09);
+  transform: translateY(-3px);
+}
+
+/* Rose — urgent, keperluan, attention */
+.glass-card-rose {
+  position: relative;
+  isolation: isolate;
+  background: rgba(220, 38, 38, 0.07);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(220, 38, 38, 0.22);
+  box-shadow:
+    0 1.5px 0 rgba(255, 170, 170, 0.52) inset,
+    1px 0 0 rgba(255, 170, 170, 0.18) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.04) inset,
+    0 6px 24px rgba(220, 38, 38, 0.10),
+    0 2px 8px rgba(220, 38, 38, 0.06);
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.glass-card-rose::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,170,170,0.13) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+.glass-card-rose:hover {
+  box-shadow:
+    0 1.5px 0 rgba(255, 170, 170, 0.58) inset,
+    1px 0 0 rgba(255, 170, 170, 0.22) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.05) inset,
+    0 12px 40px rgba(220, 38, 38, 0.13),
+    0 4px 12px rgba(220, 38, 38, 0.08);
+  transform: translateY(-3px);
+}
+
+/* Deep green — bold feature card (Hadis hero) */
+.glass-card-deep-green {
+  position: relative;
+  isolation: isolate;
+  background: rgba(20, 70, 50, 0.72);
+  backdrop-filter: blur(32px) saturate(160%);
+  -webkit-backdrop-filter: blur(32px) saturate(160%);
+  border: 1px solid rgba(80, 180, 120, 0.30);
+  box-shadow:
+    0 1.5px 0 rgba(130, 230, 170, 0.48) inset,
+    1px 0 0 rgba(130, 230, 170, 0.18) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.18) inset,
+    0 10px 40px rgba(20, 70, 50, 0.28),
+    0 4px 16px rgba(20, 70, 50, 0.16);
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.glass-card-deep-green::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(130,230,170,0.18) 0%, rgba(130,230,170,0.04) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+.glass-card-deep-green:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 1.5px 0 rgba(130, 230, 170, 0.55) inset,
+    1px 0 0 rgba(130, 230, 170, 0.22) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.20) inset,
+    0 16px 56px rgba(20, 70, 50, 0.36),
+    0 6px 20px rgba(20, 70, 50, 0.20);
+}
+
+/* legacy alias — keep existing .glass working */
+.glass {
+  backdrop-filter: blur(48px) saturate(150%) brightness(0.94);
+  -webkit-backdrop-filter: blur(48px) saturate(150%) brightness(0.94);
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 1.5px 0 rgba(255, 255, 255, 0.08) inset,
+    0 8px 40px rgba(0, 0, 0, 0.40);
+}
+
+/* ======================================
+   CARVED / DEBOSSED TEXT — "TENGGELAM"
+   Text appears pressed into a wooden/paper surface
+====================================== */
+.text-carved {
+  text-shadow:
+    0 1px 1px rgba(0,0,0,0.60),
+    0 -1px 1px rgba(255,255,255,0.04);
+  color: rgba(221,225,236,0.50);
+}
+
+.text-deeply-carved {
+  text-shadow:
+    0 2px 2px rgba(0,0,0,0.70),
+    0 -1px 2px rgba(255,255,255,0.04);
+  color: rgba(221,225,236,0.40);
+}
+
+.text-emboss {
+  text-shadow:
+    0 2px 4px rgba(0,0,0,0.60),
+    0 1px 0 rgba(0,0,0,0.40),
+    0 -1px 0 rgba(255,255,255,0.08);
+}
+
+/* ======================================
+   3D CARD EFFECTS
+====================================== */
+
+/* Raised dark plaque effect */
+.card-3d {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.07) inset,
+    0 -1px 0 rgba(0,0,0,0.30) inset,
+    0 2px 4px rgba(0,0,0,0.20),
+    0 4px 12px rgba(0,0,0,0.28),
+    0 12px 32px rgba(0,0,0,0.20);
+  transition:
+    box-shadow 0.30s cubic-bezier(0.34,1.2,0.64,1),
+    transform   0.30s cubic-bezier(0.34,1.2,0.64,1);
+}
+
+.card-3d:hover {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.09) inset,
+    0 -1px 0 rgba(0,0,0,0.35) inset,
+    0 8px 24px rgba(0,0,0,0.40),
+    0 20px 52px rgba(0,0,0,0.30),
+    0 2px 6px rgba(0,0,0,0.20);
+  transform: translateY(-5px) scale(1.006);
+}
+
+.card-3d:active {
+  box-shadow:
+    0 -1px 0 rgba(255,255,255,0.04) inset,
+    0 3px 8px rgba(0,0,0,0.40) inset,
+    0 1px 3px rgba(0,0,0,0.20);
+  transform: translateY(1px) scale(0.997);
+  transition: box-shadow 0.1s ease, transform 0.1s ease;
+}
+
+.card-3d-sm {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.06) inset,
+    0 2px 8px rgba(0,0,0,0.25),
+    0 6px 20px rgba(0,0,0,0.18);
+  transition: box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.34,1.2,0.64,1);
+}
+
+.card-3d-sm:hover {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.07) inset,
+    0 6px 18px rgba(0,0,0,0.35),
+    0 14px 36px rgba(0,0,0,0.25);
+  transform: translateY(-3px);
+}
+
+/* ======================================
+   WOOD GRAIN TEXTURE
+====================================== */
+.wood-grain {
+  background-image:
+    repeating-linear-gradient(
+      91deg,
+      transparent,
+      transparent 4px,
+      rgba(139,103,69,0.025) 4px,
+      rgba(139,103,69,0.025) 5px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 55px,
+      rgba(139,103,69,0.015) 55px,
+      rgba(139,103,69,0.015) 58px
+    );
+}
+
+/* Wood surface background — warmer richer grain */
+.wood-surface {
+  background-color: #C8A882;
+  background-image:
+    repeating-linear-gradient(
+      88deg,
+      transparent,
+      transparent 6px,
+      rgba(92,61,46,0.06) 6px,
+      rgba(92,61,46,0.06) 7px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 40px,
+      rgba(92,61,46,0.04) 40px,
+      rgba(92,61,46,0.04) 44px
+    );
+}
+
+/* ======================================
+   3D BUTTON EFFECT
+====================================== */
+.btn-3d {
+  position: relative;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.25) inset,
+    0 -2px 0 rgba(0,0,0,0.15) inset,
+    0 4px 0 rgba(0,0,0,0.10),
+    0 6px 12px rgba(0,0,0,0.12);
+  transform: translateY(0);
+  transition:
+    box-shadow 0.15s ease,
+    transform   0.15s cubic-bezier(0.34,1.4,0.64,1);
+}
+
+.btn-3d:hover {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.30) inset,
+    0 -2px 0 rgba(0,0,0,0.18) inset,
+    0 6px 0 rgba(0,0,0,0.10),
+    0 8px 16px rgba(0,0,0,0.14);
+  transform: translateY(-2px);
+}
+
+.btn-3d:active {
+  box-shadow:
+    0 -1px 0 rgba(255,255,255,0.15) inset,
+    0 2px 0 rgba(0,0,0,0.15) inset,
+    0 1px 0 rgba(0,0,0,0.10),
+    0 2px 4px rgba(0,0,0,0.10);
+  transform: translateY(2px);
+  transition: box-shadow 0.08s ease, transform 0.08s ease;
+}
+
+/* ======================================
+   CARDS
+====================================== */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: border-color 0.2s ease, box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.34,1.2,0.64,1);
+}
+
+.card:hover {
+  border-color: var(--border-lit);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.30);
+}
+
+.card-lift:hover {
+  transform: translateY(-4px);
+  border-color: rgba(34,197,94,0.18);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.35);
+}
+
+/* ======================================
+   GLASS CARD — dark frosted
+====================================== */
+.glass-warm {
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ======================================
+   ISLAMIC ORNAMENT DIVIDER
+====================================== */
+.islamic-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 2rem 0;
+}
+
+.islamic-divider::before,
+.islamic-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ======================================
+   SECTION SEPARATOR
+====================================== */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.section-divider::before {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border));
+}
+
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+/* ======================================
+   INTERACTIVE STATES
+====================================== */
+.card-interactive {
+  transition:
+    transform  0.25s cubic-bezier(0.34,1.2,0.64,1),
+    border-color 0.2s ease,
+    box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+}
+
+.btn-press:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* ======================================
+   PROGRESS BAR
+====================================== */
+.progress-glow {
+  position: relative;
+}
+
+.progress-glow::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 4px;
+  background: var(--primary);
+  filter: blur(3px);
+}
+
+/* ======================================
+   CAPACITY DOTS
+====================================== */
+.cap-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.cap-dot-filled  { background: var(--primary); }
+.cap-dot-empty   { background: transparent; border: 1.5px solid var(--border-lit); }
+
+/* ======================================
+   DIGIT BOX — countdown
+====================================== */
+.digit-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-width: 64px;
+  padding: 12px 8px 8px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.06) inset,
+    0 2px 8px rgba(0,0,0,0.28);
+}
+
+.digit-box::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--primary);
+  opacity: 0.45;
+}
+
+/* ======================================
+   TAG / BADGE BASE
+====================================== */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border-radius: 100px;
+  font-family: var(--font-jakarta, sans-serif);
+}
+
+/* ======================================
+   ACCENT LEFT BORDER
+====================================== */
+.accent-left {
+  border-left: 3px solid currentColor;
+}
+
+/* ======================================
+   UTILITY
+====================================== */
+.tracking-hud   { letter-spacing: 0.18em; }
+.tracking-super { letter-spacing: 0.28em; }
+
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: rgba(34,197,94,0.18);
+  color: var(--primary);
+}
+
+/* ======================================
+   PRAYER CARD ACTIVE GLOW
+====================================== */
+.prayer-active {
+  box-shadow:
+    0 0 0 1px rgba(34,197,94,0.25),
+    0 4px 20px rgba(34,197,94,0.12),
+    0 1px 0 rgba(255,255,255,0.06) inset;
+}
+
+/* ======================================
+   ARABIC TEXT
+====================================== */
+.arabic {
+  font-family: var(--font-amiri, 'Amiri', serif);
+  direction: rtl;
+  line-height: 2;
+  letter-spacing: 0.02em;
+}
+
+/* ======================================
+   ISLAMIC PATTERN OVERLAY
+====================================== */
+.pattern-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%232D6A4F' stroke-width='0.5' opacity='0.12'%3E%3Cpolygon points='30,5 34,20 49,20 37,30 42,45 30,36 18,45 23,30 11,20 26,20'/%3E%3Crect x='22' y='22' width='16' height='16' transform='rotate(45 30 30)'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+/* ======================================
+   BOTTOM NAV SAFE AREA
+====================================== */
+.pb-safe {
+  padding-bottom: max(80px, env(safe-area-inset-bottom, 80px));
+}
+
+/* ======================================
+   HERO UTILITIES
+====================================== */
+/* Full-bleed image cover */
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Responsive display font size */
+.text-display-hero {
+  font-size: clamp(3.2rem, 10vw, 7.5rem);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+/* Editorial heading — large responsive */
+.text-display-section {
+  font-size: clamp(2.4rem, 6vw, 5.5rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* ======================================
+   FILTER BAR — dark strip
+====================================== */
+.filter-bar-bg {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ======================================
+   UNIVERSAL ICON CONSISTENCY
+   Lucide icons render identically on
+   web, iOS PWA, and Android PWA.
+   round caps = clean on all screens.
+====================================== */
+svg.lucide {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+/* ======================================
+   LINE CLAMP
+====================================== */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.bottom-safe {
+  bottom: max(0px, env(safe-area-inset-bottom, 0px));
+}
+
+/* ======================================
+   BRACKET CARD — kept for compat
+====================================== */
+.bracket-card { position: relative; }
+
+/* ======================================
+   LIGHT MODE THEME — "Jade Garden"
+   Rich, editorial, premium Islamic palette
+   Activated by html.light (next-themes)
+====================================== */
+html.light {
+  color-scheme: light;
+
+  /*
+    Design language: Layered green-tinted surfaces, deep forest green
+    primary, royal blue secondary accents, warm amber highlights.
+    NOT plain white — every layer has personality.
+  */
+
+  /* Backgrounds — clearly green-tinted, nothing is plain white */
+  --void:     #C8E6D4;   /* Page bg — unmistakably soft mint green */
+  --base:     #B5DCBF;   /* Deeper layer — richer sage */
+  --surface:  #E8F5EC;   /* Card surface — pale mint (not white) */
+  --elevated: #F2FBF5;   /* Elevated — near-white with green soul */
+  --overlay:  rgba(200,230,212,0.85);
+
+  /* Borders — teal-jade family, visible and intentional */
+  --border:       #B8D4C4;   /* Main border — sage teal */
+  --border-lit:   #8FB8A2;   /* Stronger border */
+  --border-glow:  rgba(10,112,64,0.25);
+
+  /* Primary — deep forest jade (rich, not mint) */
+  --primary:       #0A7040;
+  --primary-dim:   #085C34;
+  --primary-ghost: rgba(10,112,64,0.07);
+  --primary-glow:  rgba(10,112,64,0.16);
+  --primary-pulse: rgba(10,112,64,0.28);
+  --primary-pale:  rgba(10,112,64,0.10);
+
+  /* Gold / amber — warm cognac */
+  --gold:       #92400E;
+  --gold-pale:  rgba(146,64,14,0.08);
+  --gold-light: #B45309;
+
+  /* Semantic */
+  --amber: #C2590A;
+  --red:   #B91C1C;
+  --blue:  #1D4ED8;   /* Royal blue — secondary accent color */
+
+  /* Text — deep ink with green undertone */
+  --text-primary:   #0D1F17;   /* Near-black with green undertone */
+  --text-secondary: #1E4A30;   /* Deep forest green */
+  --text-dim:       #4A7260;   /* Mid sage */
+  --text-muted:     #86A898;   /* Light sage for placeholders */
+  --text-inverse:   #FFFFFF;
+
+  /* Legacy aliases */
+  --bg-base:       #B5DCBF;
+  --bg-surface:    #E8F5EC;
+  --bg-elevated:   #F2FBF5;
+  --border-accent: #8FB8A2;
+  --accent-gold:   #92400E;
+  --accent-red:    #B91C1C;
+}
+
+/* Body background */
+html.light body {
+  background-color: var(--void);
+  /* Rich layered depth — green left, blue accent right */
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(10,112,64,0.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 30%, rgba(29,78,216,0.08) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 90%, rgba(10,112,64,0.10) 0%, transparent 50%);
+}
+
+/* ── Light mode glass overrides ── */
+html.light .liquid-glass {
+  background: rgba(232, 245, 236, 0.78);
+  backdrop-filter: blur(32px) saturate(180%) brightness(1.04);
+  -webkit-backdrop-filter: blur(32px) saturate(180%) brightness(1.04);
+  border: 1px solid rgba(10, 112, 64, 0.18);
+  box-shadow:
+    0 1.5px 0 rgba(255, 255, 255, 0.80) inset,
+    0 -1px 0 rgba(10, 112, 64, 0.08) inset,
+    0 8px 32px rgba(10, 112, 64, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+html.light .liquid-glass-warm {
+  background: rgba(220, 240, 228, 0.88);
+  backdrop-filter: blur(40px) saturate(180%) brightness(1.03);
+  -webkit-backdrop-filter: blur(40px) saturate(180%) brightness(1.03);
+  border: 1px solid rgba(10, 112, 64, 0.20);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.85) inset,
+    0 -1px 0 rgba(10, 112, 64, 0.07) inset,
+    0 8px 28px rgba(10, 112, 64, 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+html.light .liquid-glass-dark {
+  background: rgba(200, 230, 212, 0.75);
+  backdrop-filter: blur(32px) saturate(160%) brightness(1.02);
+  -webkit-backdrop-filter: blur(32px) saturate(160%) brightness(1.02);
+  border: 1px solid rgba(10, 112, 64, 0.20);
+  box-shadow:
+    0 1.5px 0 rgba(255, 255, 255, 0.75) inset,
+    0 -1px 0 rgba(10, 112, 64, 0.09) inset,
+    0 10px 40px rgba(10, 112, 64, 0.14),
+    0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+html.light .glass-card {
+  background: rgba(232, 245, 236, 0.85);
+  border: 1px solid rgba(10, 112, 64, 0.16);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.80) inset,
+    0 -1px 0 rgba(10, 112, 64, 0.06) inset,
+    0 4px 16px rgba(10, 112, 64, 0.10),
+    0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+html.light .glass-card-green {
+  background: rgba(10, 112, 64, 0.07);
+  border: 1px solid rgba(10, 112, 64, 0.22);
+  box-shadow:
+    0 1.5px 0 rgba(167, 243, 208, 0.60) inset,
+    0 6px 20px rgba(10, 112, 64, 0.10);
+}
+
+html.light .glass-card-amber {
+  background: rgba(194, 89, 10, 0.06);
+  border: 1px solid rgba(194, 89, 10, 0.22);
+  box-shadow:
+    0 1.5px 0 rgba(253, 211, 161, 0.65) inset,
+    0 6px 20px rgba(194, 89, 10, 0.08);
+}
+
+html.light .glass-card-indigo {
+  background: rgba(29, 78, 216, 0.06);
+  border: 1px solid rgba(29, 78, 216, 0.18);
+  box-shadow:
+    0 1.5px 0 rgba(199, 210, 254, 0.65) inset,
+    0 6px 20px rgba(29, 78, 216, 0.08);
+}
+
+html.light .glass-card-deep-green {
+  background: rgba(10, 112, 64, 0.88);
+  border: 1px solid rgba(80, 200, 130, 0.28);
+}
+
+html.light .glass-card-rose {
+  background: rgba(185, 28, 28, 0.05);
+  border: 1px solid rgba(185, 28, 28, 0.18);
+}
+
+html.light .glass {
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(10, 112, 64, 0.12);
+  box-shadow: 0 1.5px 0 rgba(255,255,255,0.95) inset, 0 8px 32px rgba(10,112,64,0.07);
+}
+
+/* ── Light mode skeleton ── */
+html.light .skeleton {
+  background: linear-gradient(
+    90deg,
+    #B8DCCA 25%,
+    #CCE8D8 50%,
+    #B8DCCA 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+/* ── Light mode scrollbar ── */
+html.light ::-webkit-scrollbar-track { background: #C0DCC9; }
+html.light ::-webkit-scrollbar-thumb { background: #6BA882; border-radius: 4px; }
+
+/* ── Bottom nav pill — light mode ── */
+html.light .bottom-nav-pill {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(10, 112, 64, 0.22) !important;
+  box-shadow:
+    0 8px 32px rgba(10, 112, 64, 0.18),
+    0 1.5px 0 rgba(255, 255, 255, 0.98) inset !important;
+}
+
+/* ── Top nav header — light mode ── */
+html.light .top-nav-header {
+  background: rgba(200, 230, 212, 0.96) !important;
+  border-bottom: 1px solid rgba(10, 112, 64, 0.20) !important;
+  box-shadow: 0 1px 0 rgba(10, 112, 64, 0.10) !important;
+}
+
+/* ── Marquee ticker — light mode ── */
+html.light .marquee-track {
+  background: #B5DCBF !important;
+  border-bottom: 1px solid rgba(10, 112, 64, 0.18) !important;
+}
+
+/* ── Icon tiles on mobile home (colored glass) — light mode ── */
+html.light .icon-tile {
+  box-shadow: 0 2px 12px rgba(10, 112, 64, 0.08), 0 1px 0 rgba(255,255,255,0.8) inset;
+}
+
+/* ── Section dividers — light mode ── */
+html.light hr,
+html.light .section-divider {
+  border-color: rgba(10, 112, 64, 0.12);
+}
+
+/* ── Selection highlight ── */
+html.light ::selection {
+  background: rgba(10, 112, 64, 0.18);
+  color: #0D1F17;
+}
+
+/* ── Transition for theme switch ── */
+html, body, * {
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.20s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Disable transition on elements where it looks jank */
+html, body {
+  transition: background-color 0.25s ease;
 }

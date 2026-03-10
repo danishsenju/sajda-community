@@ -1,0 +1,714 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import {
+  Home, Heart, Calendar, BookOpen, HandCoins, User, ShieldCheck,
+  X, BookMarked, Compass, Clock, Search, Building2,
+  ChevronDown, MoreHorizontal, Sparkles, Moon, CheckSquare, Sun, RotateCcw, Users,
+  LayoutDashboard, Megaphone,
+} from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { useUser } from '@/hooks/useUser'
+import { useTheme } from 'next-themes'
+import sajdaLogo from '@/images/sajda-logo.png'
+import { NotificationPanel } from '@/components/ui/NotificationPanel'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
+
+const primaryNav = [
+  { href: '/',          label: 'Utama' },
+  { href: '/keperluan', label: 'Keperluan' },
+  { href: '/program',   label: 'Program' },
+  { href: '/kelas',     label: 'Kelas' },
+  { href: '/derma',     label: 'Derma' },
+]
+
+const toolsCategories = [
+  {
+    label: 'Komuniti',
+    items: [
+      { href: '/halaqah',     label: 'Halaqah',      icon: Users,       desc: 'Tadarus & hafazan bersama jemaah' },
+      { href: '/janaiz',      label: 'Papan Janaiz', icon: Heart,       desc: 'Notis kematian & takziah' },
+      { href: '/cari-barang', label: 'Cari Barang',  icon: Search,      desc: 'Barang hilang & dijumpai' },
+    ],
+  },
+  {
+    label: 'Ibadah Harian',
+    items: [
+      { href: '/solat',   label: 'Jejak Solat',    icon: CheckSquare, desc: 'Rekod solat harian & streak' },
+      { href: '/tasbih',  label: 'Tasbih Digital', icon: RotateCcw,   desc: 'Zikir dengan pembilang digital' },
+      { href: '/wirid',   label: 'Wirid Harian',   icon: Sun,         desc: 'Amalan pagi dan petang' },
+    ],
+  },
+  {
+    label: 'Ilmu & Rohani',
+    items: [
+      { href: '/hadis',    label: 'Hadis Harian',    icon: BookMarked, desc: 'Hadis pilihan setiap hari' },
+      { href: '/tazkirah', label: 'Tazkirah Harian', icon: Sparkles,   desc: 'Ayat Al-Quran harian dalam BM' },
+      { href: '/hijri',    label: 'Kalendar Hijri',  icon: Moon,       desc: 'Kalendar Islam Malaysia' },
+    ],
+  },
+  {
+    label: 'Utiliti',
+    items: [
+      { href: '/qiblat',     label: 'Qiblat',        icon: Compass,  desc: 'Arah kiblat dari lokasi anda' },
+      { href: '/buka-puasa', label: 'Waktu Berbuka', icon: Clock,    desc: 'Kiraan masa berbuka puasa' },
+      { href: '/masjid',     label: 'Info Masjid',   icon: Building2,desc: 'Lokasi, kemudahan & kenalan' },
+    ],
+  },
+]
+
+// flat list kept for active-check helpers
+const toolsNav = toolsCategories.flatMap(c => c.items)
+
+const bottomNav = [
+  { href: '/',          label: 'Utama',     icon: Home },
+  { href: '/keperluan', label: 'Keperluan', icon: Heart },
+  { href: '/program',   label: 'Program',   icon: Calendar },
+  { href: '/kelas',     label: 'Kelas',     icon: BookOpen },
+  { href: '/profile',   label: 'Profil',    icon: User },
+]
+
+/* ── SAJDA LOGO ── */
+function SajdaLogo({ height = 32 }: { height?: number }) {
+  const { resolvedTheme } = useTheme()
+  const width = Math.round(height * 3.2)
+  return (
+    <Image
+      src={sajdaLogo}
+      alt="Sajda"
+      width={width}
+      height={height}
+      className="object-contain"
+      style={{
+        filter: resolvedTheme === 'light'
+          ? 'none'
+          : 'brightness(0) invert(1)',
+      }}
+    />
+  )
+}
+
+/* ── MOBILE BOTTOM NAV — Liquid Glass Floating Pill ── */
+function BottomNav() {
+  const pathname = usePathname()
+  const { resolvedTheme } = useTheme()
+  const isLight = resolvedTheme === 'light'
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href)
+
+  return (
+    <nav
+      className="md:hidden fixed z-50"
+      style={{
+        bottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: 'calc(100% - 32px)',
+        maxWidth: '340px',
+      }}
+    >
+      <div
+        className="bottom-nav-pill"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+          height: '58px',
+          borderRadius: '100px',
+          background: 'rgba(6,10,8,0.72)',
+          backdropFilter: 'blur(28px) saturate(200%)',
+          WebkitBackdropFilter: 'blur(28px) saturate(200%)',
+          border: '1px solid rgba(255,255,255,0.09)',
+          boxShadow: [
+            '0 12px 40px rgba(0,0,0,0.55)',
+            '0 1.5px 0 rgba(255,255,255,0.07) inset',
+            '0 0 0 0.5px rgba(82,201,122,0.06) inset',
+          ].join(', '),
+          padding: '0 6px',
+        }}
+      >
+        {bottomNav.map(({ href, label, icon: Icon }) => {
+          const active = isActive(href)
+          return (
+            <Link
+              key={href}
+              href={href}
+              style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '3px',
+                position: 'relative',
+                padding: '6px 0',
+                WebkitTapHighlightColor: 'transparent',
+                textDecoration: 'none',
+              }}
+            >
+              {/* Active pill glow behind icon */}
+              {active && (
+                <span
+                  style={{
+                    position: 'absolute',
+                    inset: '4px 6px',
+                    borderRadius: '100px',
+                    background: isLight ? 'rgba(10,112,64,0.12)' : 'rgba(82,201,122,0.13)',
+                    border: isLight ? '1px solid rgba(10,112,64,0.22)' : '1px solid rgba(82,201,122,0.18)',
+                    boxShadow: isLight ? '0 0 12px rgba(10,112,64,0.18) inset' : '0 0 12px rgba(82,201,122,0.15) inset',
+                  }}
+                />
+              )}
+              <Icon
+                style={{
+                  width: '19px',
+                  height: '19px',
+                  color: active ? '#0A7040' : (isLight ? 'rgba(10,60,30,0.55)' : 'rgba(255,255,255,0.32)'),
+                  filter: active ? 'drop-shadow(0 0 5px rgba(10,112,64,0.45))' : 'none',
+                  transition: 'all 0.18s ease',
+                  position: 'relative',
+                  zIndex: 1,
+                  flexShrink: 0,
+                }}
+                strokeWidth={active ? 2.2 : 1.6}
+              />
+              <span
+                style={{
+                  fontFamily: 'var(--font-jakarta)',
+                  fontSize: '9px',
+                  letterSpacing: '0.04em',
+                  color: active ? '#0A7040' : (isLight ? 'rgba(10,60,30,0.55)' : 'rgba(255,255,255,0.22)'),
+                  fontWeight: active ? 700 : 400,
+                  transition: 'color 0.18s ease',
+                  position: 'relative',
+                  zIndex: 1,
+                  lineHeight: 1,
+                }}
+              >
+                {label}
+              </span>
+            </Link>
+          )
+        })}
+      </div>
+    </nav>
+  )
+}
+
+const adminNavItems = [
+  { href: '/admin',               icon: LayoutDashboard, label: 'Dashboard'  },
+  { href: '/admin/announcements', icon: Megaphone,       label: 'Pengumuman' },
+  { href: '/admin/programs',      icon: Calendar,        label: 'Program'    },
+  { href: '/admin/kelas',         icon: BookOpen,        label: 'Kelas'      },
+  { href: '/admin/keperluan',     icon: Heart,           label: 'Keperluan'  },
+  { href: '/admin/mosque',        icon: Building2,       label: 'Info Masjid'},
+  { href: '/admin/pengguna',      icon: Users,           label: 'Pengguna',  superadminOnly: true },
+]
+
+export function Navbar() {
+  const pathname = usePathname()
+  const { user, profile, isAJK, isSuperAdmin } = useUser()
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [toolsOpen, setToolsOpen] = useState(false)
+  const [adminOpen, setAdminOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  const initials = (profile?.full_name || user?.email || 'U').charAt(0).toUpperCase()
+  const visibleAdminNav = adminNavItems.filter(i => !i.superadminOnly || isSuperAdmin)
+
+  useEffect(() => { setDrawerOpen(false); setAdminOpen(false) }, [pathname])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    if (!toolsOpen) return
+    const handler = () => setToolsOpen(false)
+    window.addEventListener('click', handler)
+    return () => window.removeEventListener('click', handler)
+  }, [toolsOpen])
+
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href)
+
+  return (
+    <>
+      {/* ── DESKTOP NAVBAR ── */}
+      <header
+        className="top-nav-header hidden md:flex fixed top-0 left-0 right-0 z-50 h-16 items-center px-6 lg:px-10 border-b transition-all duration-200"
+        style={{
+          background: scrolled ? 'rgba(8,9,14,0.92)' : 'var(--surface)',
+          borderColor: 'var(--border)',
+          backdropFilter: scrolled ? 'blur(16px)' : 'none',
+        }}
+      >
+        {/* Logo */}
+        <Link href="/" className="flex items-center mr-10 flex-shrink-0">
+          <SajdaLogo height={30} />
+        </Link>
+
+        {/* Primary nav — centered links, minimal */}
+        <nav className="flex items-center gap-1 flex-1">
+          {primaryNav.map((item) => {
+            const active = isActive(item.href)
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  'px-3 py-2 text-sm rounded-lg transition-all duration-150',
+                  active
+                    ? 'font-semibold'
+                    : 'font-normal hover:bg-[rgba(45,106,79,0.05)]'
+                )}
+                style={{
+                  fontFamily: 'var(--font-jakarta)',
+                  color: active ? 'var(--primary)' : 'var(--text-secondary)',
+                }}
+              >
+                {item.label}
+              </Link>
+            )
+          })}
+
+          {/* More dropdown */}
+          <div className="relative">
+            <button
+              onClick={(e) => { e.stopPropagation(); setToolsOpen(p => !p) }}
+              className={cn(
+                'flex items-center gap-1 px-3 py-2 text-sm rounded-lg transition-all',
+                toolsOpen
+                  ? 'bg-[rgba(45,106,79,0.06)] text-[var(--primary)]'
+                  : 'hover:bg-[rgba(45,106,79,0.05)]'
+              )}
+              style={{ fontFamily: 'var(--font-jakarta)', color: toolsOpen ? undefined : 'var(--text-secondary)' }}
+            >
+              Lagi
+              <ChevronDown className={cn('w-3.5 h-3.5 transition-transform duration-200', toolsOpen && 'rotate-180')} />
+            </button>
+
+            {toolsOpen && (
+              <div
+                className="absolute top-full left-0 mt-2 border rounded-2xl shadow-lg overflow-hidden z-50 animate-fadeIn"
+                style={{
+                  background: 'var(--surface)', borderColor: 'var(--border)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.50)',
+                  width: '480px',
+                }}
+                onClick={e => e.stopPropagation()}
+              >
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0' }}>
+                  {toolsCategories.map((cat, ci) => (
+                    <div key={cat.label} style={{
+                      padding: '12px 10px',
+                      borderRight: ci % 2 === 0 ? '1px solid var(--border)' : 'none',
+                      borderBottom: ci < 2 ? '1px solid var(--border)' : 'none',
+                    }}>
+                      <p style={{
+                        fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                        letterSpacing: '0.16em', textTransform: 'uppercase',
+                        color: 'var(--text-dim)', padding: '2px 8px 8px',
+                      }}>
+                        {cat.label}
+                      </p>
+                      {cat.items.map(item => {
+                        const active = isActive(item.href)
+                        const Icon = item.icon
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className="flex items-center gap-2.5 px-2 py-2 rounded-xl transition-colors hover:bg-[rgba(45,106,79,0.05)]"
+                            onClick={() => setToolsOpen(false)}
+                          >
+                            <div
+                              className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                              style={{ background: active ? 'var(--primary)' : 'var(--primary-pale)' }}
+                            >
+                              <Icon className="w-3.5 h-3.5" style={{ color: active ? '#fff' : 'var(--primary)' }} />
+                            </div>
+                            <span className="text-sm font-medium" style={{ color: active ? 'var(--primary)' : 'var(--text-primary)', fontFamily: 'var(--font-jakarta)' }}>
+                              {item.label}
+                            </span>
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </nav>
+
+        {/* Right — theme toggle + notifications + admin badge + auth */}
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <NotificationPanel />
+
+          {isAJK && (
+            <Link
+              href="/admin"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all hover:opacity-80"
+              style={{
+                fontFamily: 'var(--font-jakarta)',
+                borderColor: 'rgba(156,122,60,0.28)',
+                color: 'var(--gold)',
+                background: 'rgba(156,122,60,0.05)',
+              }}
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              Admin
+            </Link>
+          )}
+
+          {user ? (
+            <Link
+              href="/profile"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl border transition-all hover:border-[rgba(45,106,79,0.3)] hover:bg-[rgba(45,106,79,0.03)]"
+              style={{ borderColor: 'var(--border)' }}
+            >
+              <div
+                className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white"
+                style={{ background: 'var(--primary)' }}
+              >
+                {initials}
+              </div>
+              <span className="text-sm" style={{ fontFamily: 'var(--font-jakarta)', color: 'var(--text-secondary)', fontWeight: 500 }}>
+                {profile?.full_name?.split(' ')[0] ?? 'Profil'}
+              </span>
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="px-5 py-2 text-sm font-semibold rounded-full text-white transition-all hover:opacity-90 active:scale-95"
+              style={{ fontFamily: 'var(--font-jakarta)', background: 'var(--primary)' }}
+            >
+              Log Masuk
+            </Link>
+          )}
+        </div>
+      </header>
+
+      {/* ── MOBILE TOP BAR ── */}
+      <header
+        className="top-nav-header md:hidden fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-between px-4 border-b transition-all duration-200"
+        style={{
+          background: scrolled ? 'rgba(8,9,14,0.92)' : 'var(--surface)',
+          borderColor: 'var(--border)',
+          backdropFilter: scrolled ? 'blur(16px)' : 'none',
+        }}
+      >
+        {/* Logo */}
+        <Link href="/" className="flex items-center">
+          <SajdaLogo height={26} />
+        </Link>
+
+        {/* Right actions */}
+        <div className="flex items-center gap-2">
+          {isAJK && (
+            <button
+              onClick={() => setAdminOpen(p => !p)}
+              className="flex items-center justify-center w-8 h-8 rounded-lg border"
+              style={{
+                borderColor: adminOpen ? 'rgba(156,122,60,0.5)' : 'rgba(156,122,60,0.28)',
+                background: adminOpen ? 'rgba(156,122,60,0.12)' : 'rgba(156,122,60,0.05)',
+              }}
+              aria-label="Panel admin"
+            >
+              <ShieldCheck className="w-4 h-4" style={{ color: 'var(--gold)' }} />
+            </button>
+          )}
+
+          <ThemeToggle compact />
+          <NotificationPanel />
+
+          <button
+            onClick={() => setDrawerOpen(true)}
+            className="flex items-center justify-center w-8 h-8 rounded-lg border transition-colors"
+            style={{ borderColor: 'var(--border)', background: 'transparent' }}
+            aria-label="Lebih banyak"
+          >
+            <MoreHorizontal className="w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
+          </button>
+
+          {user ? (
+            <Link href="/profile">
+              <div
+                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white"
+                style={{ background: 'var(--primary)' }}
+              >
+                {initials}
+              </div>
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="flex items-center justify-center px-3 h-8 rounded-full text-xs font-semibold text-white"
+              style={{ background: 'var(--primary)', fontFamily: 'var(--font-jakarta)' }}
+            >
+              Masuk
+            </Link>
+          )}
+        </div>
+      </header>
+
+      {/* ── MOBILE TOOLS DRAWER ── */}
+      {drawerOpen && (
+        <div className="md:hidden fixed inset-0 z-[60] animate-fadeIn">
+          <div
+            className="absolute inset-0"
+            style={{ background: 'rgba(0,0,0,0.65)' }}
+            onClick={() => setDrawerOpen(false)}
+          />
+
+          <div
+            className="absolute top-0 right-0 bottom-0 w-72 flex flex-col shadow-2xl"
+            style={{ background: 'var(--surface)', borderLeft: '1px solid var(--border)' }}
+          >
+            {/* Drawer header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: 'var(--border)' }}>
+              <div className="flex items-center">
+                <SajdaLogo height={22} />
+              </div>
+              <button
+                onClick={() => setDrawerOpen(false)}
+                className="p-1.5 rounded-lg hover:bg-[rgba(0,0,0,0.05)] transition-colors"
+              >
+                <X className="w-4 h-4" style={{ color: 'var(--text-dim)' }} />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto p-3">
+
+              {/* Primary nav */}
+              <p className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-2 px-2 mt-1" style={{ fontFamily: 'var(--font-jakarta)', color: 'var(--text-dim)' }}>
+                Navigasi
+              </p>
+              <div className="flex flex-col gap-0.5 mb-4">
+                {primaryNav.map((item) => {
+                  const active = isActive(item.href)
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all text-sm font-medium"
+                      style={{
+                        background: active ? 'var(--primary-pale)' : 'transparent',
+                        color: active ? 'var(--primary)' : 'var(--text-secondary)',
+                        fontFamily: 'var(--font-jakarta)',
+                      }}
+                    >
+                      {item.label}
+                    </Link>
+                  )
+                })}
+              </div>
+
+              {/* Tools — categorised */}
+              {toolsCategories.map((cat, ci) => (
+                <div key={cat.label} className={ci < toolsCategories.length - 1 ? 'mb-4' : ''}>
+                  <p className="text-[9px] font-bold tracking-[0.18em] uppercase mb-1.5 px-2"
+                    style={{ fontFamily: 'var(--font-jakarta)', color: 'var(--text-dim)' }}>
+                    {cat.label}
+                  </p>
+                  {/* 3-column icon grid */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4px' }}>
+                    {cat.items.map(item => {
+                      const active = isActive(item.href)
+                      const Icon = item.icon
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          style={{
+                            display: 'flex', flexDirection: 'column', alignItems: 'center',
+                            gap: '5px', padding: '10px 6px', borderRadius: '12px', textDecoration: 'none',
+                            background: active ? 'var(--primary-pale)' : 'var(--void)',
+                            border: `1px solid ${active ? 'rgba(34,197,94,0.25)' : 'var(--border)'}`,
+                            transition: 'all 0.15s',
+                          }}
+                        >
+                          <div style={{
+                            width: '30px', height: '30px', borderRadius: '9px',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                            background: active ? 'var(--primary)' : 'var(--elevated)',
+                          }}>
+                            <Icon style={{ width: '14px', height: '14px', color: active ? '#fff' : 'var(--primary)' }} />
+                          </div>
+                          <span style={{
+                            fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 600,
+                            color: active ? 'var(--primary)' : 'var(--text-secondary)',
+                            textAlign: 'center', lineHeight: 1.2,
+                          }}>
+                            {item.label}
+                          </span>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div className="p-4 border-t" style={{ borderColor: 'var(--border)' }}>
+              {user ? (
+                <Link href="/profile" className="flex items-center gap-3 px-3 py-2.5 rounded-xl border transition-colors hover:border-[rgba(45,106,79,0.2)]" style={{ borderColor: 'var(--border)', background: 'var(--void)' }}>
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
+                    style={{ background: 'var(--primary)' }}
+                  >
+                    {initials}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold truncate" style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-jakarta)' }}>
+                      {profile?.full_name ?? 'Profil Saya'}
+                    </p>
+                    <p className="text-xs capitalize" style={{ color: 'var(--text-dim)', fontFamily: 'var(--font-jakarta)' }}>
+                      {profile?.role ?? 'Jemaah'}
+                    </p>
+                  </div>
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="flex items-center justify-center w-full py-3 rounded-full text-sm font-semibold text-white"
+                  style={{ background: 'var(--primary)', fontFamily: 'var(--font-jakarta)' }}
+                >
+                  Log Masuk
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── ADMIN PANEL SHEET (mobile) — bottom sheet ── */}
+      {adminOpen && isAJK && (
+        <div className="md:hidden fixed inset-0 z-[60]" style={{ animation: 'fadeIn 0.2s ease both' }}>
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'rgba(0,0,0,0.72)', backdropFilter: 'blur(6px)' }}
+            onClick={() => setAdminOpen(false)}
+          />
+
+          {/* Bottom sheet */}
+          <div
+            className="absolute bottom-0 left-0 right-0"
+            style={{
+              background: 'var(--surface)',
+              borderRadius: '24px 24px 0 0',
+              borderTop: '1px solid rgba(156,122,60,0.2)',
+              boxShadow: '0 -24px 60px rgba(0,0,0,0.6)',
+              animation: 'sheetUp 0.28s cubic-bezier(0.16,1,0.3,1) both',
+              overflow: 'hidden',
+            }}
+          >
+            {/* Gold accent line */}
+            <div style={{
+              height: '2px',
+              background: 'linear-gradient(90deg, transparent 0%, rgba(156,122,60,0.6) 30%, rgba(245,158,11,0.8) 50%, rgba(156,122,60,0.6) 70%, transparent 100%)',
+            }} />
+
+            {/* Drag handle */}
+            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '10px', paddingBottom: '4px' }}>
+              <div style={{ width: '36px', height: '4px', borderRadius: '100px', background: 'var(--border)' }} />
+            </div>
+
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 20px 8px' }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '2px' }}>
+                  <ShieldCheck style={{ width: '13px', height: '13px', color: 'var(--gold)' }} />
+                  <span style={{
+                    fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                    letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--gold)',
+                  }}>
+                    Panel Admin
+                  </span>
+                </div>
+                <p style={{
+                  fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                  color: 'var(--text-dim)', margin: 0,
+                }}>
+                  {profile?.full_name?.split(' ')[0] ?? 'Admin'} · {profile?.role === 'superadmin' ? 'Superadmin' : 'AJK'}
+                </p>
+              </div>
+              <button
+                onClick={() => setAdminOpen(false)}
+                style={{
+                  width: '32px', height: '32px', borderRadius: '50%',
+                  background: 'var(--elevated)', border: '1px solid var(--border)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                <X style={{ width: '13px', height: '13px', color: 'var(--text-dim)' }} />
+              </button>
+            </div>
+
+            {/* Nav tiles — 2-column grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', padding: '12px 16px 20px' }}>
+              {visibleAdminNav.map((item, i) => {
+                const Icon = item.icon
+                const active = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href))
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '12px',
+                      padding: '14px 16px', borderRadius: '14px', textDecoration: 'none',
+                      background: active
+                        ? 'linear-gradient(135deg, rgba(156,122,60,0.18) 0%, rgba(245,158,11,0.08) 100%)'
+                        : 'var(--elevated)',
+                      border: `1px solid ${active ? 'rgba(156,122,60,0.4)' : 'var(--border)'}`,
+                      transition: 'all 0.15s',
+                      animation: `fabItem 0.2s ease ${i * 0.03}s both`,
+                    }}
+                  >
+                    <div style={{
+                      width: '34px', height: '34px', borderRadius: '10px', flexShrink: 0,
+                      background: active
+                        ? 'linear-gradient(135deg, rgba(156,122,60,0.35) 0%, rgba(245,158,11,0.2) 100%)'
+                        : 'var(--surface)',
+                      border: `1px solid ${active ? 'rgba(156,122,60,0.3)' : 'var(--border)'}`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <Icon style={{
+                        width: '15px', height: '15px',
+                        color: active ? '#F59E0B' : 'var(--text-secondary)',
+                      }} />
+                    </div>
+                    <span style={{
+                      fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600,
+                      color: active ? '#F59E0B' : 'var(--text-primary)',
+                      lineHeight: 1.2,
+                    }}>
+                      {item.label}
+                    </span>
+                  </Link>
+                )
+              })}
+            </div>
+
+            {/* Safe area */}
+            <div style={{ height: 'env(safe-area-inset-bottom, 12px)' }} />
+          </div>
+        </div>
+      )}
+
+      {/* ── MOBILE BOTTOM NAV ── */}
+      <BottomNav />
+    </>
+  )
+}

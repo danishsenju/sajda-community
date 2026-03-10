@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#080C0A"/>
+  <!-- Islamic 8-pointed star -->
+  <polygon points="256,64 275,195 384,128 299,220 448,220 330,272 384,400 268,330 256,460 244,330 128,400 182,272 64,220 213,220 128,128 237,195"
+    fill="none" stroke="#4ADE80" stroke-width="6" opacity="0.3"/>
+  <!-- SAJDA text -->
+  <text x="256" y="300" text-anchor="middle" font-family="serif" font-weight="900" font-size="128" fill="#4ADE80" letter-spacing="-4">SAJDA</text>
+  <text x="256" y="350" text-anchor="middle" font-family="sans-serif" font-weight="400" font-size="36" fill="#86EFAC" opacity="0.6" letter-spacing="8">KOMUNITI</text>
+</svg>
