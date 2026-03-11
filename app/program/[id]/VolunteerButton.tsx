@@ -16,7 +16,8 @@ export function VolunteerButton({ programId }: { programId: string }) {
     setLoading(true)
     setError('')
     const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+    const { data: { session } } = await supabase.auth.getSession()
+    const user = session?.user
 
     if (!user) {
       router.push(`/login?redirect=/program/${programId}`)
@@ -33,7 +34,6 @@ export function VolunteerButton({ programId }: { programId: string }) {
       setError(error.code === '23505' ? 'Anda sudah mendaftar sebagai sukarelawan.' : error.message)
     } else {
       setDone(true)
-      router.refresh()
     }
     setLoading(false)
   }
