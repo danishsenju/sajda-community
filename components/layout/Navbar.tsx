@@ -8,13 +8,15 @@ import {
   Home, Heart, Calendar, BookOpen, HandCoins, User, ShieldCheck,
   X, BookMarked, Compass, Clock, Search, Building2,
   ChevronDown, MoreHorizontal, Sparkles, Moon, CheckSquare, Sun, RotateCcw, Users,
-  LayoutDashboard, Megaphone,
+  LayoutDashboard, Megaphone, Settings, Type, Zap, ZapOff,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUser } from '@/hooks/useUser'
 import sajdaLogo from '@/images/sajda-logo.png'
 import { NotificationPanel } from '@/components/ui/NotificationPanel'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { useTheme } from 'next-themes'
+import { useTextSize, type TextSize } from '@/hooks/useTextSize'
 
 const primaryNav = [
   { href: '/',          label: 'Utama' },
@@ -206,6 +208,25 @@ export function Navbar() {
   const [toolsOpen, setToolsOpen] = useState(false)
   const [adminOpen, setAdminOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [reduceMotion, setReduceMotion] = useState(false)
+  const { theme, setTheme } = useTheme()
+  const { size: textSize, changeSize } = useTextSize()
+  const [themeMounted, setThemeMounted] = useState(false)
+
+  useEffect(() => {
+    setThemeMounted(true)
+    const stored = localStorage.getItem('reduce-motion') === 'true'
+    setReduceMotion(stored)
+    if (stored) document.documentElement.setAttribute('data-reduce-motion', 'true')
+  }, [])
+
+  function toggleReduceMotion() {
+    const next = !reduceMotion
+    setReduceMotion(next)
+    localStorage.setItem('reduce-motion', String(next))
+    if (next) document.documentElement.setAttribute('data-reduce-motion', 'true')
+    else document.documentElement.removeAttribute('data-reduce-motion')
+  }
 
   const initials = useMemo(
     () => (profile?.full_name || user?.email || 'U').charAt(0).toUpperCase(),
@@ -423,7 +444,6 @@ export function Navbar() {
             </button>
           )}
 
-          <ThemeToggle compact />
           <NotificationPanel />
 
           <button
@@ -553,6 +573,124 @@ export function Navbar() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* ── SETTINGS SECTION ── */}
+            <div className="mt-4 mb-2">
+              <p className="text-[9px] font-bold tracking-[0.18em] uppercase mb-2 px-2"
+                style={{ fontFamily: 'var(--font-jakarta)', color: 'var(--text-dim)' }}>
+                Tetapan
+              </p>
+
+              {/* Theme */}
+              <div style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '10px 12px', borderRadius: '12px', marginBottom: '6px',
+                background: 'var(--void)', border: '1px solid var(--border)',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {themeMounted && theme === 'dark'
+                    ? <Moon style={{ width: '14px', height: '14px', color: 'var(--primary)' }} />
+                    : <Sun  style={{ width: '14px', height: '14px', color: 'var(--primary)' }} />}
+                  <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                    Tema
+                  </span>
+                </div>
+                {themeMounted && (
+                  <div style={{ display: 'flex', gap: '4px' }}>
+                    {(['light', 'dark'] as const).map(t => (
+                      <button
+                        key={t}
+                        onClick={() => setTheme(t)}
+                        style={{
+                          padding: '4px 10px', borderRadius: '8px', fontSize: '11px', fontWeight: 600,
+                          fontFamily: 'var(--font-jakarta)', cursor: 'pointer', border: 'none',
+                          background: theme === t ? 'var(--primary)' : 'var(--elevated)',
+                          color: theme === t ? '#fff' : 'var(--text-secondary)',
+                          transition: 'all 0.15s',
+                        }}
+                      >
+                        {t === 'dark' ? 'Gelap' : 'Cerah'}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Text size */}
+              <div style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '10px 12px', borderRadius: '12px', marginBottom: '6px',
+                background: 'var(--void)', border: '1px solid var(--border)',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Type style={{ width: '14px', height: '14px', color: 'var(--primary)' }} />
+                  <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                    Saiz Teks
+                  </span>
+                </div>
+                <div style={{ display: 'flex', gap: '4px' }}>
+                  {([
+                    { key: 'small',   label: 'A',   size: '10px' },
+                    { key: 'regular', label: 'A',   size: '12px' },
+                    { key: 'large',   label: 'A',   size: '15px' },
+                  ] as { key: TextSize; label: string; size: string }[]).map(({ key, label, size }) => (
+                    <button
+                      key={key}
+                      onClick={() => changeSize(key)}
+                      style={{
+                        width: '32px', height: '28px', borderRadius: '8px', cursor: 'pointer',
+                        border: textSize === key ? '1.5px solid var(--primary)' : '1px solid var(--border)',
+                        background: textSize === key ? 'var(--primary-ghost)' : 'var(--elevated)',
+                        color: textSize === key ? 'var(--primary)' : 'var(--text-secondary)',
+                        fontFamily: 'var(--font-jakarta)', fontWeight: 700, fontSize: size,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        transition: 'all 0.15s',
+                      }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Reduce motion */}
+              <div style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '10px 12px', borderRadius: '12px',
+                background: 'var(--void)', border: '1px solid var(--border)',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {reduceMotion
+                    ? <ZapOff style={{ width: '14px', height: '14px', color: 'var(--primary)' }} />
+                    : <Zap    style={{ width: '14px', height: '14px', color: 'var(--primary)' }} />}
+                  <div>
+                    <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)', display: 'block' }}>
+                      Kurangkan Animasi
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)' }}>
+                      Sesuai untuk orang tua
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={toggleReduceMotion}
+                  style={{
+                    width: '40px', height: '22px', borderRadius: '100px', cursor: 'pointer',
+                    border: 'none', position: 'relative', transition: 'background 0.2s',
+                    background: reduceMotion ? 'var(--primary)' : 'var(--elevated)',
+                    flexShrink: 0,
+                  }}
+                >
+                  <span style={{
+                    position: 'absolute', top: '3px',
+                    left: reduceMotion ? 'calc(100% - 19px)' : '3px',
+                    width: '16px', height: '16px', borderRadius: '50%',
+                    background: '#fff', transition: 'left 0.2s',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+                  }} />
+                </button>
+              </div>
             </div>
 
             {/* Footer */}

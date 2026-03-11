@@ -351,6 +351,17 @@ body {
 .scrollbar-none::-webkit-scrollbar { display: none; }
 
 /* ======================================
+   REDUCE MOTION
+====================================== */
+html[data-reduce-motion="true"] *,
+html[data-reduce-motion="true"] *::before,
+html[data-reduce-motion="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* ======================================
    LIQUID GLASS — iOS 26 3D Glass System
    Three layers of depth:
    1. Frosted translucent fill
