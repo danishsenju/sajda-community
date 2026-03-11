@@ -88,7 +88,12 @@ export default function NewJanaizPage() {
       if (error) throw error
       setSubmitted(true)
     } catch (err: unknown) {
-      setFormError(err instanceof Error ? err.message : 'Ralat tidak diketahui')
+      const msg =
+        err instanceof Error ? err.message
+        : (err && typeof err === 'object' && 'message' in err)
+          ? String((err as { message: unknown }).message)
+          : 'Ralat tidak diketahui'
+      setFormError(msg)
     } finally {
       setSubmitting(false)
     }
