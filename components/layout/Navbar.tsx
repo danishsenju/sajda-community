@@ -576,40 +576,65 @@ export function Navbar() {
             </div>
 
             {/* ── SETTINGS SECTION ── */}
-            <div className="mt-4 mb-2">
-              <p className="text-[9px] font-bold tracking-[0.18em] uppercase mb-2 px-2"
-                style={{ fontFamily: 'var(--font-jakarta)', color: 'var(--text-dim)' }}>
-                Tetapan
-              </p>
+            <div style={{
+              margin: '16px 0 8px',
+              borderRadius: '16px',
+              background: 'var(--void)',
+              border: '1px solid var(--border)',
+              overflow: 'hidden',
+            }}>
+              {/* Section header */}
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '7px',
+                padding: '11px 14px 10px',
+                borderBottom: '1px solid var(--border)',
+              }}>
+                <Settings style={{ width: '12px', height: '12px', color: 'var(--primary)' }} />
+                <span style={{
+                  fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                  letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--text-dim)',
+                }}>
+                  Tetapan
+                </span>
+              </div>
 
-              {/* Theme */}
+              {/* Theme row */}
               <div style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                padding: '10px 12px', borderRadius: '12px', marginBottom: '6px',
-                background: 'var(--void)', border: '1px solid var(--border)',
+                padding: '11px 14px', borderBottom: '1px solid var(--border)',
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  {themeMounted && theme === 'dark'
-                    ? <Moon style={{ width: '14px', height: '14px', color: 'var(--primary)' }} />
-                    : <Sun  style={{ width: '14px', height: '14px', color: 'var(--primary)' }} />}
-                  <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}>
-                    Tema
-                  </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{
+                    width: '28px', height: '28px', borderRadius: '8px', flexShrink: 0,
+                    background: 'var(--elevated)', border: '1px solid var(--border)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    {themeMounted && theme === 'dark'
+                      ? <Moon style={{ width: '13px', height: '13px', color: 'var(--primary)' }} />
+                      : <Sun  style={{ width: '13px', height: '13px', color: 'var(--primary)' }} />}
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Tema Paparan</p>
+                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', margin: 0 }}>
+                      {!themeMounted ? '—' : theme === 'dark' ? 'Mod gelap aktif' : 'Mod cerah aktif'}
+                    </p>
+                  </div>
                 </div>
                 {themeMounted && (
-                  <div style={{ display: 'flex', gap: '4px' }}>
+                  <div style={{
+                    display: 'flex', gap: '3px', padding: '3px',
+                    background: 'var(--elevated)', borderRadius: '10px',
+                    border: '1px solid var(--border)',
+                  }}>
                     {(['light', 'dark'] as const).map(t => (
-                      <button
-                        key={t}
-                        onClick={() => setTheme(t)}
-                        style={{
-                          padding: '4px 10px', borderRadius: '8px', fontSize: '11px', fontWeight: 600,
-                          fontFamily: 'var(--font-jakarta)', cursor: 'pointer', border: 'none',
-                          background: theme === t ? 'var(--primary)' : 'var(--elevated)',
-                          color: theme === t ? '#fff' : 'var(--text-secondary)',
-                          transition: 'all 0.15s',
-                        }}
-                      >
+                      <button key={t} onClick={() => setTheme(t)} style={{
+                        padding: '4px 9px', borderRadius: '7px',
+                        fontSize: '10px', fontWeight: 600, fontFamily: 'var(--font-jakarta)',
+                        cursor: 'pointer', border: 'none',
+                        background: theme === t ? 'var(--primary)' : 'transparent',
+                        color: theme === t ? '#04080A' : 'var(--text-secondary)',
+                        transition: 'all 0.15s',
+                      }}>
                         {t === 'dark' ? 'Gelap' : 'Cerah'}
                       </button>
                     ))}
@@ -617,77 +642,88 @@ export function Navbar() {
                 )}
               </div>
 
-              {/* Text size */}
+              {/* Text size row */}
               <div style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                padding: '10px 12px', borderRadius: '12px', marginBottom: '6px',
-                background: 'var(--void)', border: '1px solid var(--border)',
+                padding: '11px 14px', borderBottom: '1px solid var(--border)',
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Type style={{ width: '14px', height: '14px', color: 'var(--primary)' }} />
-                  <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}>
-                    Saiz Teks
-                  </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{
+                    width: '28px', height: '28px', borderRadius: '8px', flexShrink: 0,
+                    background: 'var(--elevated)', border: '1px solid var(--border)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <Type style={{ width: '13px', height: '13px', color: 'var(--primary)' }} />
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Saiz Teks</p>
+                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', margin: 0 }}>
+                      {textSize === 'small' ? 'Kecil' : textSize === 'large' ? 'Besar' : 'Biasa'}
+                    </p>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', gap: '4px' }}>
+                <div style={{
+                  display: 'flex', gap: '3px', padding: '3px',
+                  background: 'var(--elevated)', borderRadius: '10px',
+                  border: '1px solid var(--border)',
+                }}>
                   {([
-                    { key: 'small',   label: 'A',   size: '10px' },
-                    { key: 'regular', label: 'A',   size: '12px' },
-                    { key: 'large',   label: 'A',   size: '15px' },
-                  ] as { key: TextSize; label: string; size: string }[]).map(({ key, label, size }) => (
-                    <button
-                      key={key}
-                      onClick={() => changeSize(key)}
-                      style={{
-                        width: '32px', height: '28px', borderRadius: '8px', cursor: 'pointer',
-                        border: textSize === key ? '1.5px solid var(--primary)' : '1px solid var(--border)',
-                        background: textSize === key ? 'var(--primary-ghost)' : 'var(--elevated)',
-                        color: textSize === key ? 'var(--primary)' : 'var(--text-secondary)',
-                        fontFamily: 'var(--font-jakarta)', fontWeight: 700, fontSize: size,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        transition: 'all 0.15s',
-                      }}
-                    >
+                    { key: 'small'  as TextSize, label: 'A',  fs: '9px'  },
+                    { key: 'regular'as TextSize, label: 'A',  fs: '12px' },
+                    { key: 'large'  as TextSize, label: 'A',  fs: '15px' },
+                  ]).map(({ key, label, fs }) => (
+                    <button key={key} onClick={() => changeSize(key)} style={{
+                      width: '30px', height: '26px', borderRadius: '7px', cursor: 'pointer',
+                      border: 'none',
+                      background: textSize === key ? 'var(--primary)' : 'transparent',
+                      color: textSize === key ? '#04080A' : 'var(--text-secondary)',
+                      fontFamily: 'var(--font-jakarta)', fontWeight: 800, fontSize: fs,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      transition: 'all 0.15s',
+                    }}>
                       {label}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Reduce motion */}
+              {/* Reduce motion row */}
               <div style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                padding: '10px 12px', borderRadius: '12px',
-                background: 'var(--void)', border: '1px solid var(--border)',
+                padding: '11px 14px',
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  {reduceMotion
-                    ? <ZapOff style={{ width: '14px', height: '14px', color: 'var(--primary)' }} />
-                    : <Zap    style={{ width: '14px', height: '14px', color: 'var(--primary)' }} />}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{
+                    width: '28px', height: '28px', borderRadius: '8px', flexShrink: 0,
+                    background: 'var(--elevated)', border: '1px solid var(--border)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    {reduceMotion
+                      ? <ZapOff style={{ width: '13px', height: '13px', color: 'var(--primary)' }} />
+                      : <Zap    style={{ width: '13px', height: '13px', color: 'var(--primary)' }} />}
+                  </div>
                   <div>
-                    <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)', display: 'block' }}>
-                      Kurangkan Animasi
-                    </span>
-                    <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)' }}>
-                      Sesuai untuk orang tua
-                    </span>
+                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Kurang Animasi</p>
+                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', margin: 0 }}>Sesuai untuk warga emas</p>
                   </div>
                 </div>
-                <button
-                  onClick={toggleReduceMotion}
-                  style={{
-                    width: '40px', height: '22px', borderRadius: '100px', cursor: 'pointer',
-                    border: 'none', position: 'relative', transition: 'background 0.2s',
-                    background: reduceMotion ? 'var(--primary)' : 'var(--elevated)',
-                    flexShrink: 0,
-                  }}
-                >
+                {/* iOS-style toggle */}
+                <button onClick={toggleReduceMotion} style={{
+                  width: '42px', height: '24px', borderRadius: '100px', cursor: 'pointer',
+                  border: 'none', position: 'relative', flexShrink: 0, padding: 0,
+                  background: reduceMotion
+                    ? 'var(--primary)'
+                    : 'var(--elevated)',
+                  boxShadow: reduceMotion ? '0 0 0 1px var(--primary)' : '0 0 0 1px var(--border)',
+                  transition: 'background 0.2s, box-shadow 0.2s',
+                }}>
                   <span style={{
                     position: 'absolute', top: '3px',
-                    left: reduceMotion ? 'calc(100% - 19px)' : '3px',
-                    width: '16px', height: '16px', borderRadius: '50%',
-                    background: '#fff', transition: 'left 0.2s',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+                    left: reduceMotion ? '21px' : '3px',
+                    width: '18px', height: '18px', borderRadius: '50%',
+                    background: reduceMotion ? '#04080A' : 'var(--text-secondary)',
+                    transition: 'left 0.2s, background 0.2s',
+                    boxShadow: '0 1px 4px rgba(0,0,0,0.4)',
                   }} />
                 </button>
               </div>
