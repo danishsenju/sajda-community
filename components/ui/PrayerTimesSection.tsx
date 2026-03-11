@@ -1,17 +1,68 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { MapPin, RefreshCw } from 'lucide-react'
+import { MapPin, RefreshCw, LocateFixed, Loader2 } from 'lucide-react'
 import { CountdownTimer } from './CountdownTimer'
 import { createClient } from '@/lib/supabase'
 
-/* ── Prayer config ──────────────────────────────────────────────────────────
-   Zone SGR01 = Gombak, Selangor (covers Sungai Buloh / Bandar Saujana Utama)
-   Source: JAKIM e-Solat (www.e-solat.gov.my) — the official Malaysian source
-─────────────────────────────────────────────────────────────────────────── */
-const JAKIM_ZONE  = 'SGR01'
-const ZONE_LABEL  = 'Zon Gombak · Selangor'
-const ZONE_CODE   = 'SGR01'
+/* ── Default zone: SGR01 = Gombak, Selangor ─────────────────────────────── */
+const DEFAULT_ZONE  = 'SGR01'
+const DEFAULT_LABEL = 'Zon Gombak · Selangor'
+
+/* ── JAKIM zone lookup by Nominatim state/county ─────────────────────────── */
+type ZoneInfo = { code: string; label: string }
+
+const SELANGOR_DISTRICT_ZONES: Record<string, ZoneInfo> = {
+  'gombak':        { code: 'SGR01', label: 'Zon Gombak, Selangor' },
+  'kuala selangor':{ code: 'SGR02', label: 'Zon Kuala Selangor' },
+  'sabak bernam':  { code: 'SGR02', label: 'Zon Sabak Bernam, Selangor' },
+  'kuala langat':  { code: 'SGR02', label: 'Zon Kuala Langat, Selangor' },
+  'sepang':        { code: 'SGR02', label: 'Zon Sepang, Selangor' },
+  'hulu langat':   { code: 'SGR03', label: 'Zon Hulu Langat, Selangor' },
+  'hulu selangor': { code: 'SGR03', label: 'Zon Hulu Selangor' },
+  'petaling':      { code: 'SGR04', label: 'Zon Petaling, Selangor' },
+  'klang':         { code: 'SGR04', label: 'Zon Klang, Selangor' },
+}
+
+const STATE_ZONES: Record<string, ZoneInfo> = {
+  'federal territory of kuala lumpur': { code: 'WLY01', label: 'Zon Wilayah Persekutuan KL' },
+  'federal territory of putrajaya':    { code: 'WLY01', label: 'Zon Putrajaya' },
+  'federal territory of labuan':       { code: 'WLY02', label: 'Zon Labuan' },
+  'selangor':      { code: 'SGR01', label: 'Zon Selangor' },
+  'johor':         { code: 'JHR01', label: 'Zon Johor' },
+  'kedah':         { code: 'KDH01', label: 'Zon Kedah' },
+  'kelantan':      { code: 'KTN01', label: 'Zon Kelantan' },
+  'melaka':        { code: 'MLK01', label: 'Zon Melaka' },
+  'negeri sembilan':{ code: 'NGS01', label: 'Zon Negeri Sembilan' },
+  'pahang':        { code: 'PHG01', label: 'Zon Pahang' },
+  'perak':         { code: 'PRK01', label: 'Zon Perak' },
+  'perlis':        { code: 'PLS01', label: 'Zon Perlis' },
+  'pulau pinang':  { code: 'PNG01', label: 'Zon Pulau Pinang' },
+  'sabah':         { code: 'SBH01', label: 'Zon Sabah' },
+  'sarawak':       { code: 'SWK01', label: 'Zon Sarawak' },
+  'terengganu':    { code: 'TRG01', label: 'Zon Terengganu' },
+}
+
+function resolveZone(nominatim: { state?: string; county?: string; city?: string }): ZoneInfo {
+  const state   = (nominatim.state   ?? '').toLowerCase()
+  const county  = (nominatim.county  ?? '').toLowerCase()
+  const city    = (nominatim.city    ?? '').toLowerCase()
+
+  // Selangor — try district first
+  if (state.includes('selangor')) {
+    for (const [key, zone] of Object.entries(SELANGOR_DISTRICT_ZONES)) {
+      if (county.includes(key) || city.includes(key)) return zone
+    }
+    return { code: 'SGR01', label: 'Zon Selangor' }
+  }
+
+  // Other states
+  for (const [key, zone] of Object.entries(STATE_ZONES)) {
+    if (state.includes(key)) return zone
+  }
+
+  return { code: DEFAULT_ZONE, label: DEFAULT_LABEL }
+}
 
 // Display order: Imsak is shown but not treated as a "next prayer" trigger
 const PRAYER_NAMES   = ['Imsak', 'Subuh', 'Syuruk', 'Zohor', 'Asr', 'Maghrib', 'Isyak'] as const
@@ -29,8 +80,8 @@ type PrayerState = {
 }
 
 /* ── JAKIM e-Solat API ────────────────────────────────────────────────────── */
-async function fetchFromJAKIM(): Promise<{ times: string[]; hijri: string }> {
-  const url = `https://www.e-solat.gov.my/index.php?r=esolatApi/takwimsolat&period=today&zone=${JAKIM_ZONE}`
+async function fetchFromJAKIM(zone: string): Promise<{ times: string[]; hijri: string }> {
+  const url = `https://www.e-solat.gov.my/index.php?r=esolatApi/takwimsolat&period=today&zone=${zone}`
   const controller = new AbortController()
   const timeout    = setTimeout(() => controller.abort(), 8000)
   try {
@@ -105,21 +156,29 @@ async function fetchTodayImams(): Promise<Record<string, string>> {
   return map
 }
 
+type LocState = 'idle' | 'detecting' | 'done' | 'error'
+type DetectedZone = ZoneInfo & { city: string }
+
 export function PrayerTimesSection() {
-  const [state,   setState]   = useState<PrayerState | null>(null)
-  const [source,  setSource]  = useState<'jakim' | 'fallback' | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error,   setError]   = useState(false)
-  const [imamMap, setImamMap] = useState<Record<string, string>>({})
+  const [state,        setState]        = useState<PrayerState | null>(null)
+  const [source,       setSource]       = useState<'jakim' | 'fallback' | null>(null)
+  const [loading,      setLoading]      = useState(true)
+  const [error,        setError]        = useState(false)
+  const [imamMap,      setImamMap]      = useState<Record<string, string>>({})
+  const [locState,     setLocState]     = useState<LocState>('idle')
+  const [detected,     setDetected]     = useState<DetectedZone | null>(null)
   const fetched = useRef(false)
 
-  async function load() {
+  const activeZone  = detected?.code  ?? DEFAULT_ZONE
+  const activeLabel = detected?.label ?? DEFAULT_LABEL
+
+  async function load(zone = activeZone) {
     setLoading(true)
     setError(false)
     try {
       let result: { times: string[]; hijri: string }
       try {
-        result = await fetchFromJAKIM()
+        result = await fetchFromJAKIM(zone)
         setSource('jakim')
       } catch {
         result = await fetchFromAladhan()
@@ -131,6 +190,38 @@ export function PrayerTimesSection() {
     } finally {
       setLoading(false)
     }
+  }
+
+  async function detectLocation() {
+    if (!navigator.geolocation) { setLocState('error'); return }
+    setLocState('detecting')
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const { latitude: lat, longitude: lng } = pos.coords
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
+            { headers: { 'Accept-Language': 'en' } }
+          )
+          const data = await res.json()
+          const addr = data.address ?? {}
+          const zone = resolveZone({
+            state:  addr.state,
+            county: addr.county || addr.suburb,
+            city:   addr.city || addr.town || addr.village,
+          })
+          const city = addr.city || addr.town || addr.village || addr.county || addr.state || ''
+          const det: DetectedZone = { ...zone, city }
+          setDetected(det)
+          setLocState('done')
+          load(zone.code)
+        } catch {
+          setLocState('error')
+        }
+      },
+      () => setLocState('error'),
+      { timeout: 10000, maximumAge: 300000 }
+    )
   }
 
   useEffect(() => {
@@ -210,14 +301,15 @@ export function PrayerTimesSection() {
           gap: '16px', padding: '16px 0 14px', flexWrap: 'wrap',
         }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px', flexWrap: 'wrap' }}>
               <MapPin style={{ width: '11px', height: '11px', color: '#52c97a', flexShrink: 0 }} />
               <span style={{
                 fontFamily: 'var(--font-jakarta)', fontSize: '11px',
                 fontWeight: 700, color: 'rgba(255,255,255,0.75)',
                 letterSpacing: '0.04em',
               }}>
-                {ZONE_LABEL}
+                {activeLabel}
+                {detected?.city && ` · ${detected.city}`}
               </span>
               <span style={{
                 fontFamily: 'var(--font-jetbrains)', fontSize: '9px',
@@ -225,17 +317,36 @@ export function PrayerTimesSection() {
                 border: '1px solid rgba(82,201,122,0.25)',
                 padding: '1px 6px', borderRadius: '4px', letterSpacing: '0.10em',
               }}>
-                {ZONE_CODE}
+                {activeZone}
               </span>
               {source === 'jakim' && (
                 <span style={{
                   fontFamily: 'var(--font-jakarta)', fontSize: '9px',
-                  color: 'rgba(82,201,122,0.55)',
-                  letterSpacing: '0.08em',
+                  color: 'rgba(82,201,122,0.55)', letterSpacing: '0.08em',
                 }}>
                   JAKIM e-Solat
                 </span>
               )}
+
+              {/* ── Location detect button ── */}
+              <button
+                onClick={detectLocation}
+                disabled={locState === 'detecting'}
+                title={locState === 'done' ? 'Lokasi dikesan' : 'Kesan lokasi semasa'}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  width: '22px', height: '22px', borderRadius: '6px', flexShrink: 0,
+                  border: `1px solid ${locState === 'done' ? 'rgba(82,201,122,0.4)' : locState === 'error' ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.10)'}`,
+                  background: locState === 'done' ? 'rgba(82,201,122,0.10)' : 'rgba(255,255,255,0.04)',
+                  cursor: locState === 'detecting' ? 'default' : 'pointer',
+                  transition: 'all 0.15s',
+                }}
+              >
+                {locState === 'detecting'
+                  ? <Loader2 style={{ width: '11px', height: '11px', color: '#52c97a', animation: 'spin 1s linear infinite' }} />
+                  : <LocateFixed style={{ width: '11px', height: '11px', color: locState === 'done' ? '#52c97a' : locState === 'error' ? '#EF4444' : 'rgba(255,255,255,0.35)' }} />
+                }
+              </button>
             </div>
             {state.hijri && (
               <p style={{
