@@ -50,7 +50,7 @@ export default function JanaizPage() {
       const supabase = createClient()
       const { data, error: err } = await supabase
         .from('janaiz_notices')
-        .select('*, profiles(full_name)')
+        .select('*, profiles:profiles!posted_by(full_name)')
         .order('created_at', { ascending: false })
         .limit(30)
 

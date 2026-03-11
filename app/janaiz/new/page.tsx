@@ -156,14 +156,14 @@ export default function NewJanaizPage() {
             keluarga yang ditinggalkan diberi kekuatan.
           </p>
 
-          <Link href="/janaiz" style={{
+          <a href="/janaiz" style={{
             display: 'block', padding: '14px', borderRadius: '14px',
             background: 'var(--primary)', color: '#04080A',
             fontFamily: 'var(--font-jakarta)', fontSize: '14px', fontWeight: 700,
             textDecoration: 'none', textAlign: 'center',
           }}>
             Kembali ke Papan Janaiz
-          </Link>
+          </a>
         </div>
         <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
       </div>
