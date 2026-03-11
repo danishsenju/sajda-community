@@ -16,7 +16,7 @@ export function useUser() {
     async function fetchProfile(uid: string): Promise<Profile | null> {
       const { data } = await supabase
         .from('profiles')
-        .select('id, full_name, role, avatar_url, phone, unit_blok')
+        .select('id, full_name, role, avatar_url, phone, unit_blok, created_at')
         .eq('id', uid)
         .single()
       return data
