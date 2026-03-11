@@ -8,8 +8,6 @@ import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import Image from 'next/image'
 import { LogOut, User, Phone, Home, ArrowRight, ShieldCheck, Pencil, Flame, CheckSquare, Lock } from 'lucide-react'
-import { PushSubscribeButton } from '@/components/ui/PushSubscribeButton'
-import { QiamAlarm } from '@/components/ui/QiamAlarm'
 import { safeRead, calcStreak, getMalaysiaDate, PRAYERS } from '@/hooks/useSolatTracker'
 
 /* ── PRIVATE STREAK CARD ─────────────────────────────────────────────── */
@@ -358,19 +356,6 @@ export default function ProfilePage() {
             <ArrowRight className="w-5 h-5 flex-shrink-0" style={{ color: '#B78628' }} />
           </a>
         )}
-
-        {/* Push notifications + Qiam alarm */}
-        <div className="animate-slideUp mb-3">
-          <p style={{
-            fontFamily: 'var(--font-dm-sans)', fontSize: '10px', fontWeight: 700,
-            letterSpacing: '0.15em', textTransform: 'uppercase',
-            color: 'var(--text-dim)', marginBottom: '8px',
-          }}>Notifikasi</p>
-          <PushSubscribeButton />
-        </div>
-        <div className="animate-slideUp mb-4">
-          <QiamAlarm />
-        </div>
 
         {/* Sign out */}
         <Button variant="danger" className="w-full gap-2 animate-slideUp mb-8" onClick={handleSignOut}>
