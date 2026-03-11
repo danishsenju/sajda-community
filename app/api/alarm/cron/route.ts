@@ -30,12 +30,15 @@ export async function GET(req: NextRequest) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
   )
 
-  // Find all active alarms matching this exact minute
+  const nowISO = new Date().toISOString()
+
+  // Find all active alarms matching this exact minute (skip snoozed ones)
   const { data: alarms } = await admin
     .from('qiam_alarms')
     .select('user_id')
     .eq('is_active', true)
     .eq('alarm_time', currentTime)
+    .or(`snoozed_until.is.null,snoozed_until.lt.${nowISO}`)
 
   if (!alarms?.length) {
     return NextResponse.json({ sent: 0, time: currentTime })
@@ -43,33 +46,37 @@ export async function GET(req: NextRequest) {
 
   const userIds = alarms.map((a: { user_id: string }) => a.user_id)
 
-  // Get push subscriptions for these users
+  // Get push subscriptions for these users (include user_id to embed in payload)
   const { data: subs } = await admin
     .from('push_subscriptions')
-    .select('endpoint, p256dh, auth_key')
+    .select('endpoint, p256dh, auth_key, user_id')
     .in('user_id', userIds)
 
   if (!subs?.length) {
     return NextResponse.json({ sent: 0, time: currentTime })
   }
 
-  const payload = JSON.stringify({
-    title: '🌙 Masa Qiam al-Lail',
-    body: 'Bangun dan solat sunat Tahajud. Sepertiga malam terakhir — waktu yang paling mustajab.',
-    url: '/solat',
-    icon: '/icons/icon-192.png',
-    badge: '/icons/icon-192.png',
-    tag: 'qiam-alarm',          // replaces previous if user hasn't dismissed
-    requireInteraction: true,    // notification stays until user dismisses
-  })
-
   const results = await Promise.allSettled(
-    subs.map((sub: { endpoint: string; p256dh: string; auth_key: string }) =>
-      webpush.sendNotification(
+    subs.map((sub: { endpoint: string; p256dh: string; auth_key: string; user_id: string }) => {
+      const payload = JSON.stringify({
+        title: '🌙 Masa Qiam al-Lail',
+        body: 'Bangun dan solat sunat Tahajud. Sepertiga malam terakhir — waktu yang paling mustajab.',
+        url: '/solat',
+        icon: '/icons/icon-192.png',
+        badge: '/icons/icon-192.png',
+        tag: 'qiam-alarm',
+        requireInteraction: true,
+        userId: sub.user_id,
+        actions: [
+          { action: 'snooze', title: '⏰ Snooze 10 min' },
+          { action: 'off',    title: '🔕 Matikan Alarm' },
+        ],
+      })
+      return webpush.sendNotification(
         { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth_key } },
         payload,
       )
-    )
+    })
   )
 
   // Clean up expired subscriptions (410 Gone)
