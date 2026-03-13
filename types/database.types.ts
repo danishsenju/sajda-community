@@ -561,6 +561,36 @@ export interface Database {
         }
         Relationships: []
       }
+      live_streams: {
+        Row: {
+          id: string
+          title: string
+          url: string
+          platform: 'youtube' | 'facebook'
+          is_active: boolean
+          created_by: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          url: string
+          platform: 'youtube' | 'facebook'
+          is_active?: boolean
+          created_by?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          url?: string
+          platform?: 'youtube' | 'facebook'
+          is_active?: boolean
+          created_by?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
