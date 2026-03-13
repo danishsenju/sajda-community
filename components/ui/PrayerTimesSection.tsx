@@ -4,314 +4,34 @@ import { useState, useEffect, useRef } from 'react'
 import { MapPin, RefreshCw, LocateFixed, Loader2 } from 'lucide-react'
 import { CountdownTimer } from './CountdownTimer'
 import { createClient } from '@/lib/supabase'
-
-/* ── Default zone: SGR01 = Gombak, Selangor ─────────────────────────────── */
-const DEFAULT_ZONE  = 'SGR01'
-const DEFAULT_LABEL = 'Zon Gombak · Selangor'
-
-/* ── JAKIM zone lookup by daerah (district) ──────────────────────────────── */
-type ZoneInfo = { code: string; label: string }
-
-/** Comprehensive daerah → JAKIM zone. Keys are lowercase substrings to match against. */
-const DISTRICT_ZONES: Record<string, ZoneInfo> = {
-  // ── WILAYAH PERSEKUTUAN ─────────────────────────────────────────────────
-  'kuala lumpur':          { code: 'WLY01', label: 'W.P. Kuala Lumpur' },
-  'putrajaya':             { code: 'WLY01', label: 'W.P. Putrajaya' },
-  'labuan':                { code: 'WLY02', label: 'W.P. Labuan' },
-
-  // ── SELANGOR ────────────────────────────────────────────────────────────
-  'gombak':                { code: 'SGR01', label: 'Zon Gombak' },
-  'rawang':                { code: 'SGR01', label: 'Zon Gombak (Rawang)' },
-  'selayang':              { code: 'SGR01', label: 'Zon Gombak (Selayang)' },
-  'kuala selangor':        { code: 'SGR02', label: 'Zon Kuala Selangor' },
-  'sabak bernam':          { code: 'SGR02', label: 'Zon Sabak Bernam' },
-  'sungai besar':          { code: 'SGR02', label: 'Zon Sabak Bernam' },
-  'hulu langat':           { code: 'SGR03', label: 'Zon Hulu Langat' },
-  'hulu selangor':         { code: 'SGR03', label: 'Zon Hulu Selangor' },
-  'batang kali':           { code: 'SGR03', label: 'Zon Hulu Selangor' },
-  'petaling':              { code: 'SGR04', label: 'Zon Petaling' },
-  'shah alam':             { code: 'SGR04', label: 'Zon Petaling (Shah Alam)' },
-  'subang':                { code: 'SGR04', label: 'Zon Petaling (Subang)' },
-  'puchong':               { code: 'SGR04', label: 'Zon Petaling (Puchong)' },
-  'klang':                 { code: 'SGR04', label: 'Zon Klang' },
-  'port klang':            { code: 'SGR04', label: 'Zon Klang' },
-  'kuala langat':          { code: 'SGR04', label: 'Zon Kuala Langat' },
-  'sepang':                { code: 'SGR04', label: 'Zon Sepang' },
-  'cyberjaya':             { code: 'SGR04', label: 'Zon Sepang (Cyberjaya)' },
-  'dengkil':               { code: 'SGR04', label: 'Zon Sepang' },
-
-  // ── JOHOR ───────────────────────────────────────────────────────────────
-  'johor bahru':           { code: 'JHR02', label: 'Zon Johor Bahru' },
-  'iskandar puteri':       { code: 'JHR02', label: 'Zon Johor Bahru' },
-  'skudai':                { code: 'JHR02', label: 'Zon Johor Bahru' },
-  'pontian':               { code: 'JHR02', label: 'Zon Pontian' },
-  'batu pahat':            { code: 'JHR03', label: 'Zon Batu Pahat' },
-  'muar':                  { code: 'JHR03', label: 'Zon Muar' },
-  'kluang':                { code: 'JHR03', label: 'Zon Kluang' },
-  'segamat':               { code: 'JHR03', label: 'Zon Segamat' },
-  'mersing':               { code: 'JHR03', label: 'Zon Mersing' },
-  'kota tinggi':           { code: 'JHR03', label: 'Zon Kota Tinggi' },
-  'kulai':                 { code: 'JHR03', label: 'Zon Kulai' },
-
-  // ── KEDAH ───────────────────────────────────────────────────────────────
-  'kota setar':            { code: 'KDH01', label: 'Zon Kota Setar' },
-  'alor setar':            { code: 'KDH01', label: 'Zon Kota Setar (Alor Setar)' },
-  'kubang pasu':           { code: 'KDH01', label: 'Zon Kubang Pasu' },
-  'jitra':                 { code: 'KDH01', label: 'Zon Kubang Pasu (Jitra)' },
-  'pokok sena':            { code: 'KDH01', label: 'Zon Pokok Sena' },
-  'kuala muda':            { code: 'KDH02', label: 'Zon Kuala Muda' },
-  'sungai petani':         { code: 'KDH02', label: 'Zon Kuala Muda (Sg Petani)' },
-  'yan':                   { code: 'KDH02', label: 'Zon Yan' },
-  'padang terap':          { code: 'KDH03', label: 'Zon Padang Terap' },
-  'sik':                   { code: 'KDH03', label: 'Zon Sik' },
-  'baling':                { code: 'KDH04', label: 'Zon Baling' },
-  'bandar baharu':         { code: 'KDH05', label: 'Zon Bandar Baharu' },
-  'kulim':                 { code: 'KDH05', label: 'Zon Kulim' },
-  'langkawi':              { code: 'KDH06', label: 'Zon Langkawi' },
-
-  // ── KELANTAN ────────────────────────────────────────────────────────────
-  'bachok':                { code: 'KTN01', label: 'Zon Bachok' },
-  'kota bharu':            { code: 'KTN01', label: 'Zon Kota Bharu' },
-  'machang':               { code: 'KTN01', label: 'Zon Machang' },
-  'pasir mas':             { code: 'KTN01', label: 'Zon Pasir Mas' },
-  'pasir puteh':           { code: 'KTN01', label: 'Zon Pasir Puteh' },
-  'tanah merah':           { code: 'KTN01', label: 'Zon Tanah Merah' },
-  'tumpat':                { code: 'KTN01', label: 'Zon Tumpat' },
-  'kuala krai':            { code: 'KTN01', label: 'Zon Kuala Krai' },
-  'gua musang':            { code: 'KTN03', label: 'Zon Gua Musang' },
-  'jeli':                  { code: 'KTN03', label: 'Zon Jeli' },
-
-  // ── MELAKA ──────────────────────────────────────────────────────────────
-  'melaka tengah':         { code: 'MLK01', label: 'Zon Melaka' },
-  'alor gajah':            { code: 'MLK01', label: 'Zon Alor Gajah' },
-  'jasin':                 { code: 'MLK01', label: 'Zon Jasin' },
-
-  // ── NEGERI SEMBILAN ─────────────────────────────────────────────────────
-  'seremban':              { code: 'NGS01', label: 'Zon Seremban' },
-  'nilai':                 { code: 'NGS01', label: 'Zon Seremban (Nilai)' },
-  'jelebu':                { code: 'NGS01', label: 'Zon Jelebu' },
-  'kuala pilah':           { code: 'NGS01', label: 'Zon Kuala Pilah' },
-  'port dickson':          { code: 'NGS01', label: 'Zon Port Dickson' },
-  'rembau':                { code: 'NGS01', label: 'Zon Rembau' },
-  'tampin':                { code: 'NGS01', label: 'Zon Tampin' },
-  'jempol':                { code: 'NGS02', label: 'Zon Jempol' },
-  'bahau':                 { code: 'NGS02', label: 'Zon Jempol (Bahau)' },
-
-  // ── PAHANG ──────────────────────────────────────────────────────────────
-  'kuantan':               { code: 'PHG02', label: 'Zon Kuantan' },
-  'pekan':                 { code: 'PHG02', label: 'Zon Pekan' },
-  'rompin':                { code: 'PHG02', label: 'Zon Rompin' },
-  'maran':                 { code: 'PHG02', label: 'Zon Maran' },
-  'bentong':               { code: 'PHG03', label: 'Zon Bentong' },
-  'cameron highlands':     { code: 'PHG03', label: 'Zon Cameron Highlands' },
-  'raub':                  { code: 'PHG03', label: 'Zon Raub' },
-  'temerloh':              { code: 'PHG04', label: 'Zon Temerloh' },
-  'jerantut':              { code: 'PHG04', label: 'Zon Jerantut' },
-  'bera':                  { code: 'PHG05', label: 'Zon Bera' },
-  'lipis':                 { code: 'PHG06', label: 'Zon Lipis' },
-  'fraser':                { code: 'PHG03', label: 'Zon Fraser\'s Hill' },
-
-  // ── PERAK ───────────────────────────────────────────────────────────────
-  'tapah':                 { code: 'PRK01', label: 'Zon Tapah' },
-  'slim river':            { code: 'PRK01', label: 'Zon Slim River' },
-  'tanjung malim':         { code: 'PRK01', label: 'Zon Tanjung Malim' },
-  'kuala kangsar':         { code: 'PRK02', label: 'Zon Kuala Kangsar' },
-  'sungai siput':          { code: 'PRK02', label: 'Zon Sungai Siput' },
-  'ipoh':                  { code: 'PRK03', label: 'Zon Ipoh' },
-  'batu gajah':            { code: 'PRK03', label: 'Zon Batu Gajah' },
-  'kampar':                { code: 'PRK03', label: 'Zon Kampar' },
-  'kinta':                 { code: 'PRK03', label: 'Zon Kinta' },
-  'gopeng':                { code: 'PRK03', label: 'Zon Gopeng' },
-  'pengkalan hulu':        { code: 'PRK04', label: 'Zon Pengkalan Hulu' },
-  'grik':                  { code: 'PRK04', label: 'Zon Grik' },
-  'lenggong':              { code: 'PRK04', label: 'Zon Lenggong' },
-  'teluk intan':           { code: 'PRK06', label: 'Zon Teluk Intan' },
-  'bagan datuk':           { code: 'PRK06', label: 'Zon Bagan Datuk' },
-  'seri manjung':          { code: 'PRK06', label: 'Zon Seri Manjung' },
-  'manjung':               { code: 'PRK06', label: 'Zon Manjung' },
-  'sitiawan':              { code: 'PRK06', label: 'Zon Sitiawan' },
-
-  // ── PERLIS ──────────────────────────────────────────────────────────────
-  'kangar':                { code: 'PLS01', label: 'Zon Kangar' },
-  'arau':                  { code: 'PLS01', label: 'Zon Arau' },
-  'padang besar':          { code: 'PLS01', label: 'Zon Perlis' },
-
-  // ── PULAU PINANG ────────────────────────────────────────────────────────
-  'timur laut':            { code: 'PNG01', label: 'Zon Pulau Pinang' },
-  'barat daya':            { code: 'PNG01', label: 'Zon Pulau Pinang' },
-  'seberang perai utara':  { code: 'PNG01', label: 'Zon S. Perai Utara' },
-  'seberang perai tengah': { code: 'PNG01', label: 'Zon S. Perai Tengah' },
-  'seberang perai selatan':{ code: 'PNG01', label: 'Zon S. Perai Selatan' },
-  'george town':           { code: 'PNG01', label: 'Zon George Town' },
-  'butterworth':           { code: 'PNG01', label: 'Zon Butterworth' },
-  'penang hill':           { code: 'PNG01', label: 'Zon Pulau Pinang' },
-
-  // ── SABAH ───────────────────────────────────────────────────────────────
-  'kudat':                 { code: 'SBH02', label: 'Zon Kudat' },
-  'kota marudu':           { code: 'SBH02', label: 'Zon Kota Marudu' },
-  'pitas':                 { code: 'SBH02', label: 'Zon Pitas' },
-  'kota kinabalu':         { code: 'SBH03', label: 'Zon Kota Kinabalu' },
-  'penampang':             { code: 'SBH03', label: 'Zon Penampang' },
-  'tuaran':                { code: 'SBH03', label: 'Zon Tuaran' },
-  'ranau':                 { code: 'SBH03', label: 'Zon Ranau' },
-  'putatan':               { code: 'SBH03', label: 'Zon Putatan' },
-  'sandakan':              { code: 'SBH04', label: 'Zon Sandakan' },
-  'kinabatangan':          { code: 'SBH04', label: 'Zon Kinabatangan' },
-  'beluran':               { code: 'SBH04', label: 'Zon Beluran' },
-  'tawau':                 { code: 'SBH05', label: 'Zon Tawau' },
-  'lahad datu':            { code: 'SBH05', label: 'Zon Lahad Datu' },
-  'semporna':              { code: 'SBH05', label: 'Zon Semporna' },
-  'kunak':                 { code: 'SBH05', label: 'Zon Kunak' },
-  'keningau':              { code: 'SBH01', label: 'Zon Pedalaman' },
-  'tenom':                 { code: 'SBH01', label: 'Zon Pedalaman' },
-  'beaufort':              { code: 'SBH01', label: 'Zon Pantai Barat' },
-  'papar':                 { code: 'SBH01', label: 'Zon Papar' },
-
-  // ── SARAWAK ─────────────────────────────────────────────────────────────
-  'limbang':               { code: 'SWK01', label: 'Zon Limbang' },
-  'lawas':                 { code: 'SWK01', label: 'Zon Lawas' },
-  'miri':                  { code: 'SWK02', label: 'Zon Miri' },
-  'marudi':                { code: 'SWK02', label: 'Zon Marudi' },
-  'bintulu':               { code: 'SWK02', label: 'Zon Bintulu' },
-  'kuching':               { code: 'SWK03', label: 'Zon Kuching' },
-  'samarahan':             { code: 'SWK03', label: 'Zon Samarahan' },
-  'serian':                { code: 'SWK03', label: 'Zon Serian' },
-  'sri aman':              { code: 'SWK03', label: 'Zon Sri Aman' },
-  'lubok antu':            { code: 'SWK03', label: 'Zon Lubok Antu' },
-  'kapit':                 { code: 'SWK04', label: 'Zon Kapit' },
-  'belaga':                { code: 'SWK04', label: 'Zon Belaga' },
-  'sibu':                  { code: 'SWK05', label: 'Zon Sibu' },
-  'mukah':                 { code: 'SWK05', label: 'Zon Mukah' },
-  'kanowit':               { code: 'SWK05', label: 'Zon Kanowit' },
-
-  // ── TERENGGANU ──────────────────────────────────────────────────────────
-  'besut':                 { code: 'TRG01', label: 'Zon Besut' },
-  'setiu':                 { code: 'TRG01', label: 'Zon Setiu' },
-  'kemaman':               { code: 'TRG02', label: 'Zon Kemaman' },
-  'dungun':                { code: 'TRG03', label: 'Zon Dungun' },
-  'kuala terengganu':      { code: 'TRG04', label: 'Zon Kuala Terengganu' },
-  'marang':                { code: 'TRG04', label: 'Zon Marang' },
-  'hulu terengganu':       { code: 'TRG04', label: 'Zon Hulu Terengganu' },
-  'kuala berang':          { code: 'TRG04', label: 'Zon Kuala Berang' },
-}
-
-/** State-level fallback when no daerah match found */
-const STATE_FALLBACK: Record<string, ZoneInfo> = {
-  'federal territory of kuala lumpur': { code: 'WLY01', label: 'W.P. Kuala Lumpur' },
-  'federal territory of putrajaya':    { code: 'WLY01', label: 'W.P. Putrajaya' },
-  'federal territory of labuan':       { code: 'WLY02', label: 'W.P. Labuan' },
-  'selangor':       { code: 'SGR01', label: 'Zon Selangor' },
-  'johor':          { code: 'JHR02', label: 'Zon Johor Bahru' },
-  'kedah':          { code: 'KDH01', label: 'Zon Kedah' },
-  'kelantan':       { code: 'KTN01', label: 'Zon Kelantan' },
-  'melaka':         { code: 'MLK01', label: 'Zon Melaka' },
-  'negeri sembilan':{ code: 'NGS01', label: 'Zon Negeri Sembilan' },
-  'pahang':         { code: 'PHG02', label: 'Zon Pahang' },
-  'perak':          { code: 'PRK03', label: 'Zon Perak' },
-  'perlis':         { code: 'PLS01', label: 'Zon Perlis' },
-  'pulau pinang':   { code: 'PNG01', label: 'Zon Pulau Pinang' },
-  'penang':         { code: 'PNG01', label: 'Zon Pulau Pinang' },
-  'sabah':          { code: 'SBH03', label: 'Zon Sabah' },
-  'sarawak':        { code: 'SWK03', label: 'Zon Sarawak' },
-  'terengganu':     { code: 'TRG04', label: 'Zon Terengganu' },
-}
-
-function resolveZone(addr: {
-  state?: string; county?: string; city?: string
-  town?: string; village?: string; suburb?: string
-}): ZoneInfo {
-  // Build candidates from most specific to least specific
-  const candidates = [
-    addr.suburb, addr.village, addr.town, addr.city, addr.county,
-  ].filter(Boolean).map(s => s!.toLowerCase())
-
-  // Try each candidate against district keys (substring match)
-  for (const candidate of candidates) {
-    for (const [key, zone] of Object.entries(DISTRICT_ZONES)) {
-      if (candidate.includes(key) || key.includes(candidate)) return zone
-    }
-  }
-
-  // State-level fallback
-  const state = (addr.state ?? '').toLowerCase()
-  for (const [key, zone] of Object.entries(STATE_FALLBACK)) {
-    if (state.includes(key)) return zone
-  }
-
-  return { code: DEFAULT_ZONE, label: DEFAULT_LABEL }
-}
+import { DEFAULT_ZONE, DEFAULT_LABEL, type ZoneInfo } from '@/lib/prayer-zones'
 
 // Display order: Imsak is shown but not treated as a "next prayer" trigger
 const PRAYER_NAMES   = ['Imsak', 'Subuh', 'Syuruk', 'Zohor', 'Asr', 'Maghrib', 'Isyak'] as const
-// Maps PrayerNames index → JAKIM JSON key
-const JAKIM_KEY      = ['imsak', 'fajr', 'syuruk', 'dhuhr', 'asr', 'maghrib', 'isha'] as const
 // Only these are "call to prayer" entries for next-prayer calculation (skip Imsak & Syuruk)
 const IS_SOLAT_WAKTU = [false, true, false, true, true, true, true] as const
 // Maps index → imam_schedule DB key (null = no imam entry for that prayer)
 const IMAM_DB_KEY    = [null, 'fajr', null, 'dhuhr', 'asr', 'maghrib', 'isha'] as const
 
 type PrayerState = {
-  times:    string[]   // length 7, matching PRAYER_NAMES
-  nextIdx:  number     // index of the next solat waktu
-  hijri:    string
+  times:   string[]   // length 7, matching PRAYER_NAMES
+  nextIdx: number     // index of the next solat waktu
+  hijri:   string
 }
 
-/* ── JAKIM e-Solat API ────────────────────────────────────────────────────── */
-async function fetchFromJAKIM(zone: string): Promise<{ times: string[]; hijri: string }> {
-  const url = `https://www.e-solat.gov.my/index.php?r=esolatApi/takwimsolat&period=today&zone=${zone}`
-  const controller = new AbortController()
-  const timeout    = setTimeout(() => controller.abort(), 8000)
-  try {
-    const res  = await fetch(url, { signal: controller.signal, next: { revalidate: 3600 } })
-    clearTimeout(timeout)
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const json = await res.json()
-    if (json.status !== 'OK!') throw new Error('JAKIM API error')
-    const pt   = json.prayerTime?.[0]
-    if (!pt) throw new Error('No prayerTime data')
-    const times = JAKIM_KEY.map(k => (typeof pt[k] === 'string' ? (pt[k] as string).slice(0, 5) : '—'))
-    return { times, hijri: pt.hijri ?? '' }
-  } finally {
-    clearTimeout(timeout)
-  }
-}
-
-/* ── Aladhan fallback (same coordinates as masjid) ───────────────────────── */
-async function fetchFromAladhan(): Promise<{ times: string[]; hijri: string }> {
-  const d   = new Date()
-  const url = `https://api.aladhan.com/v1/timings/${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}?latitude=3.1716&longitude=101.5344&method=11`
-  const controller = new AbortController()
-  const timeout    = setTimeout(() => controller.abort(), 8000)
-  try {
-    const res  = await fetch(url, { signal: controller.signal })
-    clearTimeout(timeout)
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const json = await res.json()
-    const t    = json?.data?.timings
-    if (!t) throw new Error('No timings')
-    // Aladhan doesn't provide Imsak separately; approximate as Fajr − 10 min
-    const fajrMin = parseInt(t.Fajr?.slice(0, 2)) * 60 + parseInt(t.Fajr?.slice(3, 5))
-    const imsakMin = fajrMin - 10
-    const imsak = `${String(Math.floor(imsakMin / 60)).padStart(2, '0')}:${String(imsakMin % 60).padStart(2, '0')}`
-    const times: string[] = [
-      imsak,
-      t.Fajr?.slice(0, 5)    ?? '—',
-      t.Sunrise?.slice(0, 5) ?? '—',
-      t.Dhuhr?.slice(0, 5)   ?? '—',
-      t.Asr?.slice(0, 5)     ?? '—',
-      t.Maghrib?.slice(0, 5) ?? '—',
-      t.Isha?.slice(0, 5)    ?? '—',
-    ]
-    return { times, hijri: json?.data?.date?.hijri?.date ?? '' }
-  } finally {
-    clearTimeout(timeout)
-  }
+/* ── Server-side cached prayer API (proxies JAKIM, falls back to Aladhan) ── */
+async function fetchPrayerTimes(zone: string): Promise<{ times: string[]; hijri: string; source: 'jakim' | 'aladhan' }> {
+  const res = await fetch(`/api/prayer?zone=${encodeURIComponent(zone)}`, { cache: 'no-store' })
+  if (!res.ok) throw new Error(`API ${res.status}`)
+  const json = await res.json()
+  if (json.error) throw new Error(json.error)
+  const times = (json.times as (string | null)[]).map(t => t ?? '—')
+  return { times, hijri: json.hijri ?? '', source: json.source === 'jakim' ? 'jakim' : 'aladhan' }
 }
 
 function calcNextIdx(times: string[]): number {
   const now  = new Date()
   const hhmm = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
-  // Find the next solat waktu (skip Imsak index 0 and Syuruk index 2)
   for (let i = 0; i < times.length; i++) {
     if (IS_SOLAT_WAKTU[i] && times[i] !== '—' && times[i] > hhmm) return i
   }
@@ -337,14 +57,27 @@ type LocState = 'idle' | 'detecting' | 'done' | 'error'
 type DetectedZone = ZoneInfo & { city: string }
 
 export function PrayerTimesSection() {
-  const [state,        setState]        = useState<PrayerState | null>(null)
-  const [source,       setSource]       = useState<'jakim' | 'fallback' | null>(null)
-  const [loading,      setLoading]      = useState(true)
-  const [error,        setError]        = useState(false)
-  const [imamMap,      setImamMap]      = useState<Record<string, string>>({})
-  const [locState,     setLocState]     = useState<LocState>('idle')
-  const [detected,     setDetected]     = useState<DetectedZone | null>(null)
+  const [state,    setState]    = useState<PrayerState | null>(null)
+  const [source,   setSource]   = useState<'jakim' | 'fallback' | null>(null)
+  const [loading,  setLoading]  = useState(true)
+  const [error,    setError]    = useState(false)
+  const [imamMap,  setImamMap]  = useState<Record<string, string>>({})
+  const [locState, setLocState] = useState<LocState>('idle')
+  const [detected, setDetected] = useState<DetectedZone | null>(null)
   const fetched = useRef(false)
+
+  // Restore zone saved from previous detect
+  useEffect(() => {
+    try {
+      const saved      = localStorage.getItem('kariah_zone')
+      const savedLabel = localStorage.getItem('kariah_zone_label')
+      const savedCity  = localStorage.getItem('kariah_zone_city')
+      if (saved && savedLabel) {
+        setDetected({ code: saved, label: savedLabel, city: savedCity ?? '' })
+        setLocState('done')
+      }
+    } catch {}
+  }, [])
 
   const activeZone  = detected?.code  ?? DEFAULT_ZONE
   const activeLabel = detected?.label ?? DEFAULT_LABEL
@@ -353,14 +86,8 @@ export function PrayerTimesSection() {
     setLoading(true)
     setError(false)
     try {
-      let result: { times: string[]; hijri: string }
-      try {
-        result = await fetchFromJAKIM(zone)
-        setSource('jakim')
-      } catch {
-        result = await fetchFromAladhan()
-        setSource('fallback')
-      }
+      const result = await fetchPrayerTimes(zone)
+      setSource(result.source === 'jakim' ? 'jakim' : 'fallback')
       setState({ times: result.times, nextIdx: calcNextIdx(result.times), hijri: result.hijri })
     } catch {
       setError(true)
@@ -376,23 +103,18 @@ export function PrayerTimesSection() {
       async (pos) => {
         try {
           const { latitude: lat, longitude: lng } = pos.coords
-          const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
-            { headers: { 'Accept-Language': 'en' } }
-          )
+          // Resolve zone server-side (Nominatim + district lookup)
+          const res  = await fetch(`/api/prayer/zone?lat=${lat}&lng=${lng}`)
           const data = await res.json()
-          const addr = data.address ?? {}
-          const zone = resolveZone({
-            state:   addr.state,
-            county:  addr.county,
-            city:    addr.city,
-            town:    addr.town,
-            village: addr.village,
-            suburb:  addr.suburb,
-          })
-          const city = addr.city || addr.town || addr.village || addr.county || addr.state || ''
+          const zone: ZoneInfo = { code: data.code, label: data.label }
+          const city: string   = data.city ?? ''
           const det: DetectedZone = { ...zone, city }
           setDetected(det)
+          try {
+            localStorage.setItem('kariah_zone',       zone.code)
+            localStorage.setItem('kariah_zone_label', zone.label)
+            localStorage.setItem('kariah_zone_city',  city)
+          } catch {}
           setLocState('done')
           load(zone.code)
         } catch {
@@ -467,7 +189,7 @@ export function PrayerTimesSection() {
     )
   }
 
-  const now    = new Date()
+  const now     = new Date()
   const nowHHMM = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
 
   /* ── MAIN ── */
@@ -475,7 +197,7 @@ export function PrayerTimesSection() {
     <div style={panelStyle}>
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-10">
 
-        {/* Top row: official zone label + next prayer countdown */}
+        {/* Top row: zone label + next prayer countdown */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           gap: '16px', padding: '16px 0 14px', flexWrap: 'wrap',
@@ -485,11 +207,9 @@ export function PrayerTimesSection() {
               <MapPin style={{ width: '11px', height: '11px', color: '#52c97a', flexShrink: 0 }} />
               <span style={{
                 fontFamily: 'var(--font-jakarta)', fontSize: '11px',
-                fontWeight: 700, color: 'rgba(255,255,255,0.75)',
-                letterSpacing: '0.04em',
+                fontWeight: 700, color: 'rgba(255,255,255,0.75)', letterSpacing: '0.04em',
               }}>
-                {activeLabel}
-                {detected?.city && ` · ${detected.city}`}
+                {activeLabel}{detected?.city && ` · ${detected.city}`}
               </span>
               <span style={{
                 fontFamily: 'var(--font-jetbrains)', fontSize: '9px',
@@ -508,7 +228,7 @@ export function PrayerTimesSection() {
                 </span>
               )}
 
-              {/* ── Location detect button ── */}
+              {/* Location detect button */}
               <button
                 onClick={detectLocation}
                 disabled={locState === 'detecting'}
@@ -557,14 +277,13 @@ export function PrayerTimesSection() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(64px, 1fr))', minWidth: '448px' }}>
             {PRAYER_NAMES.map((name, i) => {
               const isNext = i === state.nextIdx
-              // Imsak and Syuruk are informational — show them dimmed
               const isInfo = !IS_SOLAT_WAKTU[i]
               const isPast = !isInfo && !isNext && state.times[i] !== '—' && state.times[i] < nowHHMM
               return (
                 <div
                   key={name}
                   style={{
-                    padding: '14px 6px',
+                    padding:      '14px 6px',
                     borderRight:  i < 6 ? '1px solid rgba(255,255,255,0.05)' : 'none',
                     borderBottom: isNext ? '2px solid #52c97a' : '2px solid transparent',
                     background:   isNext ? 'rgba(45,106,79,0.16)' : 'transparent',
