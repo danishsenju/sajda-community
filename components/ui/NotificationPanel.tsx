@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
-import { Bell, BookMarked, Megaphone, Calendar, ChevronRight, X, CheckCheck } from 'lucide-react'
+import { Bell, BookMarked, Megaphone, Calendar, ChevronRight, X, CheckCheck, Radio } from 'lucide-react'
 import { createClient } from '@/lib/supabase'
 
 type NotifItem = {
   id: string
-  type: 'announcement' | 'hadis' | 'program'
+  type: 'announcement' | 'hadis' | 'program' | 'live'
   title: string
   subtitle: string
   href: string
@@ -53,17 +53,23 @@ export function NotificationPanel() {
     return () => document.removeEventListener('keydown', handler)
   }, [open])
 
-  // Check unread count on mount (just count announcements since last seen)
+  // Check unread count on mount (announcements since last seen + active live stream)
   useEffect(() => {
     async function checkUnread() {
       try {
         const lastSeen = localStorage.getItem(LAST_SEEN_KEY) ?? '1970-01-01T00:00:00Z'
         const supabase = createClient()
-        const { count } = await supabase
-          .from('announcements')
-          .select('id', { count: 'exact', head: true })
-          .gt('created_at', lastSeen)
-        setUnread(count ?? 0)
+        const [{ count }, { data: live }] = await Promise.all([
+          supabase.from('announcements')
+            .select('id', { count: 'exact', head: true })
+            .gt('created_at', lastSeen),
+          supabase.from('live_streams')
+            .select('id')
+            .eq('is_active', true)
+            .limit(1)
+            .single(),
+        ])
+        setUnread((count ?? 0) + (live ? 1 : 0))
       } catch { /* ignore */ }
     }
     checkUnread()
@@ -78,7 +84,7 @@ export function NotificationPanel() {
       const today = new Date().toISOString().split('T')[0]
       const lastSeen = localStorage.getItem(LAST_SEEN_KEY) ?? '1970-01-01T00:00:00Z'
 
-      const [{ data: announcements }, { data: programs }] = await Promise.all([
+      const [{ data: announcements }, { data: programs }, { data: liveStream }] = await Promise.all([
         supabase.from('announcements')
           .select('id, title, content, category, created_at, is_pinned')
           .order('is_pinned', { ascending: false })
@@ -89,9 +95,29 @@ export function NotificationPanel() {
           .gte('program_date', today)
           .order('program_date')
           .limit(1),
+        supabase.from('live_streams')
+          .select('id, title')
+          .eq('is_active', true)
+          .limit(1)
+          .single(),
       ])
 
       const result: NotifItem[] = []
+
+      // Active live stream — pinned at very top when broadcasting
+      if (liveStream) {
+        result.push({
+          id: 'live-stream',
+          type: 'live',
+          title: 'Siaran Langsung',
+          subtitle: liveStream.title,
+          href: '/live',
+          color: '#EF4444',
+          bg: '#FEF2F2',
+          Icon: Radio,
+          isNew: true,
+        })
+      }
 
       // Hadis harian — always at top
       const dayOfYear = Math.floor(

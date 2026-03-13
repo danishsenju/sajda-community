@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { createClient } from '@/lib/supabase'
 import {
   Home, Heart, Calendar, BookOpen, HandCoins, User, ShieldCheck,
   X, BookMarked, Compass, Clock, Search, Building2,
@@ -211,6 +212,8 @@ export function Navbar() {
   const [adminOpen, setAdminOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [reduceMotion, setReduceMotion] = useState(false)
+  const [activeLive, setActiveLive] = useState<string | null>(null)
+  const liveChannelRef = useRef<ReturnType<ReturnType<typeof createClient>['channel']> | null>(null)
   const { theme, setTheme } = useTheme()
   const { size: textSize, changeSize } = useTextSize()
   const [themeMounted, setThemeMounted] = useState(false)
@@ -253,6 +256,19 @@ export function Navbar() {
     window.addEventListener('click', handler)
     return () => window.removeEventListener('click', handler)
   }, [toolsOpen])
+
+  useEffect(() => {
+    const supabase = createClient()
+    const fetchLive = () =>
+      supabase.from('live_streams').select('title').eq('is_active', true).limit(1).single()
+        .then(({ data }) => setActiveLive(data?.title ?? null))
+    fetchLive()
+    liveChannelRef.current = supabase
+      .channel('navbar_live')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'live_streams' }, fetchLive)
+      .subscribe()
+    return () => { if (liveChannelRef.current) supabase.removeChannel(liveChannelRef.current) }
+  }, [])
 
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href)
@@ -371,6 +387,27 @@ export function Navbar() {
 
         {/* Right — theme toggle + notifications + admin badge + auth */}
         <div className="flex items-center gap-2">
+          {activeLive && (
+            <Link
+              href="/live"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                padding: '5px 11px', borderRadius: '100px', textDecoration: 'none',
+                background: 'rgba(239,68,68,0.10)', border: '1px solid rgba(239,68,68,0.30)',
+              }}
+            >
+              <div style={{
+                width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
+                background: '#EF4444', animation: 'breathe 1.2s ease-in-out infinite',
+              }} />
+              <span style={{
+                fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                fontWeight: 700, color: '#EF4444', letterSpacing: '0.1em',
+              }}>
+                LIVE
+              </span>
+            </Link>
+          )}
           <ThemeToggle />
           <NotificationPanel />
 
@@ -434,6 +471,27 @@ export function Navbar() {
 
         {/* Right actions */}
         <div className="flex items-center gap-2">
+          {activeLive && (
+            <Link
+              href="/live"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '5px',
+                padding: '4px 9px', borderRadius: '100px', textDecoration: 'none',
+                background: 'rgba(239,68,68,0.10)', border: '1px solid rgba(239,68,68,0.30)',
+              }}
+            >
+              <div style={{
+                width: '5px', height: '5px', borderRadius: '50%', flexShrink: 0,
+                background: '#EF4444', animation: 'breathe 1.2s ease-in-out infinite',
+              }} />
+              <span style={{
+                fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+                fontWeight: 700, color: '#EF4444', letterSpacing: '0.08em',
+              }}>
+                LIVE
+              </span>
+            </Link>
+          )}
           {isAJK && (
             <button
               onClick={() => setAdminOpen(p => !p)}
