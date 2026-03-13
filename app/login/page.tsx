@@ -8,20 +8,23 @@ import { LoginForm } from './LoginForm'
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: { error?: string; message?: string; next?: string; mode?: string }
+  searchParams: Promise<{ error?: string; message?: string; next?: string; mode?: string }>
 }) {
+  // Next.js 15+ — searchParams is a Promise, must be awaited
+  const { error, message, next, mode } = await searchParams
+
   // Redirect already-authenticated users
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (user) redirect(searchParams.next ?? '/')
+  if (user) redirect(next ?? '/')
 
   return (
     <Suspense>
       <LoginForm
-        error={searchParams.error}
-        message={searchParams.message}
-        redirectTo={searchParams.next ?? '/'}
-        initialMode={(searchParams.mode === 'signup') ? 'signup' : 'login'}
+        error={error}
+        message={message}
+        redirectTo={next ?? '/'}
+        initialMode={mode === 'signup' ? 'signup' : 'login'}
       />
     </Suspense>
   )
