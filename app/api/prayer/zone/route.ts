@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { resolveZone, DEFAULT_ZONE, DEFAULT_LABEL } from '@/lib/prayer-zones'
+import { ZONE_LABELS, DEFAULT_ZONE, DEFAULT_LABEL } from '@/lib/prayer-zones'
 
 export async function GET(req: NextRequest) {
   const lat = req.nextUrl.searchParams.get('lat')
@@ -10,22 +10,15 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const res = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
-      { headers: { 'Accept-Language': 'en', 'User-Agent': 'KariahApp/1.0' } }
-    )
+    const res = await fetch(`https://api.waktusolat.app/zones/${lat}/${lng}`)
+    if (!res.ok) throw new Error(`waktusolat.app zones HTTP ${res.status}`)
     const data = await res.json()
-    const addr = data.address ?? {}
-    const zone = resolveZone({
-      state:   addr.state,
-      county:  addr.county,
-      city:    addr.city,
-      town:    addr.town,
-      village: addr.village,
-      suburb:  addr.suburb,
-    })
-    const city = addr.city || addr.town || addr.village || addr.county || addr.state || ''
-    return NextResponse.json({ ...zone, city })
+
+    const code: string = data.zone ?? DEFAULT_ZONE
+    const label: string = ZONE_LABELS[code] ?? DEFAULT_LABEL
+    const city: string = data.district || data.state || ''
+
+    return NextResponse.json({ code, label, city })
   } catch {
     return NextResponse.json({ code: DEFAULT_ZONE, label: DEFAULT_LABEL, city: '' })
   }

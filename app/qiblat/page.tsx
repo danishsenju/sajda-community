@@ -113,7 +113,10 @@ export default function QiblatPage() {
     }
   }, [status, startCompass])
 
+  // needleAngle: how far the needle is from pointing straight up (=user facing qibla)
   const needleAngle = qibla !== null ? (qibla - deviceHeading + 360) % 360 : 0
+  // isAligned: compass has data AND needle is within ±15° of straight up
+  const isAligned = compassReady && qibla !== null && (needleAngle <= 15 || needleAngle >= 345)
 
   return (
     <div style={{ background: 'var(--void)', minHeight: '100vh' }}>
@@ -285,18 +288,33 @@ export default function QiblatPage() {
             {/* ── COMPASS ── */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '32px' }}>
               <div style={{ position: 'relative', width: '260px', height: '260px' }}>
-                {/* Outer glow ring */}
+                {/* Outer glow ring — pulses bright green when aligned */}
                 <div style={{
                   position: 'absolute', inset: '-4px', borderRadius: '50%',
-                  background: 'radial-gradient(circle, rgba(82,201,122,0.1) 0%, transparent 70%)',
+                  background: isAligned
+                    ? 'radial-gradient(circle, rgba(82,201,122,0.35) 0%, transparent 70%)'
+                    : 'radial-gradient(circle, rgba(82,201,122,0.1) 0%, transparent 70%)',
                   filter: 'blur(8px)',
+                  transition: 'background 0.3s ease',
                 }} />
+                {/* Alignment ring — solid green circle border when aligned */}
+                {isAligned && (
+                  <div style={{
+                    position: 'absolute', inset: '-2px', borderRadius: '50%',
+                    border: '3px solid #52c97a',
+                    boxShadow: '0 0 20px rgba(82,201,122,0.6), inset 0 0 20px rgba(82,201,122,0.08)',
+                    animation: 'breathe 1.5s ease-in-out infinite',
+                  }} />
+                )}
                 {/* Main ring */}
                 <div style={{
                   position: 'absolute', inset: 0, borderRadius: '50%',
-                  border: '2px solid rgba(82,201,122,0.25)',
-                  background: 'radial-gradient(circle, rgba(82,201,122,0.05) 0%, transparent 60%)',
-                  boxShadow: '0 0 30px rgba(82,201,122,0.08)',
+                  border: isAligned ? '2px solid rgba(82,201,122,0.6)' : '2px solid rgba(82,201,122,0.25)',
+                  background: isAligned
+                    ? 'radial-gradient(circle, rgba(82,201,122,0.12) 0%, transparent 60%)'
+                    : 'radial-gradient(circle, rgba(82,201,122,0.05) 0%, transparent 60%)',
+                  boxShadow: isAligned ? '0 0 30px rgba(82,201,122,0.25)' : '0 0 30px rgba(82,201,122,0.08)',
+                  transition: 'all 0.3s ease',
                 }}>
                   {/* Inner ring */}
                   <div style={{
@@ -377,12 +395,49 @@ export default function QiblatPage() {
                 </div>
               </div>
 
+              {/* Aligned indicator */}
+              <div style={{
+                marginTop: '16px',
+                height: '32px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                {isAligned ? (
+                  <div style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '7px',
+                    padding: '6px 16px', borderRadius: '100px',
+                    background: 'rgba(82,201,122,0.15)',
+                    border: '1px solid rgba(82,201,122,0.45)',
+                  }}>
+                    <div style={{
+                      width: '7px', height: '7px', borderRadius: '50%',
+                      background: '#52c97a',
+                      boxShadow: '0 0 8px rgba(82,201,122,0.9)',
+                      animation: 'breathe 1.5s ease-in-out infinite',
+                    }} />
+                    <span style={{
+                      fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
+                      color: '#52c97a', letterSpacing: '0.04em',
+                    }}>
+                      Arah Kiblat Tepat
+                    </span>
+                  </div>
+                ) : (
+                  <span style={{
+                    fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                    color: 'var(--text-dim)',
+                  }}>
+                    {compassReady ? 'Pusing peranti ke arah kiblat' : 'Menunggu kompas…'}
+                  </span>
+                )}
+              </div>
+
               {/* Degree display */}
-              <div style={{ marginTop: '20px', textAlign: 'center' }}>
+              <div style={{ marginTop: '12px', textAlign: 'center' }}>
                 <p style={{
                   fontFamily: 'var(--font-jetbrains)', fontSize: '52px', fontWeight: 700,
-                  color: '#52c97a', lineHeight: 1,
-                  textShadow: '0 0 30px rgba(82,201,122,0.4)',
+                  color: isAligned ? '#52c97a' : 'rgba(82,201,122,0.75)', lineHeight: 1,
+                  textShadow: isAligned ? '0 0 30px rgba(82,201,122,0.6)' : '0 0 20px rgba(82,201,122,0.25)',
+                  transition: 'color 0.3s, text-shadow 0.3s',
                 }}>
                   {Math.round(qibla)}°
                 </p>

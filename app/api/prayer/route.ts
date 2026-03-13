@@ -1,9 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const JAKIM_KEYS = ['imsak', 'fajr', 'syuruk', 'dhuhr', 'asr', 'maghrib', 'isha'] as const
-
-// Cache per zone per day: key = "SGR01:2026-03-14"
+// Cache per zone per MYT day: key = "SGR01:2026-03-14"
 const memCache = new Map<string, { data: unknown; expires: number }>()
+
+/** Malaysia is UTC+8. Vercel runs UTC — always use this for correct date. */
+function mytDate(): { day: number; month: number; year: number; iso: string } {
+  const myt = new Date(Date.now() + 8 * 3600_000)
+  const day   = myt.getUTCDate()
+  const month = myt.getUTCMonth() + 1
+  const year  = myt.getUTCFullYear()
+  const iso   = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+  return { day, month, year, iso }
+}
+
+function imsakFromFajr(fajr: string): string {
+  const [h, m] = fajr.split(':').map(Number)
+  const total = h * 60 + m - 10
+  return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`
+}
 
 export async function GET(req: NextRequest) {
   const zone = req.nextUrl.searchParams.get('zone') ?? 'SGR01'
@@ -13,7 +27,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid zone' }, { status: 400 })
   }
 
-  const today = new Date().toISOString().slice(0, 10)
+  const { day, month, year, iso: today } = mytDate()
   const cacheKey = `${zone}:${today}`
 
   // In-memory cache hit
@@ -24,37 +38,42 @@ export async function GET(req: NextRequest) {
     })
   }
 
-  // Fetch from JAKIM
+  // Primary: waktusolat.app — explicit day+month+year using MYT date
   try {
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), 8000)
     const res = await fetch(
-      `https://www.e-solat.gov.my/index.php?r=esolatApi/takwimsolat&period=today&zone=${zone}`,
-      { signal: controller.signal, next: { revalidate: 3600 } }
+      `https://api.waktusolat.app/solat/${zone}/${day}?month=${month}&year=${year}`,
+      { signal: controller.signal }
     )
     clearTimeout(timeout)
 
-    if (!res.ok) throw new Error(`JAKIM HTTP ${res.status}`)
+    if (!res.ok) throw new Error(`waktusolat.app HTTP ${res.status}`)
     const json = await res.json()
-    if (json.status !== 'OK!') throw new Error('JAKIM status not OK')
+    if (json.status !== 'OK!') throw new Error('waktusolat.app status not OK')
 
-    const pt = json.prayerTime?.[0]
-    if (!pt) throw new Error('No prayerTime data')
+    // Single-day endpoint returns prayerTime as a plain object (not array)
+    const pt = json.prayerTime
+    if (!pt || typeof pt !== 'object' || Array.isArray(pt)) throw new Error('Unexpected prayerTime shape')
 
-    const times = JAKIM_KEYS.map(k => (typeof pt[k] === 'string' ? (pt[k] as string).slice(0, 5) : null))
+    const imsak = imsakFromFajr(pt.fajr as string)
+    const times = [imsak, pt.fajr, pt.syuruk, pt.dhuhr, pt.asr, pt.maghrib, pt.isha]
+      .map(t => (typeof t === 'string' ? t.slice(0, 5) : null))
     const payload = { source: 'jakim', zone, times, hijri: pt.hijri ?? '', date: today }
 
-    // Store in memory cache for 1 hour
-    memCache.set(cacheKey, { data: payload, expires: Date.now() + 3600_000 })
+    // Cache until start of next MYT day (avoids stale times after midnight MYT)
+    const nextMytMidnight = new Date(Date.now() + 8 * 3600_000)
+    nextMytMidnight.setUTCHours(16, 0, 0, 0) // 16:00 UTC = 00:00 MYT next day
+    if (nextMytMidnight.getTime() <= Date.now()) nextMytMidnight.setUTCDate(nextMytMidnight.getUTCDate() + 1)
+    memCache.set(cacheKey, { data: payload, expires: nextMytMidnight.getTime() })
 
     return NextResponse.json(payload, {
       headers: { 'X-Cache': 'MISS', 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=300' },
     })
   } catch (err) {
-    // Aladhan fallback — fixed KL coordinates (close enough for zone fallback)
+    // Aladhan fallback — method=11 (JAKIM), KL coordinates, with correct MYT date
     try {
-      const d = new Date()
-      const aladhanUrl = `https://api.aladhan.com/v1/timings/${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}?latitude=3.1716&longitude=101.5344&method=11`
+      const aladhanUrl = `https://api.aladhan.com/v1/timings/${day}-${month}-${year}?latitude=3.1716&longitude=101.5344&method=11`
       const controller2 = new AbortController()
       const timeout2 = setTimeout(() => controller2.abort(), 8000)
       const res2 = await fetch(aladhanUrl, { signal: controller2.signal })
@@ -64,10 +83,7 @@ export async function GET(req: NextRequest) {
       const t = json2?.data?.timings
       if (!t) throw new Error('No timings')
 
-      const fajrMin = parseInt(t.Fajr?.slice(0, 2)) * 60 + parseInt(t.Fajr?.slice(3, 5))
-      const imsakMin = fajrMin - 10
-      const imsak = `${String(Math.floor(imsakMin / 60)).padStart(2, '0')}:${String(imsakMin % 60).padStart(2, '0')}`
-
+      const imsak = imsakFromFajr(t.Fajr as string)
       const times = [imsak, t.Fajr?.slice(0,5), t.Sunrise?.slice(0,5), t.Dhuhr?.slice(0,5), t.Asr?.slice(0,5), t.Maghrib?.slice(0,5), t.Isha?.slice(0,5)]
       const payload = { source: 'aladhan', zone, times, hijri: json2?.data?.date?.hijri?.date ?? '', date: today }
 
