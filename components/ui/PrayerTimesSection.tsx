@@ -66,23 +66,10 @@ export function PrayerTimesSection() {
   const [detected, setDetected] = useState<DetectedZone | null>(null)
   const fetched = useRef(false)
 
-  // Restore zone saved from previous detect
-  useEffect(() => {
-    try {
-      const saved      = localStorage.getItem('kariah_zone')
-      const savedLabel = localStorage.getItem('kariah_zone_label')
-      const savedCity  = localStorage.getItem('kariah_zone_city')
-      if (saved && savedLabel) {
-        setDetected({ code: saved, label: savedLabel, city: savedCity ?? '' })
-        setLocState('done')
-      }
-    } catch {}
-  }, [])
-
   const activeZone  = detected?.code  ?? DEFAULT_ZONE
   const activeLabel = detected?.label ?? DEFAULT_LABEL
 
-  async function load(zone = activeZone) {
+  async function load(zone: string) {
     setLoading(true)
     setError(false)
     try {
@@ -129,8 +116,21 @@ export function PrayerTimesSection() {
   useEffect(() => {
     if (fetched.current) return
     fetched.current = true
+    // Read localStorage synchronously before calling load — avoids race condition
+    // where load() fires with DEFAULT_ZONE before setDetected() takes effect
+    let zone = DEFAULT_ZONE
+    try {
+      const saved      = localStorage.getItem('kariah_zone')
+      const savedLabel = localStorage.getItem('kariah_zone_label')
+      const savedCity  = localStorage.getItem('kariah_zone_city')
+      if (saved && savedLabel) {
+        zone = saved
+        setDetected({ code: saved, label: savedLabel, city: savedCity ?? '' })
+        setLocState('done')
+      }
+    } catch {}
     fetchTodayImams().then(setImamMap)
-    load()
+    load(zone)
   }, [])
 
   const panelStyle: React.CSSProperties = {
@@ -173,7 +173,7 @@ export function PrayerTimesSection() {
             Gagal memuatkan waktu solat
           </p>
           <button
-            onClick={() => { fetched.current = false; load() }}
+            onClick={() => { fetched.current = false; load(activeZone) }}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '6px',
               padding: '7px 14px', borderRadius: '100px',
