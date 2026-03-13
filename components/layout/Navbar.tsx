@@ -8,7 +8,7 @@ import {
   Home, Heart, Calendar, BookOpen, HandCoins, User, ShieldCheck,
   X, BookMarked, Compass, Clock, Search, Building2,
   ChevronDown, MoreHorizontal, Sparkles, Moon, CheckSquare, Sun, RotateCcw, Users,
-  LayoutDashboard, Megaphone, Settings, Type, Zap, ZapOff,
+  LayoutDashboard, Megaphone, Settings, Type, Zap, ZapOff, Radio,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUser } from '@/hooks/useUser'
@@ -30,6 +30,7 @@ const toolsCategories = [
   {
     label: 'Komuniti',
     items: [
+      { href: '/live',        label: 'Siaran Langsung', icon: Radio,    desc: 'Tonton siaran langsung masjid' },
       { href: '/halaqah',     label: 'Halaqah',      icon: Users,       desc: 'Tadarus & hafazan bersama jemaah' },
       { href: '/janaiz',      label: 'Papan Janaiz', icon: Heart,       desc: 'Notis kematian & takziah' },
       { href: '/cari-barang', label: 'Cari Barang',  icon: Search,      desc: 'Barang hilang & dijumpai' },

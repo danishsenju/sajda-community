@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic'
 import { createClient } from '@/lib/supabase-server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { LayoutDashboard, Building2, Megaphone, Heart, Calendar, BookOpen, HandCoins, PersonStanding, Users } from 'lucide-react'
+import { LayoutDashboard, Building2, Megaphone, Heart, Calendar, BookOpen, HandCoins, PersonStanding, Users, Radio } from 'lucide-react'
 import { AdminMobileFab } from '@/components/admin/AdminMobileFab'
 
 const navItems = [
@@ -15,6 +15,7 @@ const navItems = [
   { href: '/admin/kelas',         icon: BookOpen,         label: 'Kelas',      superadminOnly: false },
   { href: '/admin/derma',         icon: HandCoins,        label: 'Derma',      superadminOnly: false },
   { href: '/admin/imam',          icon: PersonStanding,   label: 'Imam',       superadminOnly: false },
+  { href: '/admin/live',          icon: Radio,            label: 'Live',       superadminOnly: false },
   { href: '/admin/pengguna',      icon: Users,            label: 'Pengguna',   superadminOnly: true  },
 ]
 
