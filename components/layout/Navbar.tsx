@@ -69,7 +69,7 @@ const bottomNav = [
   { href: '/',          label: 'Utama',     icon: Home },
   { href: '/keperluan', label: 'Keperluan', icon: Heart },
   { href: '/program',   label: 'Program',   icon: Calendar },
-  { href: '/kelas',     label: 'Kelas',     icon: BookOpen },
+  { href: '/live',      label: 'Live',      icon: Radio },
   { href: '/profile',   label: 'Profil',    icon: User },
 ]
 
@@ -199,6 +199,7 @@ const adminNavItems = [
   { href: '/admin/kelas',         icon: BookOpen,        label: 'Kelas'      },
   { href: '/admin/keperluan',     icon: Heart,           label: 'Keperluan'  },
   { href: '/admin/mosque',        icon: Building2,       label: 'Info Masjid'},
+  { href: '/admin/live',          icon: Radio,           label: 'Live'       },
   { href: '/admin/pengguna',      icon: Users,           label: 'Pengguna',  superadminOnly: true },
 ]
 
@@ -256,6 +257,8 @@ export function Navbar() {
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
+  const isToolsPageActive = toolsNav.some(item => isActive(item.href))
+
   return (
     <>
       {/* ── DESKTOP NAVBAR ── */}
@@ -302,11 +305,11 @@ export function Navbar() {
               onClick={(e) => { e.stopPropagation(); setToolsOpen(p => !p) }}
               className={cn(
                 'flex items-center gap-1 px-3 py-2 text-sm rounded-lg transition-all',
-                toolsOpen
+                toolsOpen || isToolsPageActive
                   ? 'bg-[rgba(45,106,79,0.06)] text-[var(--primary)]'
                   : 'hover:bg-[rgba(45,106,79,0.05)]'
               )}
-              style={{ fontFamily: 'var(--font-jakarta)', color: toolsOpen ? undefined : 'var(--text-secondary)' }}
+              style={{ fontFamily: 'var(--font-jakarta)', color: toolsOpen || isToolsPageActive ? undefined : 'var(--text-secondary)' }}
             >
               Lagi
               <ChevronDown className={cn('w-3.5 h-3.5 transition-transform duration-200', toolsOpen && 'rotate-180')} />
