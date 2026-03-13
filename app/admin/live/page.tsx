@@ -29,16 +29,19 @@ export default function AdminLivePage() {
   const [saving, setSaving]     = useState(false)
   const [form, setForm]         = useState({ title: '', url: '' })
   const [urlError, setUrlError] = useState('')
+  const [userId, setUserId]     = useState<string | null>(null)
 
-  async function load() {
-    const { data } = await supabase
+  useEffect(() => {
+    // getSession() is synchronous/cached — no network call
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUserId(session?.user?.id ?? null)
+    })
+    supabase
       .from('live_streams')
       .select('*')
       .order('created_at', { ascending: false })
-    setStreams(data ?? [])
-  }
-
-  useEffect(() => { load() }, [])
+      .then(({ data }) => setStreams(data ?? []))
+  }, [])
 
   function handleUrlChange(url: string) {
     setForm(p => ({ ...p, url }))
@@ -54,34 +57,41 @@ export default function AdminLivePage() {
     const platform = detectPlatform(form.url)
     if (!platform) { setUrlError('URL mesti dari YouTube atau Facebook'); return }
     setSaving(true)
-    const { data: { user } } = await supabase.auth.getUser()
-    await supabase.from('live_streams').insert({
+    const { data: inserted } = await supabase.from('live_streams').insert({
       title: form.title,
       url: form.url,
       platform,
       is_active: false,
-      created_by: user?.id,
-    })
+      created_by: userId,
+    }).select().single()
     setSaving(false)
     setOpen(false)
     setForm({ title: '', url: '' })
     setUrlError('')
-    load()
+    // Optimistic update — no extra load() round-trip
+    if (inserted) setStreams(prev => [inserted as LiveStream, ...prev])
   }
 
   async function toggleActive(id: string, currentlyActive: boolean) {
-    if (!currentlyActive) {
-      // Deactivate all first, then activate selected
-      await supabase.from('live_streams').update({ is_active: false }).neq('id', 'none')
+    const newActive = !currentlyActive
+    // Optimistic update immediately
+    setStreams(prev => prev.map(s => ({ ...s, is_active: newActive ? s.id === id : s.id === id ? false : s.is_active })))
+    // Run both DB updates in parallel when activating
+    if (newActive) {
+      await Promise.all([
+        supabase.from('live_streams').update({ is_active: false }).neq('id', id),
+        supabase.from('live_streams').update({ is_active: true }).eq('id', id),
+      ])
+    } else {
+      await supabase.from('live_streams').update({ is_active: false }).eq('id', id)
     }
-    await supabase.from('live_streams').update({ is_active: !currentlyActive }).eq('id', id)
-    load()
   }
 
   async function del(id: string) {
     if (!confirm('Padam siaran ini?')) return
+    // Optimistic update — remove immediately
+    setStreams(prev => prev.filter(s => s.id !== id))
     await supabase.from('live_streams').delete().eq('id', id)
-    load()
   }
 
   const platform = detectPlatform(form.url)
