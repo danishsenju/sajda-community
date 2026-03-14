@@ -18,7 +18,7 @@ export async function MemoriesFeed({ programId }: { programId: string }) {
     .order('created_at', { ascending: false })
     .limit(8)
 
-  const memories = (data ?? []) as Memory[]
+  const memories = (data ?? []) as unknown as Memory[]
 
   if (memories.length === 0) return null
 
