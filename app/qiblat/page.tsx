@@ -116,8 +116,8 @@ export default function QiblatPage() {
     if (typeof DevOri.requestPermission !== 'function') {
       const handler = startCompass()
       return () => {
-        window.removeEventListener('deviceorientationabsolute', handler as EventListener)
-        window.removeEventListener('deviceorientation', handler as EventListener)
+        window.removeEventListener('deviceorientationabsolute', handler as EventListener, true)
+        window.removeEventListener('deviceorientation', handler as EventListener, true)
       }
     }
   }, [status, startCompass])

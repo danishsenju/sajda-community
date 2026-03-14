@@ -135,8 +135,8 @@ export default function AdminImamPage() {
 
   const navBtn = (style?: React.CSSProperties): React.CSSProperties => ({
     width: '32px', height: '32px', borderRadius: '8px',
-    border: '1px solid rgba(255,255,255,0.09)', background: 'transparent',
-    color: 'rgba(255,255,255,0.55)', cursor: 'pointer',
+    border: '1px solid var(--border)', background: 'transparent',
+    color: 'var(--text-secondary)', cursor: 'pointer',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     ...style,
   })
@@ -147,17 +147,17 @@ export default function AdminImamPage() {
       <div style={{ marginBottom: '28px' }}>
         <p style={{
           fontFamily: 'var(--font-jakarta)', fontSize: '10px', letterSpacing: '0.22em',
-          textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', marginBottom: '6px',
+          textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: '6px',
         }}>
           Admin · Imam
         </p>
         <h1 style={{
           fontFamily: 'var(--font-playfair)', fontSize: '26px', fontWeight: 700,
-          color: 'rgba(255,255,255,0.88)', marginBottom: '4px',
+          color: 'var(--text-primary)', marginBottom: '4px',
         }}>
           Jadual Imam
         </h1>
-        <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>
+        <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)' }}>
           Urus senarai imam dan jadual solat berjemaah mingguan
         </p>
       </div>
@@ -165,16 +165,16 @@ export default function AdminImamPage() {
       {/* Tabs */}
       <div style={{
         display: 'flex', gap: '3px', marginBottom: '24px',
-        background: 'rgba(255,255,255,0.03)', borderRadius: '10px',
+        background: 'var(--elevated)', borderRadius: '10px',
         padding: '3px', width: 'fit-content',
-        border: '1px solid rgba(255,255,255,0.06)',
+        border: '1px solid var(--border)',
       }}>
         {([['jadual', 'Jadual Mingguan'], ['roster', 'Senarai Imam']] as const).map(([id, label]) => (
           <button key={id} onClick={() => setTab(id)} style={{
             padding: '7px 18px', borderRadius: '7px',
             background: tab === id ? 'rgba(82,201,122,0.14)' : 'transparent',
             border: tab === id ? '1px solid rgba(82,201,122,0.22)' : '1px solid transparent',
-            color: tab === id ? '#52c97a' : 'rgba(255,255,255,0.35)',
+            color: tab === id ? '#52c97a' : 'var(--text-dim)',
             fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
             transition: 'all 0.15s',
           }}>
@@ -193,7 +193,7 @@ export default function AdminImamPage() {
             </button>
             <span style={{
               fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 600,
-              color: 'rgba(255,255,255,0.75)', minWidth: '200px',
+              color: 'var(--text-primary)', minWidth: '200px',
             }}>
               {weekDates[0].toLocaleDateString('ms-MY', { day: 'numeric', month: 'short' })}
               {' – '}
@@ -226,16 +226,16 @@ export default function AdminImamPage() {
           )}
 
           {/* Schedule grid */}
-          <div style={{ overflowX: 'auto', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ overflowX: 'auto', borderRadius: '12px', border: '1px solid var(--border)' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '640px' }}>
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                <tr style={{ borderBottom: '1px solid var(--border)' }}>
                   <th style={{
                     padding: '12px 16px', textAlign: 'left', width: '80px',
                     fontFamily: 'var(--font-jakarta)', fontSize: '10px',
                     letterSpacing: '0.16em', textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.25)', fontWeight: 600,
-                    background: 'rgba(255,255,255,0.02)',
+                    color: 'var(--text-dim)', fontWeight: 600,
+                    background: 'var(--elevated)',
                   }}>
                     Solat
                   </th>
@@ -245,9 +245,9 @@ export default function AdminImamPage() {
                       <th key={i} style={{
                         padding: '12px 8px', textAlign: 'center',
                         fontFamily: 'var(--font-jakarta)', fontSize: '11px',
-                        color: isToday ? '#52c97a' : 'rgba(255,255,255,0.45)',
+                        color: isToday ? '#52c97a' : 'var(--text-secondary)',
                         fontWeight: isToday ? 700 : 500,
-                        background: isToday ? 'rgba(82,201,122,0.06)' : 'rgba(255,255,255,0.02)',
+                        background: isToday ? 'rgba(82,201,122,0.06)' : 'var(--elevated)',
                       }}>
                         <div>{DAY_LABELS[i]}</div>
                         <div style={{ fontSize: '10px', opacity: 0.65, marginTop: '2px' }}>
@@ -260,12 +260,12 @@ export default function AdminImamPage() {
               </thead>
               <tbody>
                 {PRAYERS.map((prayer, pi) => (
-                  <tr key={prayer} style={{ borderTop: pi > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                  <tr key={prayer} style={{ borderTop: pi > 0 ? '1px solid var(--elevated)' : 'none' }}>
                     <td style={{
                       padding: '10px 16px',
                       fontFamily: 'var(--font-jakarta)', fontSize: '12px',
-                      fontWeight: 600, color: 'rgba(255,255,255,0.55)',
-                      letterSpacing: '0.05em', background: 'rgba(255,255,255,0.01)',
+                      fontWeight: 600, color: 'var(--text-secondary)',
+                      letterSpacing: '0.05em', background: 'var(--elevated)',
                     }}>
                       {PRAYER_LABELS[prayer]}
                     </td>
@@ -288,20 +288,20 @@ export default function AdminImamPage() {
                               width: '100%', padding: '6px 8px', borderRadius: '7px',
                               border: currentId
                                 ? '1px solid rgba(82,201,122,0.28)'
-                                : '1px solid rgba(255,255,255,0.07)',
+                                : '1px solid var(--border)',
                               background: currentId
                                 ? 'rgba(82,201,122,0.09)'
-                                : 'rgba(255,255,255,0.03)',
-                              color: currentId ? '#52c97a' : 'rgba(255,255,255,0.28)',
+                                : 'var(--elevated)',
+                              color: currentId ? '#52c97a' : 'var(--text-dim)',
                               fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 500,
                               cursor: 'pointer', outline: 'none',
                               opacity: isSaving ? 0.5 : 1,
                               transition: 'all 0.15s',
                             }}
                           >
-                            <option value="" style={{ background: '#0C1E14', color: 'rgba(255,255,255,0.35)' }}>—</option>
+                            <option value="" style={{ background: 'var(--surface)', color: 'var(--text-dim)' }}>—</option>
                             {activeImams.map(im => (
-                              <option key={im.id} value={im.id} style={{ background: '#0C1E14', color: '#fff' }}>
+                              <option key={im.id} value={im.id} style={{ background: 'var(--surface)', color: 'var(--text-primary)' }}>
                                 {imamDisplay(im)}
                               </option>
                             ))}
@@ -317,7 +317,7 @@ export default function AdminImamPage() {
 
           <p style={{
             marginTop: '12px', fontFamily: 'var(--font-jakarta)', fontSize: '11px',
-            color: 'rgba(255,255,255,0.2)',
+            color: 'var(--text-dim)',
           }}>
             Perubahan disimpan secara automatik apabila anda memilih imam.
           </p>
@@ -328,7 +328,7 @@ export default function AdminImamPage() {
       {tab === 'roster' && (
         <div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-            <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'rgba(255,255,255,0.3)' }}>
+            <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)' }}>
               {imams.length} imam · {activeImams.length} aktif
             </p>
             <button
@@ -359,24 +359,24 @@ export default function AdminImamPage() {
               </p>
               <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
                 <div>
-                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'rgba(255,255,255,0.35)', marginBottom: '5px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', marginBottom: '5px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                     Gelaran <span style={{ opacity: 0.5 }}>(pilihan)</span>
                   </p>
                   <input
                     value={newTitle} onChange={e => setNewTitle(e.target.value)}
                     placeholder="Ustaz / Dr. / Hj."
-                    style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontFamily: 'var(--font-jakarta)', fontSize: '13px', outline: 'none', width: '150px' }}
+                    style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--elevated)', color: 'var(--text-primary)', fontFamily: 'var(--font-jakarta)', fontSize: '13px', outline: 'none', width: '150px' }}
                   />
                 </div>
                 <div>
-                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'rgba(255,255,255,0.35)', marginBottom: '5px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', marginBottom: '5px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                     Nama Penuh
                   </p>
                   <input
                     value={newName} onChange={e => setNewName(e.target.value)}
                     placeholder="Ahmad bin Abdullah"
                     onKeyDown={e => e.key === 'Enter' && addImam()}
-                    style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff', fontFamily: 'var(--font-jakarta)', fontSize: '13px', outline: 'none', width: '210px' }}
+                    style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--elevated)', color: 'var(--text-primary)', fontFamily: 'var(--font-jakarta)', fontSize: '13px', outline: 'none', width: '210px' }}
                   />
                 </div>
                 <button
@@ -386,7 +386,7 @@ export default function AdminImamPage() {
                 >
                   {addingImam ? 'Menyimpan...' : 'Simpan'}
                 </button>
-                <button onClick={() => { setShowAdd(false); setNewName(''); setNewTitle('') }} style={{ padding: '8px', background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer' }}>
+                <button onClick={() => { setShowAdd(false); setNewName(''); setNewTitle('') }} style={{ padding: '8px', background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }}>
                   <X style={{ width: '16px', height: '16px' }} />
                 </button>
               </div>
@@ -397,10 +397,10 @@ export default function AdminImamPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {loading ? (
               Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} style={{ height: '60px', borderRadius: '10px', background: 'rgba(255,255,255,0.04)', animation: 'breathe 1.5s ease-in-out infinite' }} />
+                <div key={i} style={{ height: '60px', borderRadius: '10px', background: 'var(--elevated)', animation: 'breathe 1.5s ease-in-out infinite' }} />
               ))
             ) : imams.length === 0 ? (
-              <div style={{ padding: '48px', textAlign: 'center', color: 'rgba(255,255,255,0.2)', fontFamily: 'var(--font-jakarta)', fontSize: '13px' }}>
+              <div style={{ padding: '48px', textAlign: 'center', color: 'var(--text-dim)', fontFamily: 'var(--font-jakarta)', fontSize: '13px' }}>
                 Belum ada imam didaftarkan. Tambah imam pertama anda.
               </div>
             ) : imams.map(im => (
@@ -409,35 +409,35 @@ export default function AdminImamPage() {
                 style={{
                   display: 'flex', alignItems: 'center', gap: '12px',
                   padding: '12px 14px', borderRadius: '10px',
-                  border: '1px solid rgba(255,255,255,0.06)',
-                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid var(--border)',
+                  background: 'var(--elevated)',
                   opacity: im.is_active ? 1 : 0.45,
                   transition: 'opacity 0.2s',
                 }}
               >
                 <div style={{
                   width: '38px', height: '38px', borderRadius: '50%', flexShrink: 0,
-                  background: im.is_active ? 'rgba(82,201,122,0.12)' : 'rgba(255,255,255,0.04)',
-                  border: `1px solid ${im.is_active ? 'rgba(82,201,122,0.2)' : 'rgba(255,255,255,0.07)'}`,
+                  background: im.is_active ? 'rgba(82,201,122,0.12)' : 'var(--elevated)',
+                  border: `1px solid ${im.is_active ? 'rgba(82,201,122,0.2)' : 'var(--border)'}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
-                  <User style={{ width: '16px', height: '16px', color: im.is_active ? '#52c97a' : 'rgba(255,255,255,0.2)' }} />
+                  <User style={{ width: '16px', height: '16px', color: im.is_active ? '#52c97a' : 'var(--text-dim)' }} />
                 </div>
 
                 {editId === im.id ? (
                   <div style={{ flex: 1, display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
-                    <input value={editTitle} onChange={e => setEditTitle(e.target.value)} placeholder="Gelaran" style={{ padding: '5px 10px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.06)', color: '#fff', fontFamily: 'var(--font-jakarta)', fontSize: '12px', outline: 'none', width: '130px' }} />
-                    <input value={editName} onChange={e => setEditName(e.target.value)} placeholder="Nama penuh" style={{ padding: '5px 10px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.06)', color: '#fff', fontFamily: 'var(--font-jakarta)', fontSize: '12px', outline: 'none', width: '190px' }} onKeyDown={e => e.key === 'Enter' && saveEdit(im.id)} />
+                    <input value={editTitle} onChange={e => setEditTitle(e.target.value)} placeholder="Gelaran" style={{ padding: '5px 10px', borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--border)', color: 'var(--text-primary)', fontFamily: 'var(--font-jakarta)', fontSize: '12px', outline: 'none', width: '130px' }} />
+                    <input value={editName} onChange={e => setEditName(e.target.value)} placeholder="Nama penuh" style={{ padding: '5px 10px', borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--border)', color: 'var(--text-primary)', fontFamily: 'var(--font-jakarta)', fontSize: '12px', outline: 'none', width: '190px' }} onKeyDown={e => e.key === 'Enter' && saveEdit(im.id)} />
                     <button onClick={() => saveEdit(im.id)} style={{ padding: '5px 14px', borderRadius: '6px', background: '#52c97a', color: '#04080A', border: 'none', fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>Simpan</button>
-                    <button onClick={() => setEditId(null)} style={{ padding: '5px', background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer' }}><X style={{ width: '14px', height: '14px' }} /></button>
+                    <button onClick={() => setEditId(null)} style={{ padding: '5px', background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }}><X style={{ width: '14px', height: '14px' }} /></button>
                   </div>
                 ) : (
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '14px', fontWeight: 600, color: 'rgba(255,255,255,0.82)' }}>
+                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>
                       {im.title && <span style={{ color: 'rgba(82,201,122,0.75)', marginRight: '5px' }}>{im.title}</span>}
                       {im.name}
                     </p>
-                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'rgba(255,255,255,0.22)', marginTop: '1px', letterSpacing: '0.08em' }}>
+                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', marginTop: '1px', letterSpacing: '0.08em' }}>
                       {im.is_active ? 'Aktif' : 'Tidak aktif'}
                     </p>
                   </div>
@@ -447,7 +447,7 @@ export default function AdminImamPage() {
                   <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
                     <button
                       onClick={() => { setEditId(im.id); setEditName(im.name); setEditTitle(im.title ?? '') }}
-                      style={{ padding: '5px 12px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-jakarta)', fontSize: '11px', cursor: 'pointer' }}
+                      style={{ padding: '5px 12px', borderRadius: '6px', border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-secondary)', fontFamily: 'var(--font-jakarta)', fontSize: '11px', cursor: 'pointer' }}
                     >
                       Edit
                     </button>
