@@ -62,7 +62,7 @@ export default async function BilalPage() {
   const schedMap: Record<string, Record<string, string>> = {}
   for (const row of (scheduleRows ?? [])) {
     if (!schedMap[row.date]) schedMap[row.date] = {}
-    schedMap[row.date][row.prayer] = row.bilal_id
+    if (row.bilal_id) schedMap[row.date][row.prayer] = row.bilal_id
   }
 
   const weekLabel = `${weekDates[0].toLocaleDateString('ms-MY', { day: 'numeric', month: 'short' })} – ${weekDates[6].toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' })}`
