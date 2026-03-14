@@ -226,7 +226,7 @@ export default async function BilalPage() {
                         padding: '8px 16px',
                         borderTop: pi > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none',
                       }}>
-                        <div style={{ display: 'flex', items: 'center', gap: '8px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                           <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--text-secondary)', minWidth: '56px' }}>
                             {PRAYER_LABELS[prayer].ms}
                           </span>
