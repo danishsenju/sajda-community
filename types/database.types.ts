@@ -90,6 +90,90 @@ export interface Database {
         }
         Relationships: []
       }
+      program_memories: {
+        Row: {
+          id: string
+          program_id: string
+          user_id: string
+          reflection: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          program_id: string
+          user_id: string
+          reflection?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          program_id?: string
+          user_id?: string
+          reflection?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      bilals: {
+        Row: {
+          id: string
+          name: string
+          phone: string | null
+          notes: string | null
+          is_active: boolean
+          created_by: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          phone?: string | null
+          notes?: string | null
+          is_active?: boolean
+          created_by?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          phone?: string | null
+          notes?: string | null
+          is_active?: boolean
+          created_by?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      bilal_schedule: {
+        Row: {
+          id: string
+          date: string
+          prayer: string
+          bilal_id: string | null
+          notes: string | null
+          created_by: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          date: string
+          prayer: string
+          bilal_id?: string | null
+          notes?: string | null
+          created_by?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          date?: string
+          prayer?: string
+          bilal_id?: string | null
+          notes?: string | null
+          created_by?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
       prayer_times: {
         Row: {
           id: string

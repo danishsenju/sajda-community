@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Megaphone, Calendar, BookOpen,
-  Heart, Building2, Users, X, ShieldCheck, Plus,
+  Heart, Building2, Users, X, ShieldCheck, PersonStanding, Mic,
 } from 'lucide-react'
 
 const quickLinks = [
@@ -15,6 +15,8 @@ const quickLinks = [
   { href: '/admin/kelas',         icon: BookOpen,        label: 'Kelas'          },
   { href: '/admin/keperluan',     icon: Heart,           label: 'Keperluan'      },
   { href: '/admin/mosque',        icon: Building2,       label: 'Info Masjid'    },
+  { href: '/admin/imam',          icon: PersonStanding,  label: 'Imam'           },
+  { href: '/admin/bilal',         icon: Mic,             label: 'Bilal'          },
   { href: '/admin/pengguna',      icon: Users,           label: 'Pengguna',      superadminOnly: true },
 ]
 

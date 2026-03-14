@@ -9,7 +9,7 @@ import {
   Home, Heart, Calendar, BookOpen, HandCoins, User, ShieldCheck,
   X, BookMarked, Compass, Clock, Search, Building2,
   ChevronDown, MoreHorizontal, Sparkles, Moon, CheckSquare, Sun, RotateCcw, Users,
-  LayoutDashboard, Megaphone, Settings, Type, Zap, ZapOff, Radio,
+  LayoutDashboard, Megaphone, Settings, Type, Zap, ZapOff, Radio, Mic, PersonStanding,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUser } from '@/hooks/useUser'
@@ -24,41 +24,33 @@ const primaryNav = [
   { href: '/keperluan', label: 'Keperluan' },
   { href: '/program',   label: 'Program' },
   { href: '/kelas',     label: 'Kelas' },
-  { href: '/derma',     label: 'Derma' },
 ]
 
 const toolsCategories = [
   {
     label: 'Komuniti',
     items: [
-      { href: '/live',        label: 'Siaran Langsung', icon: Radio,    desc: 'Tonton siaran langsung masjid' },
-      { href: '/halaqah',     label: 'Halaqah',      icon: Users,       desc: 'Tadarus & hafazan bersama jemaah' },
-      { href: '/janaiz',      label: 'Papan Janaiz', icon: Heart,       desc: 'Notis kematian & takziah' },
-      { href: '/cari-barang', label: 'Cari Barang',  icon: Search,      desc: 'Barang hilang & dijumpai' },
+      { href: '/live',        label: 'Siaran Langsung', icon: Radio,       desc: 'Tonton siaran langsung masjid' },
+      { href: '/janaiz',      label: 'Papan Janaiz',    icon: Heart,       desc: 'Notis kematian & takziah' },
+      { href: '/cari-barang', label: 'Cari Barang',     icon: Search,      desc: 'Barang hilang & dijumpai' },
+      { href: '/bilal',       label: 'Jadual Bilal',    icon: Mic,         desc: 'Jadual bilal mingguan' },
     ],
   },
   {
-    label: 'Ibadah Harian',
+    label: 'Ibadah & Ilmu',
     items: [
-      { href: '/solat',   label: 'Jejak Solat',    icon: CheckSquare, desc: 'Rekod solat harian & streak' },
-      { href: '/tasbih',  label: 'Tasbih Digital', icon: RotateCcw,   desc: 'Zikir dengan pembilang digital' },
-      { href: '/wirid',   label: 'Wirid Harian',   icon: Sun,         desc: 'Amalan pagi dan petang' },
+      { href: '/solat',    label: 'Jejak Solat',    icon: CheckSquare, desc: 'Rekod solat harian & streak' },
+      { href: '/hadis',    label: 'Hadis Harian',   icon: BookMarked,  desc: 'Hadis pilihan setiap hari' },
+      { href: '/hijri',    label: 'Kalendar Hijri', icon: Moon,        desc: 'Kalendar Islam Malaysia' },
     ],
   },
   {
-    label: 'Ilmu & Rohani',
+    label: 'Masjid',
     items: [
-      { href: '/hadis',    label: 'Hadis Harian',    icon: BookMarked, desc: 'Hadis pilihan setiap hari' },
-      { href: '/tazkirah', label: 'Tazkirah Harian', icon: Sparkles,   desc: 'Ayat Al-Quran harian dalam BM' },
-      { href: '/hijri',    label: 'Kalendar Hijri',  icon: Moon,       desc: 'Kalendar Islam Malaysia' },
-    ],
-  },
-  {
-    label: 'Utiliti',
-    items: [
-      { href: '/qiblat',     label: 'Qiblat',        icon: Compass,  desc: 'Arah kiblat dari lokasi anda' },
-      { href: '/buka-puasa', label: 'Waktu Berbuka', icon: Clock,    desc: 'Kiraan masa berbuka puasa' },
-      { href: '/masjid',     label: 'Info Masjid',   icon: Building2,desc: 'Lokasi, kemudahan & kenalan' },
+      { href: '/masjid',     label: 'Info Masjid',   icon: Building2, desc: 'Lokasi, kemudahan & kenalan' },
+      { href: '/derma',      label: 'Derma',         icon: HandCoins, desc: 'Tabung & derma masjid' },
+      { href: '/qiblat',     label: 'Qiblat',        icon: Compass,   desc: 'Arah kiblat dari lokasi anda' },
+      { href: '/buka-puasa', label: 'Waktu Berbuka', icon: Clock,     desc: 'Kiraan masa berbuka puasa' },
     ],
   },
 ]
@@ -200,6 +192,8 @@ const adminNavItems = [
   { href: '/admin/kelas',         icon: BookOpen,        label: 'Kelas'      },
   { href: '/admin/keperluan',     icon: Heart,           label: 'Keperluan'  },
   { href: '/admin/mosque',        icon: Building2,       label: 'Info Masjid'},
+  { href: '/admin/imam',          icon: PersonStanding,  label: 'Imam'       },
+  { href: '/admin/bilal',         icon: Mic,             label: 'Bilal'      },
   { href: '/admin/live',          icon: Radio,           label: 'Live'       },
   { href: '/admin/pengguna',      icon: Users,           label: 'Pengguna',  superadminOnly: true },
 ]
@@ -337,49 +331,46 @@ export function Navbar() {
                 style={{
                   background: 'var(--surface)', borderColor: 'var(--border)',
                   boxShadow: '0 8px 32px rgba(0,0,0,0.50)',
-                  width: '480px',
+                  width: '220px',
+                  padding: '6px',
                 }}
                 onClick={e => e.stopPropagation()}
               >
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0' }}>
-                  {toolsCategories.map((cat, ci) => (
-                    <div key={cat.label} style={{
-                      padding: '12px 10px',
-                      borderRight: ci % 2 === 0 ? '1px solid var(--border)' : 'none',
-                      borderBottom: ci < 2 ? '1px solid var(--border)' : 'none',
+                {toolsCategories.map((cat, ci) => (
+                  <div key={cat.label}>
+                    {ci > 0 && <div style={{ height: '1px', background: 'var(--border)', margin: '4px 0' }} />}
+                    <p style={{
+                      fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                      letterSpacing: '0.16em', textTransform: 'uppercase',
+                      color: 'var(--text-dim)', padding: '6px 10px 4px',
                     }}>
-                      <p style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
-                        letterSpacing: '0.16em', textTransform: 'uppercase',
-                        color: 'var(--text-dim)', padding: '2px 8px 8px',
-                      }}>
-                        {cat.label}
-                      </p>
-                      {cat.items.map(item => {
-                        const active = isActive(item.href)
-                        const Icon = item.icon
-                        return (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            className="flex items-center gap-2.5 px-2 py-2 rounded-xl transition-colors hover:bg-[rgba(45,106,79,0.05)]"
-                            onClick={() => setToolsOpen(false)}
-                          >
-                            <div
-                              className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-                              style={{ background: active ? 'var(--primary)' : 'var(--primary-pale)' }}
-                            >
-                              <Icon className="w-3.5 h-3.5" style={{ color: active ? '#fff' : 'var(--primary)' }} />
-                            </div>
-                            <span className="text-sm font-medium" style={{ color: active ? 'var(--primary)' : 'var(--text-primary)', fontFamily: 'var(--font-jakarta)' }}>
-                              {item.label}
-                            </span>
-                          </Link>
-                        )
-                      })}
-                    </div>
-                  ))}
-                </div>
+                      {cat.label}
+                    </p>
+                    {cat.items.map(item => {
+                      const active = isActive(item.href)
+                      const Icon = item.icon
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className="flex items-center gap-2.5 px-2 py-2 rounded-lg transition-colors hover:bg-[rgba(45,106,79,0.06)]"
+                          onClick={() => setToolsOpen(false)}
+                        >
+                          <Icon
+                            className="w-3.5 h-3.5 flex-shrink-0"
+                            style={{ color: active ? 'var(--primary)' : 'var(--text-dim)' }}
+                          />
+                          <span className="text-sm" style={{
+                            color: active ? 'var(--primary)' : 'var(--text-secondary)',
+                            fontFamily: 'var(--font-jakarta)', fontWeight: active ? 600 : 400,
+                          }}>
+                            {item.label}
+                          </span>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                ))}
               </div>
             )}
           </div>
@@ -567,39 +558,14 @@ export function Navbar() {
             {/* Content */}
             <div className="flex-1 overflow-y-auto p-3">
 
-              {/* Primary nav */}
-              <p className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-2 px-2 mt-1" style={{ fontFamily: 'var(--font-jakarta)', color: 'var(--text-dim)' }}>
-                Navigasi
-              </p>
-              <div className="flex flex-col gap-0.5 mb-4">
-                {primaryNav.map((item) => {
-                  const active = isActive(item.href)
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all text-sm font-medium"
-                      style={{
-                        background: active ? 'var(--primary-pale)' : 'transparent',
-                        color: active ? 'var(--primary)' : 'var(--text-secondary)',
-                        fontFamily: 'var(--font-jakarta)',
-                      }}
-                    >
-                      {item.label}
-                    </Link>
-                  )
-                })}
-              </div>
-
-              {/* Tools — categorised */}
+              {/* Tools — flat list per category */}
               {toolsCategories.map((cat, ci) => (
-                <div key={cat.label} className={ci < toolsCategories.length - 1 ? 'mb-4' : ''}>
-                  <p className="text-[9px] font-bold tracking-[0.18em] uppercase mb-1.5 px-2"
+                <div key={cat.label} className={ci < toolsCategories.length - 1 ? 'mb-2' : ''}>
+                  <p className="text-[9px] font-bold tracking-[0.18em] uppercase mb-1 px-2 pt-2"
                     style={{ fontFamily: 'var(--font-jakarta)', color: 'var(--text-dim)' }}>
                     {cat.label}
                   </p>
-                  {/* 3-column icon grid */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4px' }}>
+                  <div className="flex flex-col gap-0.5">
                     {cat.items.map(item => {
                       const active = isActive(item.href)
                       const Icon = item.icon
@@ -608,24 +574,20 @@ export function Navbar() {
                           key={item.href}
                           href={item.href}
                           style={{
-                            display: 'flex', flexDirection: 'column', alignItems: 'center',
-                            gap: '5px', padding: '10px 6px', borderRadius: '12px', textDecoration: 'none',
-                            background: active ? 'var(--primary-pale)' : 'var(--void)',
-                            border: `1px solid ${active ? 'rgba(34,197,94,0.25)' : 'var(--border)'}`,
-                            transition: 'all 0.15s',
+                            display: 'flex', alignItems: 'center', gap: '10px',
+                            padding: '9px 10px', borderRadius: '10px', textDecoration: 'none',
+                            background: active ? 'var(--primary-pale)' : 'transparent',
+                            transition: 'all 0.12s',
                           }}
                         >
-                          <div style={{
-                            width: '30px', height: '30px', borderRadius: '9px',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                            background: active ? 'var(--primary)' : 'var(--elevated)',
-                          }}>
-                            <Icon style={{ width: '14px', height: '14px', color: active ? '#fff' : 'var(--primary)' }} />
-                          </div>
+                          <Icon style={{
+                            width: '15px', height: '15px', flexShrink: 0,
+                            color: active ? 'var(--primary)' : 'var(--text-dim)',
+                          }} />
                           <span style={{
-                            fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 600,
+                            fontFamily: 'var(--font-jakarta)', fontSize: '13px',
+                            fontWeight: active ? 600 : 400,
                             color: active ? 'var(--primary)' : 'var(--text-secondary)',
-                            textAlign: 'center', lineHeight: 1.2,
                           }}>
                             {item.label}
                           </span>
@@ -633,6 +595,9 @@ export function Navbar() {
                       )
                     })}
                   </div>
+                  {ci < toolsCategories.length - 1 && (
+                    <div style={{ height: '1px', background: 'var(--border)', margin: '8px 0 0' }} />
+                  )}
                 </div>
               ))}
             </div>

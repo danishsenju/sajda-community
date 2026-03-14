@@ -7,6 +7,8 @@ import Link from 'next/link'
 import { ArrowLeft, Calendar, MapPin, Users, Clock } from 'lucide-react'
 import { formatDate, formatTime } from '@/lib/utils'
 import { VolunteerButton } from './VolunteerButton'
+import { KenaganPanel } from './KenaganPanel'
+import { MemoriesFeed } from './MemoriesFeed'
 
 const CATEGORY_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
   solat:         { label: 'Solat',         color: '#2D6A4F', bg: '#E8F5EE' },
@@ -24,6 +26,8 @@ export default async function ProgramDetailPage({
   const { id } = await params
   const supabase = await createClient()
 
+  const { data: { user } } = await supabase.auth.getUser()
+
   const { data: program } = await supabase
     .from('programs')
     .select('*, volunteer_signups(id, user_id, status)')
@@ -35,6 +39,20 @@ export default async function ProgramDetailPage({
 
   const signups = (program.volunteer_signups as unknown as { id: string; user_id: string; status: string }[]) ?? []
   const confirmedCount = signups.filter((s) => s.status === 'confirmed').length
+
+  // Check if current user has a confirmed signup
+  const userSignedUp = user ? signups.some(s => s.user_id === user.id && s.status === 'confirmed') : false
+
+  // Fetch existing memory for this user (if any)
+  const existingMemory = user && userSignedUp
+    ? await supabase
+        .from('program_memories')
+        .select('reflection')
+        .eq('program_id', id)
+        .eq('user_id', user.id)
+        .single()
+        .then(r => r.data?.reflection ?? null)
+    : null
   const slots = program.volunteer_slots
   const slotsFull = slots > 0 && confirmedCount >= slots
   const isPast = new Date(program.program_date) < new Date()
@@ -147,6 +165,21 @@ export default async function ProgramDetailPage({
             )}
           </div>
         )}
+
+        {/* Kenangan panel — shown if user has confirmed signup */}
+        {userSignedUp && user && (
+          <KenaganPanel
+            programId={program.id}
+            userId={user.id}
+            programTitle={program.title}
+            programDate={program.program_date}
+            programCategory={program.category}
+            existingReflection={existingMemory}
+          />
+        )}
+
+        {/* Memories feed */}
+        <MemoriesFeed programId={program.id} />
       </div>
     </div>
   )
