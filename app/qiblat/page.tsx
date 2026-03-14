@@ -43,15 +43,24 @@ export default function QiblatPage() {
   const [needsOrientationPermission, setNeedsOrientationPermission] = useState(false)
 
   const startCompass = useCallback(() => {
+    let hasAbsolute = false
+
     const handler = (e: DeviceOrientationEvent) => {
       const h = (e as any).webkitCompassHeading
       if (h != null) {
+        // iOS — webkitCompassHeading is already clockwise from true north
         setDeviceHeading(h)
         setCompassReady(true)
+        hasAbsolute = true
       } else if (e.absolute && e.alpha != null) {
+        // Android absolute — alpha is CCW from north, convert to CW
         setDeviceHeading((360 - e.alpha + 360) % 360)
         setCompassReady(true)
-      } else if (e.alpha != null) {
+        hasAbsolute = true
+      } else if (!hasAbsolute && e.alpha != null) {
+        // Non-absolute fallback — only used if we never received an absolute reading.
+        // alpha here is relative to an arbitrary starting orientation, not true north,
+        // so this will be inaccurate but better than nothing on older devices.
         setDeviceHeading((360 - e.alpha + 360) % 360)
         setCompassReady(true)
       }
