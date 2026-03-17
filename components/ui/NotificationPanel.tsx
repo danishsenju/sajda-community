@@ -15,48 +15,80 @@ function urlBase64ToUint8Array(b64: string): Uint8Array {
 
 type PushState = 'loading' | 'unsupported' | 'denied' | 'off' | 'on'
 
+function uint8ArrayToBase64(arr: Uint8Array): string {
+  // Safe base64 encoding that doesn't rely on spread (avoids call-stack overflow on large arrays)
+  let binary = ''
+  for (let i = 0; i < arr.byteLength; i++) binary += String.fromCharCode(arr[i])
+  return btoa(binary)
+}
+
 function usePushState() {
   const [pushState, setPushState] = useState<PushState>('loading')
   const [pushLoading, setPushLoading] = useState(false)
+  const [pushError, setPushError] = useState<string | null>(null)
 
   useEffect(() => {
     if (typeof window === 'undefined' || !('Notification' in window) || !('serviceWorker' in navigator)) {
       setPushState('unsupported'); return
     }
     if (Notification.permission === 'denied') { setPushState('denied'); return }
+    // Clear stale localStorage if permission was revoked
+    if (Notification.permission !== 'granted') {
+      localStorage.removeItem('notif_subscribed')
+      setPushState('off'); return
+    }
     setPushState(localStorage.getItem('notif_subscribed') === 'true' ? 'on' : 'off')
   }, [])
 
   async function enablePush() {
     setPushLoading(true)
+    setPushError(null)
     try {
       const perm = await Notification.requestPermission()
       if (perm !== 'granted') { setPushState('denied'); return }
+
       const reg = await navigator.serviceWorker.ready
-      const sub = (await reg.pushManager.getSubscription()) ??
-        await reg.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!).buffer as ArrayBuffer,
-        })
-      await fetch('/api/push/subscribe', {
+
+      // Always force a fresh subscription when enabling
+      const existing = await reg.pushManager.getSubscription()
+      if (existing) await existing.unsubscribe()
+
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!).buffer as ArrayBuffer,
+      })
+
+      const res = await fetch('/api/push/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           endpoint: sub.endpoint,
           keys: {
-            p256dh: btoa(String.fromCharCode(...new Uint8Array(sub.getKey('p256dh')!))),
-            auth:   btoa(String.fromCharCode(...new Uint8Array(sub.getKey('auth')!))),
+            p256dh: uint8ArrayToBase64(new Uint8Array(sub.getKey('p256dh')!)),
+            auth:   uint8ArrayToBase64(new Uint8Array(sub.getKey('auth')!)),
           },
         }),
       })
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        setPushError(body.error ?? `Server error ${res.status}`)
+        await sub.unsubscribe()
+        return
+      }
+
       localStorage.setItem('notif_subscribed', 'true')
       setPushState('on')
-    } catch { /* ignore */ }
-    finally { setPushLoading(false) }
+    } catch (err) {
+      setPushError(err instanceof Error ? err.message : 'Gagal aktifkan notifikasi')
+    } finally {
+      setPushLoading(false)
+    }
   }
 
   async function disablePush() {
     setPushLoading(true)
+    setPushError(null)
     try {
       const reg = await navigator.serviceWorker.ready
       const sub = await reg.pushManager.getSubscription()
@@ -70,11 +102,14 @@ function usePushState() {
       }
       localStorage.removeItem('notif_subscribed')
       setPushState('off')
-    } catch { /* ignore */ }
-    finally { setPushLoading(false) }
+    } catch (err) {
+      setPushError(err instanceof Error ? err.message : 'Gagal matikan notifikasi')
+    } finally {
+      setPushLoading(false)
+    }
   }
 
-  return { pushState, pushLoading, enablePush, disablePush }
+  return { pushState, pushLoading, pushError, enablePush, disablePush }
 }
 
 type NotifItem = {
@@ -106,7 +141,7 @@ export function NotificationPanel() {
   const [unread, setUnread]       = useState(0)
   const panelRef                  = useRef<HTMLDivElement>(null)
   const loadedRef                 = useRef(false)
-  const { pushState, pushLoading, enablePush, disablePush } = usePushState()
+  const { pushState, pushLoading, pushError, enablePush, disablePush } = usePushState()
   const isIOS = typeof navigator !== 'undefined' && /iphone|ipad|ipod/i.test(navigator.userAgent)
   // Standalone = installed to Home Screen (PWA). On iOS standalone, push IS supported.
   const isStandalone = typeof window !== 'undefined' && (
@@ -433,9 +468,15 @@ export function NotificationPanel() {
             {/* Push notification toggle */}
             {pushState !== 'unsupported' && (
               <div
-                className="px-4 py-2.5 flex items-center justify-between"
+                className="px-4 py-2.5 flex flex-col gap-1"
                 style={{ borderBottom: '1px solid var(--border)' }}
               >
+              {pushError && (
+                <p className="text-[10px] text-red-500 break-all" style={{ fontFamily: 'var(--font-jakarta)' }}>
+                  ⚠ {pushError}
+                </p>
+              )}
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   {pushState === 'on'
                     ? <BellRing className="w-3.5 h-3.5" style={{ color: '#22C55E' }} strokeWidth={2} />
@@ -468,6 +509,7 @@ export function NotificationPanel() {
                     {pushLoading ? '...' : pushState === 'on' ? 'Matikan' : 'Aktifkan'}
                   </button>
                 )}
+              </div>
               </div>
             )}
 
