@@ -16,26 +16,27 @@ export function BookingButton({ kelasId }: { kelasId: string }) {
     setLoading(true)
     setError('')
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    const user = session?.user
+    const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
       router.push(`/login?redirect=/kelas/${kelasId}`)
       return
     }
 
-    const { error } = await supabase.from('kelas_bookings').insert({
-      kelas_id: kelasId,
-      user_id: user.id,
-      status: 'active',
-    })
-
-    if (error) {
-      setError(error.code === '23505' ? 'Anda sudah menempah kelas ini.' : error.message)
-    } else {
-      setDone(true)
+    try {
+      const { error } = await supabase.from('kelas_bookings').insert({
+        kelas_id: kelasId,
+        user_id: user.id,
+        status: 'active',
+      })
+      if (error) {
+        setError(error.code === '23505' ? 'Anda sudah menempah kelas ini.' : error.message)
+      } else {
+        setDone(true)
+      }
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   if (done) {
