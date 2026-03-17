@@ -16,6 +16,7 @@ export default function AdminAnnouncementsPage() {
   const [open, setOpen] = useState(false)
   const [saving, setSaving] = useState(false)
   const [pushResult, setPushResult] = useState<string>('')
+  const [userId, setUserId] = useState<string | null>(null)
   const [form, setForm] = useState({ title: '', content: '', category: 'umum', is_pinned: false, send_push: true })
 
   function set(key: string, value: string | boolean) {
@@ -27,16 +28,19 @@ export default function AdminAnnouncementsPage() {
     setItems(data ?? [])
   }
 
-  useEffect(() => { load() }, [])
+  useEffect(() => {
+    load()
+    // Cache user once on mount — avoid extra round trip on every submit
+    supabase.auth.getUser().then(({ data: { user } }) => setUserId(user?.id ?? null))
+  }, [])
 
   async function save(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
-    const { data: { user } } = await supabase.auth.getUser()
     await supabase.from('announcements').insert({
       title: form.title, content: form.content,
       category: form.category as 'umum' | 'kecemasan' | 'ramadan' | 'kewangan',
-      is_pinned: form.is_pinned, created_by: user?.id,
+      is_pinned: form.is_pinned, created_by: userId,
     })
 
     // Close modal immediately — don't make AJK wait for push delivery

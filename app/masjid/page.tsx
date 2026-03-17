@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'
+export const revalidate = 30
 
 import { createClient } from '@/lib/supabase-server'
 import { MapPin, Phone, Droplets, Users, Car, Accessibility, ExternalLink, Clock, Globe, BookOpen, Heart } from 'lucide-react'
