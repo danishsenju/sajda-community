@@ -10,6 +10,7 @@ import { Trash2, Eye } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 import Link from 'next/link'
 import { AddProgramModal } from './AddProgramModal'
+import { SendPushButton } from './SendPushButton'
 import type { Program } from '@/types/database.types'
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -111,6 +112,11 @@ export default async function AdminProgramsPage() {
                 <Link href={`/program/${p.id}`}>
                   <Button variant="ghost" size="sm" className="p-1.5"><Eye className="w-3.5 h-3.5" /></Button>
                 </Link>
+                <SendPushButton
+                  programId={p.id}
+                  title={p.title}
+                  date={formatDate(p.program_date)}
+                />
                 <form action={deleteAction.bind(null, p.id)}>
                   <Button variant="danger" size="sm" type="submit" className="p-1.5">
                     <Trash2 className="w-3.5 h-3.5" />

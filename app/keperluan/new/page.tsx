@@ -36,20 +36,23 @@ export default function NewKeperluanPage() {
       return
     }
 
-    const { error } = await supabase.from('keperluan').insert({
-      title: form.title,
-      description: form.description,
-      category: form.category as 'bantuan_fizikal' | 'ilmu_tuisyen' | 'transport' | 'barangan' | 'lain',
-      urgency: form.urgency as 'normal' | 'urgent',
-      posted_by: user.id,
-      status: 'pending',
-    })
+    try {
+      const { error } = await supabase.from('keperluan').insert({
+        title: form.title,
+        description: form.description,
+        category: form.category as 'bantuan_fizikal' | 'ilmu_tuisyen' | 'transport' | 'barangan' | 'lain',
+        urgency: form.urgency as 'normal' | 'urgent',
+        posted_by: user.id,
+        status: 'pending',
+      })
 
-    if (error) {
-      setError(error.message)
+      if (error) {
+        setError(error.message)
+      } else {
+        router.push('/keperluan?posted=1')
+      }
+    } finally {
       setLoading(false)
-    } else {
-      router.push('/keperluan?posted=1')
     }
   }
 

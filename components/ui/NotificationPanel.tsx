@@ -2,8 +2,80 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
-import { Bell, BookMarked, Megaphone, Calendar, ChevronRight, X, CheckCheck, Radio } from 'lucide-react'
+import { Bell, BellRing, BellOff, BookMarked, Megaphone, Calendar, ChevronRight, X, CheckCheck, Radio } from 'lucide-react'
 import { createClient } from '@/lib/supabase'
+
+// ── Push Notification helpers ──────────────────────────────────────────────
+function urlBase64ToUint8Array(b64: string): Uint8Array {
+  const padding = '='.repeat((4 - (b64.length % 4)) % 4)
+  const base64 = (b64 + padding).replace(/-/g, '+').replace(/_/g, '/')
+  const raw = atob(base64)
+  return Uint8Array.from([...raw].map((c) => c.charCodeAt(0)))
+}
+
+type PushState = 'loading' | 'unsupported' | 'denied' | 'off' | 'on'
+
+function usePushState() {
+  const [pushState, setPushState] = useState<PushState>('loading')
+  const [pushLoading, setPushLoading] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !('Notification' in window) || !('serviceWorker' in navigator)) {
+      setPushState('unsupported'); return
+    }
+    if (Notification.permission === 'denied') { setPushState('denied'); return }
+    setPushState(localStorage.getItem('notif_subscribed') === 'true' ? 'on' : 'off')
+  }, [])
+
+  async function enablePush() {
+    setPushLoading(true)
+    try {
+      const perm = await Notification.requestPermission()
+      if (perm !== 'granted') { setPushState('denied'); return }
+      const reg = await navigator.serviceWorker.ready
+      const sub = (await reg.pushManager.getSubscription()) ??
+        await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!).buffer as ArrayBuffer,
+        })
+      await fetch('/api/push/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          endpoint: sub.endpoint,
+          keys: {
+            p256dh: btoa(String.fromCharCode(...new Uint8Array(sub.getKey('p256dh')!))),
+            auth:   btoa(String.fromCharCode(...new Uint8Array(sub.getKey('auth')!))),
+          },
+        }),
+      })
+      localStorage.setItem('notif_subscribed', 'true')
+      setPushState('on')
+    } catch { /* ignore */ }
+    finally { setPushLoading(false) }
+  }
+
+  async function disablePush() {
+    setPushLoading(true)
+    try {
+      const reg = await navigator.serviceWorker.ready
+      const sub = await reg.pushManager.getSubscription()
+      if (sub) {
+        await fetch('/api/push/subscribe', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ endpoint: sub.endpoint }),
+        })
+        await sub.unsubscribe()
+      }
+      localStorage.removeItem('notif_subscribed')
+      setPushState('off')
+    } catch { /* ignore */ }
+    finally { setPushLoading(false) }
+  }
+
+  return { pushState, pushLoading, enablePush, disablePush }
+}
 
 type NotifItem = {
   id: string
@@ -34,6 +106,8 @@ export function NotificationPanel() {
   const [unread, setUnread]       = useState(0)
   const panelRef                  = useRef<HTMLDivElement>(null)
   const loadedRef                 = useRef(false)
+  const { pushState, pushLoading, enablePush, disablePush } = usePushState()
+  const isIOS = typeof navigator !== 'undefined' && /iphone|ipad|ipod/i.test(navigator.userAgent)
 
   // Close on outside click
   useEffect(() => {
@@ -346,25 +420,67 @@ export function NotificationPanel() {
 
           {/* Footer */}
           <div
-            className="px-4 py-2.5 flex items-center justify-between"
             style={{ borderTop: '1px solid var(--border)', background: 'var(--void)' }}
           >
-            <Link
-              href="/"
-              onClick={() => setOpen(false)}
-              className="text-xs font-medium transition-opacity hover:opacity-60"
-              style={{ color: 'var(--primary)', fontFamily: 'var(--font-jakarta)' }}
-            >
-              Semua Pengumuman
-            </Link>
-            <Link
-              href="/hadis"
-              onClick={() => setOpen(false)}
-              className="text-xs font-medium transition-opacity hover:opacity-60"
-              style={{ color: 'var(--text-dim)', fontFamily: 'var(--font-jakarta)' }}
-            >
-              Hadis Hari Ini
-            </Link>
+            {/* Push notification toggle */}
+            {pushState !== 'unsupported' && (
+              <div
+                className="px-4 py-2.5 flex items-center justify-between"
+                style={{ borderBottom: '1px solid var(--border)' }}
+              >
+                <div className="flex items-center gap-2">
+                  {pushState === 'on'
+                    ? <BellRing className="w-3.5 h-3.5" style={{ color: '#22C55E' }} strokeWidth={2} />
+                    : pushState === 'denied'
+                    ? <BellOff className="w-3.5 h-3.5" style={{ color: 'var(--text-dim)' }} strokeWidth={2} />
+                    : <Bell className="w-3.5 h-3.5" style={{ color: 'var(--text-dim)' }} strokeWidth={2} />
+                  }
+                  <span className="text-xs" style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-jakarta)' }}>
+                    {pushState === 'on'
+                      ? 'Notifikasi push aktif'
+                      : pushState === 'denied'
+                      ? 'Notifikasi disekat'
+                      : isIOS
+                      ? 'Tambah ke Home Screen untuk push'
+                      : 'Notifikasi push tidak aktif'
+                    }
+                  </span>
+                </div>
+                {pushState !== 'denied' && !isIOS && (
+                  <button
+                    onClick={() => pushState === 'on' ? disablePush() : enablePush()}
+                    disabled={pushLoading || pushState === 'loading'}
+                    className="text-xs font-semibold transition-opacity hover:opacity-70"
+                    style={{
+                      color: pushState === 'on' ? 'var(--text-dim)' : '#22C55E',
+                      fontFamily: 'var(--font-jakarta)',
+                      background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+                    }}
+                  >
+                    {pushLoading ? '...' : pushState === 'on' ? 'Matikan' : 'Aktifkan'}
+                  </button>
+                )}
+              </div>
+            )}
+
+            <div className="px-4 py-2.5 flex items-center justify-between">
+              <Link
+                href="/"
+                onClick={() => setOpen(false)}
+                className="text-xs font-medium transition-opacity hover:opacity-60"
+                style={{ color: 'var(--primary)', fontFamily: 'var(--font-jakarta)' }}
+              >
+                Semua Pengumuman
+              </Link>
+              <Link
+                href="/hadis"
+                onClick={() => setOpen(false)}
+                className="text-xs font-medium transition-opacity hover:opacity-60"
+                style={{ color: 'var(--text-dim)', fontFamily: 'var(--font-jakarta)' }}
+              >
+                Hadis Hari Ini
+              </Link>
+            </div>
           </div>
         </div>
       )}

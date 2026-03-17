@@ -2,6 +2,7 @@
 
 import { useState, useEffect, use } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import {
   ChevronLeft, Users, Target, Lock, Unlock, BookOpen,
@@ -55,6 +56,7 @@ const JUZUK_NAMES = [
 
 export default function HalaqahDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
+  const router = useRouter()
   const [group, setGroup]       = useState<Group | null>(null)
   const [members, setMembers]   = useState<Member[]>([])
   const [progress, setProgress] = useState<ProgressRow[]>([])
@@ -119,7 +121,7 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
   useEffect(() => { load() }, [id])
 
   async function handleJoin() {
-    if (!userId) { window.location.href = `/login?redirect=/halaqah/${id}`; return }
+    if (!userId) { router.push(`/login?redirect=/halaqah/${id}`); return }
     setJoining(true)
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -280,7 +282,7 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         const supabase = createClient() as any
                         await supabase.from('halaqah_groups').delete().eq('id', id)
-                        window.location.href = '/halaqah'
+                        router.push('/halaqah')
                       }}
                       style={{ ...menuItemStyle, color: '#EF4444' }}
                     >

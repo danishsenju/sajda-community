@@ -26,19 +26,22 @@ export function OfferHelpButton({ keperluanId }: { keperluanId: string }) {
       return
     }
 
-    const { error } = await supabase.from('keperluan_helpers').insert({
-      keperluan_id: keperluanId,
-      helper_id: user.id,
-      message: message || null,
-    })
+    try {
+      const { error } = await supabase.from('keperluan_helpers').insert({
+        keperluan_id: keperluanId,
+        helper_id: user.id,
+        message: message || null,
+      })
 
-    if (error) {
-      setError(error.code === '23505' ? 'Anda sudah menawarkan bantuan.' : error.message)
-    } else {
-      setDone(true)
-      router.refresh()
+      if (error) {
+        setError(error.code === '23505' ? 'Anda sudah menawarkan bantuan.' : error.message)
+      } else {
+        setDone(true)
+        router.refresh()
+      }
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   if (done) {
