@@ -39,8 +39,15 @@ export default function AdminAnnouncementsPage() {
       is_pinned: form.is_pinned, created_by: user?.id,
     })
 
+    // Close modal immediately — don't make AJK wait for push delivery
+    setSaving(false)
+    setOpen(false)
+    setForm({ title: '', content: '', category: 'umum', is_pinned: false, send_push: true })
+    load()
+
+    // Fire-and-forget push in background
     if (form.send_push) {
-      const res = await fetch('/api/push/send', {
+      fetch('/api/push/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -49,14 +56,10 @@ export default function AdminAnnouncementsPage() {
           url: '/',
         }),
       })
-      const json = await res.json()
-      if (json.sent > 0) setPushResult(`Notifikasi dihantar kepada ${json.sent} peranti.`)
+        .then(r => r.json())
+        .then(json => { if (json.sent > 0) setPushResult(`Notifikasi dihantar kepada ${json.sent} peranti.`) })
+        .catch(() => {})
     }
-
-    setSaving(false)
-    setOpen(false)
-    setForm({ title: '', content: '', category: 'umum', is_pinned: false, send_push: true })
-    load()
   }
 
   async function del(id: string) {
