@@ -48,7 +48,7 @@ function SolatStreakCard() {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             <Lock style={{ width: '10px', height: '10px', color: 'var(--text-dim)' }} />
-            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', color: 'var(--text-dim)' }}>
+            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)' }}>
               Peribadi
             </span>
           </div>
@@ -64,14 +64,14 @@ function SolatStreakCard() {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '4px' }}>
               <Flame style={{ width: '12px', height: '12px', color: streak > 0 ? '#F59E0B' : 'var(--text-dim)' }} />
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', color: 'var(--text-dim)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
                 Streak
               </p>
             </div>
             <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '28px', fontWeight: 700, color: streak > 0 ? '#F59E0B' : 'var(--text-secondary)', margin: 0, lineHeight: 1 }}>
               {streak}
             </p>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', color: 'var(--text-dim)', margin: '2px 0 0' }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)', margin: '2px 0 0' }}>
               hari berturut-turut
             </p>
           </div>
@@ -82,13 +82,13 @@ function SolatStreakCard() {
             background: todayCount === 5 ? 'rgba(34,197,94,0.06)' : 'var(--surface)',
             border: `1px solid ${todayCount === 5 ? 'rgba(34,197,94,0.18)' : 'var(--border)'}`,
           }}>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', color: 'var(--text-dim)', margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)', margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
               Hari Ini
             </p>
             <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '28px', fontWeight: 700, color: todayCount === 5 ? '#22C55E' : 'var(--text-secondary)', margin: 0, lineHeight: 1 }}>
               {todayCount}<span style={{ fontSize: '14px', color: 'var(--text-dim)' }}>/5</span>
             </p>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', color: 'var(--text-dim)', margin: '2px 0 0' }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)', margin: '2px 0 0' }}>
               {todayCount === 5 ? 'Alhamdulillah ✓' : 'solat selesai'}
             </p>
           </div>
@@ -105,7 +105,7 @@ function SolatStreakCard() {
               transition: 'background 0.2s',
             }} />
           ))}
-          <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', color: 'var(--text-dim)', marginLeft: '4px', alignSelf: 'center' }}>
+          <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)', marginLeft: '4px', alignSelf: 'center' }}>
             Lihat rekod →
           </span>
         </div>

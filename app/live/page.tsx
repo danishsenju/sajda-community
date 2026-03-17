@@ -68,7 +68,7 @@ export default function LivePage() {
       }}>
         <div className="max-w-4xl mx-auto" style={{ padding: '40px 24px 28px' }}>
           <p style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+            fontFamily: 'var(--font-jakarta)', fontSize: '12px',
             letterSpacing: '0.28em', textTransform: 'uppercase',
             color: 'var(--primary)', fontWeight: 700, marginBottom: '14px',
           }}>
@@ -96,7 +96,7 @@ export default function LivePage() {
                   animation: 'breathe 1.2s ease-in-out infinite',
                 }} />
                 <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+                  fontFamily: 'var(--font-jakarta)', fontSize: '12px',
                   fontWeight: 700, color: '#EF4444', letterSpacing: '0.1em',
                 }}>
                   LIVE
@@ -176,7 +176,7 @@ export default function LivePage() {
                     </svg>
                   )}
                   <span style={{
-                    fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
+                    fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                     letterSpacing: '0.1em', textTransform: 'uppercase',
                     color: stream.platform === 'youtube' ? '#EF4444' : '#1877F2',
                   }}>
@@ -251,7 +251,7 @@ export default function LivePage() {
             {/* No comment notice */}
             <p style={{
               marginTop: '12px', textAlign: 'center',
-              fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+              fontFamily: 'var(--font-jakarta)', fontSize: '13px',
               color: 'var(--text-dim)',
             }}>
               Untuk berinteraksi, lawati siaran di {stream.platform === 'youtube' ? 'YouTube' : 'Facebook'} secara terus.

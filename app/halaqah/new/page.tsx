@@ -119,7 +119,7 @@ export default function NewHalaqahPage() {
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   background: step >= s ? 'var(--primary)' : 'var(--elevated)',
                   border: `1px solid ${step >= s ? 'var(--primary)' : 'var(--border)'}`,
-                  fontFamily: 'var(--font-jetbrains)', fontSize: '10px', fontWeight: 700,
+                  fontFamily: 'var(--font-jetbrains)', fontSize: '12px', fontWeight: 700,
                   color: step >= s ? '#04080A' : 'var(--text-dim)',
                   transition: 'all 0.2s',
                 }}>
@@ -128,7 +128,7 @@ export default function NewHalaqahPage() {
                 {s < 2 && <div style={{ width: '32px', height: '1px', background: step > s ? 'var(--primary)' : 'var(--border)', transition: 'background 0.2s' }} />}
               </div>
             ))}
-            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', marginLeft: '4px' }}>
+            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', marginLeft: '4px' }}>
               {step === 1 ? 'Jenis Halaqah' : 'Butiran & Tetapan'}
             </span>
           </div>
@@ -175,7 +175,7 @@ export default function NewHalaqahPage() {
                       }}>
                         {t.label}
                       </p>
-                      <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', margin: 0, lineHeight: 1.4 }}>
+                      <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', margin: 0, lineHeight: 1.4 }}>
                         {t.desc}
                       </p>
                     </button>
@@ -231,7 +231,7 @@ export default function NewHalaqahPage() {
                     type="button"
                     onClick={() => setStep(1)}
                     style={{
-                      marginLeft: 'auto', fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+                      marginLeft: 'auto', fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
                       color: 'var(--text-dim)', background: 'none', border: 'none', cursor: 'pointer',
                     }}
                   >
@@ -242,7 +242,7 @@ export default function NewHalaqahPage() {
 
               {/* Name */}
               <div style={{ marginBottom: '18px' }}>
-                <label style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
+                <label style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
                   Nama Halaqah *
                 </label>
                 <input
@@ -261,14 +261,14 @@ export default function NewHalaqahPage() {
                   onFocus={e => e.target.style.borderColor = 'var(--primary)'}
                   onBlur={e => e.target.style.borderColor = 'var(--border)'}
                 />
-                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', color: 'var(--text-dim)', marginTop: '4px', textAlign: 'right' }}>
+                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)', marginTop: '4px', textAlign: 'right' }}>
                   {name.length}/60
                 </p>
               </div>
 
               {/* Description */}
               <div style={{ marginBottom: '18px' }}>
-                <label style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
+                <label style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
                   Penerangan (pilihan)
                 </label>
                 <textarea
@@ -292,7 +292,7 @@ export default function NewHalaqahPage() {
               {/* Weekly target + Max members */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '18px' }}>
                 <div>
-                  <label style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
+                  <label style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
                     <Target style={{ width: '10px', height: '10px', display: 'inline', marginRight: '4px' }} />
                     Sasaran Minggu
                   </label>
@@ -303,11 +303,11 @@ export default function NewHalaqahPage() {
                     </span>
                     <button type="button" onClick={() => setTarget(Math.min(30, weeklyTarget + 1))} style={btnNum}>+</button>
                   </div>
-                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', color: 'var(--text-dim)', marginTop: '4px' }}>juzuk / minggu</p>
+                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)', marginTop: '4px' }}>juzuk / minggu</p>
                 </div>
 
                 <div>
-                  <label style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
+                  <label style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
                     <Users style={{ width: '10px', height: '10px', display: 'inline', marginRight: '4px' }} />
                     Had Ahli
                   </label>
@@ -318,13 +318,13 @@ export default function NewHalaqahPage() {
                     </span>
                     <button type="button" onClick={() => setMax(Math.min(50, maxMembers + 1))} style={btnNum}>+</button>
                   </div>
-                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', color: 'var(--text-dim)', marginTop: '4px' }}>orang maksimum</p>
+                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)', marginTop: '4px' }}>orang maksimum</p>
                 </div>
               </div>
 
               {/* Open / Closed */}
               <div style={{ marginBottom: '28px' }}>
-                <label style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
+                <label style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
                   Kemasukan Ahli
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
@@ -350,7 +350,7 @@ export default function NewHalaqahPage() {
                           {opt.label}
                         </span>
                       </div>
-                      <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', color: 'var(--text-dim)' }}>
+                      <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)' }}>
                         {opt.desc}
                       </span>
                     </button>
@@ -365,7 +365,7 @@ export default function NewHalaqahPage() {
                 marginBottom: '24px',
               }}>
                 <Info style={{ width: '14px', height: '14px', color: 'var(--primary)', flexShrink: 0, marginTop: '1px' }} />
-                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
+                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
                   Anda akan menjadi <strong style={{ color: 'var(--primary)' }}>Ketua Halaqah</strong> dan ahli pertama secara automatik. Progress juzuk direkod secara individu untuk setiap ahli.
                 </p>
               </div>

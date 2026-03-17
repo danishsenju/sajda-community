@@ -96,7 +96,7 @@ export default async function KeperluanDetailPage({ params }: { params: Promise<
             {/* Badges row */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', flexWrap: 'wrap' }}>
               <span style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '0.18em', textTransform: 'uppercase',
                 color: cfg.accent, padding: '5px 12px',
                 background: `${cfg.accent}18`, borderRadius: '4px',
@@ -107,7 +107,7 @@ export default async function KeperluanDetailPage({ params }: { params: Promise<
 
               <span style={{
                 display: 'inline-flex', alignItems: 'center', gap: '6px',
-                fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '0.14em', textTransform: 'uppercase',
                 color: st.color, padding: '5px 12px',
                 background: `${st.color}15`, borderRadius: '4px',
@@ -120,7 +120,7 @@ export default async function KeperluanDetailPage({ params }: { params: Promise<
               {item.urgency === 'urgent' && (
                 <span style={{
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                  fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                   letterSpacing: '0.14em', textTransform: 'uppercase',
                   color: '#F87171', padding: '5px 12px',
                   background: 'rgba(239,68,68,0.12)', borderRadius: '4px',
@@ -160,7 +160,7 @@ export default async function KeperluanDetailPage({ params }: { params: Promise<
                   {posterInitial}
                 </div>
                 <div>
-                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', marginBottom: '1px' }}>
+                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', marginBottom: '1px' }}>
                     Dipos oleh
                   </p>
                   <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)' }}>
@@ -210,7 +210,7 @@ export default async function KeperluanDetailPage({ params }: { params: Promise<
               border: '1px solid var(--border)',
             }}>
               <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '0.2em', textTransform: 'uppercase',
                 color: cfg.accent, marginBottom: '16px',
               }}>
@@ -241,7 +241,7 @@ export default async function KeperluanDetailPage({ params }: { params: Promise<
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <Users style={{ width: '15px', height: '15px', color: cfg.accent }} />
                   <p style={{
-                    fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                    fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                     letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-dim)',
                   }}>
                     SUKARELAWAN
@@ -285,7 +285,7 @@ export default async function KeperluanDetailPage({ params }: { params: Promise<
                             {h.profiles?.full_name ?? 'Jemaah'}
                           </p>
                           <span style={{
-                            fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                            fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                             color: 'var(--text-dim)',
                           }}>
                             {timeAgo(h.created_at)}
@@ -330,7 +330,7 @@ export default async function KeperluanDetailPage({ params }: { params: Promise<
               border: '1px solid var(--border)',
             }}>
               <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '0.2em', textTransform: 'uppercase',
                 color: 'var(--text-dim)', marginBottom: '16px',
               }}>
@@ -371,7 +371,7 @@ export default async function KeperluanDetailPage({ params }: { params: Promise<
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)' }}>Keutamaan</span>
                   <span style={{
-                    fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
+                    fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                     color: item.urgency === 'urgent' ? '#F87171' : '#4ADE80',
                     letterSpacing: '0.08em', textTransform: 'uppercase',
                   }}>
@@ -399,7 +399,7 @@ export default async function KeperluanDetailPage({ params }: { params: Promise<
               border: '1px solid var(--border)',
             }}>
               <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '0.2em', textTransform: 'uppercase',
                 color: 'var(--text-dim)', marginBottom: '14px',
               }}>
@@ -422,7 +422,7 @@ export default async function KeperluanDetailPage({ params }: { params: Promise<
                   </p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
                     <Timer style={{ width: '11px', height: '11px', color: 'var(--text-dim)' }} />
-                    <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)' }}>
+                    <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)' }}>
                       {timeAgo(item.created_at)}
                     </span>
                   </div>

@@ -222,7 +222,7 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
             <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.10)' }} />
             <span style={{
               fontFamily: 'var(--font-dm-sans)',
-              fontSize: '11px',
+              fontSize: '13px',
               color: 'rgba(186,230,200,0.55)',
               fontWeight: 500,
             }}>
@@ -311,7 +311,7 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
             )}
 
             {mode === 'signup' && (
-              <p style={{ fontSize: '11px', color: 'rgba(186,230,200,0.55)', fontFamily: 'var(--font-dm-sans)', marginTop: '-4px' }}>
+              <p style={{ fontSize: '13px', color: 'rgba(186,230,200,0.55)', fontFamily: 'var(--font-dm-sans)', marginTop: '-4px' }}>
                 Min. 6 aksara. Semak emel untuk mengesahkan akaun selepas daftar.
               </p>
             )}

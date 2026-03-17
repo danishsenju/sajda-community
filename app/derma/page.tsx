@@ -72,7 +72,7 @@ export default async function DermaPage() {
         <div style={{ maxWidth: '640px', margin: '0 auto', position: 'relative' }}>
           <p style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontSize: '10px',
+            fontSize: '12px',
             fontWeight: 700,
             letterSpacing: '0.28em',
             textTransform: 'uppercase',
@@ -198,7 +198,7 @@ export default async function DermaPage() {
         <div style={{ marginBottom: '44px' }}>
           <p style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontSize: '10px',
+            fontSize: '12px',
             fontWeight: 700,
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
@@ -256,7 +256,7 @@ export default async function DermaPage() {
           <div style={{ marginBottom: '44px' }}>
             <p style={{
               fontFamily: 'var(--font-dm-sans)',
-              fontSize: '10px',
+              fontSize: '12px',
               fontWeight: 700,
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -362,7 +362,7 @@ export default async function DermaPage() {
           </p>
           <p style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontSize: '11px',
+            fontSize: '13px',
             color: '#22C55E',
             fontWeight: 600,
           }}>

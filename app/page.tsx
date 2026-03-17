@@ -132,8 +132,8 @@ export default async function HomePage() {
                   background: catColors[ann.category] ?? catColors.umum,
                 }} />
                 <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '11px',
-                  color: 'var(--text-dim)', letterSpacing: '0.04em',
+                  fontFamily: 'var(--font-jakarta)', fontSize: '13px',
+                  color: 'var(--text-secondary)', letterSpacing: '0.04em',
                 }}>
                   {ann.title}
                 </span>
@@ -155,8 +155,8 @@ export default async function HomePage() {
         }}>
           <div style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 6px var(--primary)' }} />
           <span style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '10px',
-            color: 'var(--text-dim)', letterSpacing: '0.08em',
+            fontFamily: 'var(--font-jakarta)', fontSize: '13px',
+            color: 'var(--text-dim)', letterSpacing: '0.04em',
           }}>
             {mDateLabel}
           </span>
@@ -170,9 +170,9 @@ export default async function HomePage() {
               {/* Group header */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
                 <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '9.5px',
-                  letterSpacing: '0.2em', textTransform: 'uppercase',
-                  color: 'var(--text-muted)', fontWeight: 700, whiteSpace: 'nowrap',
+                  fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                  letterSpacing: '0.14em', textTransform: 'uppercase',
+                  color: 'var(--text-secondary)', fontWeight: 700, whiteSpace: 'nowrap',
                 }}>
                   {group.label}
                 </span>
@@ -190,8 +190,8 @@ export default async function HomePage() {
                   >
                     {/* Icon tile */}
                     <div style={{
-                      width: '62px', height: '62px',
-                      borderRadius: '20px',
+                      width: '64px', height: '64px',
+                      borderRadius: '18px',
                       background: 'linear-gradient(145deg, var(--surface) 0%, var(--elevated) 100%)',
                       border: `1px solid ${color}22`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -216,7 +216,7 @@ export default async function HomePage() {
 
                     {/* Label */}
                     <span style={{
-                      fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 500,
+                      fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600,
                       color: 'var(--text-dim)', textAlign: 'center', lineHeight: 1.3,
                     }}>
                       {label}
@@ -236,9 +236,9 @@ export default async function HomePage() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '9.5px',
-                  letterSpacing: '0.2em', textTransform: 'uppercase',
-                  color: 'var(--text-muted)', fontWeight: 700,
+                  fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                  letterSpacing: '0.14em', textTransform: 'uppercase',
+                  color: 'var(--text-secondary)', fontWeight: 700,
                 }}>
                   Pengumuman
                 </span>
@@ -246,7 +246,7 @@ export default async function HomePage() {
               </div>
               <Link href="/" style={{
                 display: 'flex', alignItems: 'center', gap: '3px',
-                fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                 color: 'var(--primary)', textDecoration: 'none',
               }}>
                 Semua <ChevronRight style={{ width: '12px', height: '12px' }} />
@@ -269,9 +269,9 @@ export default async function HomePage() {
                     {/* Meta row */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
                       <span style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                        fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
                         letterSpacing: '0.18em', textTransform: 'uppercase',
-                        color, padding: '3px 8px', borderRadius: '100px',
+                        color, padding: '4px 10px', borderRadius: '100px',
                         background: `${color}14`, border: `1px solid ${color}22`,
                       }}>
                         {catLabel[ann.category] ?? ann.category}
@@ -279,14 +279,14 @@ export default async function HomePage() {
                       {ann.is_pinned && (
                         <span style={{
                           display: 'inline-flex', alignItems: 'center', gap: '4px',
-                          fontFamily: 'var(--font-jakarta)', fontSize: '9px', color: '#FBBF24', fontWeight: 600,
+                          fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: '#FBBF24', fontWeight: 600,
                         }}>
                           <Pin style={{ width: '9px', height: '9px' }} />
                           Disematkan
                         </span>
                       )}
                       <time style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+                        fontFamily: 'var(--font-jakarta)', fontSize: '12px',
                         color: 'var(--text-dim)', marginLeft: 'auto',
                       }}>
                         {new Date(ann.created_at).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short' })}
@@ -303,8 +303,8 @@ export default async function HomePage() {
 
                     {/* Excerpt */}
                     <p style={{
-                      fontFamily: 'var(--font-jakarta)', fontSize: '12px',
-                      color: 'var(--text-dim)', lineHeight: 1.65,
+                      fontFamily: 'var(--font-jakarta)', fontSize: '14px',
+                      color: 'var(--text-dim)', lineHeight: 1.7,
                       display: '-webkit-box',
                       WebkitLineClamp: 3,
                       WebkitBoxOrient: 'vertical',
@@ -328,7 +328,7 @@ export default async function HomePage() {
                       borderRadius: '14px',
                       background: 'var(--surface)',
                       border: '1px solid var(--border)',
-                      padding: '12px 14px',
+                      padding: '14px 16px',
                       display: 'flex', alignItems: 'center', gap: '12px',
                     }}
                   >
@@ -340,7 +340,7 @@ export default async function HomePage() {
                     }} />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <span style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                        fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                         letterSpacing: '0.14em', textTransform: 'uppercase', color,
                         display: 'block', marginBottom: '4px',
                       }}>
@@ -369,9 +369,9 @@ export default async function HomePage() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '9.5px',
-                letterSpacing: '0.2em', textTransform: 'uppercase',
-                color: 'var(--text-muted)', fontWeight: 700,
+                fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                letterSpacing: '0.14em', textTransform: 'uppercase',
+                color: 'var(--text-secondary)', fontWeight: 700,
               }}>
                 Program
               </span>
@@ -379,7 +379,7 @@ export default async function HomePage() {
             </div>
             <Link href="/program" style={{
               display: 'flex', alignItems: 'center', gap: '3px',
-              fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+              fontFamily: 'var(--font-jakarta)', fontSize: '13px',
               color: 'var(--primary)', textDecoration: 'none',
             }}>
               Semua <ChevronRight style={{ width: '12px', height: '12px' }} />
@@ -428,7 +428,7 @@ export default async function HomePage() {
                         {String(d.getDate()).padStart(2, '0')}
                       </span>
                       <span style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '9px',
+                        fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                         color: cat.text, opacity: 0.65,
                         textTransform: 'uppercase', letterSpacing: '0.1em',
                       }}>
@@ -443,7 +443,7 @@ export default async function HomePage() {
                       minWidth: 0,
                     }}>
                       <span style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '9px',
+                        fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                         letterSpacing: '0.14em', textTransform: 'uppercase',
                         color: 'var(--text-dim)', fontWeight: 600, marginBottom: '5px',
                       }}>
@@ -458,7 +458,7 @@ export default async function HomePage() {
                       </h3>
                       <div style={{
                         display: 'flex', gap: '10px', flexWrap: 'wrap',
-                        fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)',
+                        fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)',
                       }}>
                         <span style={{ display: 'flex', alignItems: 'center', gap: '3px', flexShrink: 0 }}>
                           <Clock style={{ width: '10px', height: '10px' }} />
@@ -475,7 +475,7 @@ export default async function HomePage() {
                         <span style={{
                           display: 'inline-flex', alignItems: 'center', gap: '4px',
                           marginTop: '6px',
-                          fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+                          fontFamily: 'var(--font-jakarta)', fontSize: '12px',
                           color: '#FBBF24', fontWeight: 600,
                         }}>
                           <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#FBBF24', boxShadow: '0 0 6px #FBBF2480' }} />
@@ -507,7 +507,7 @@ export default async function HomePage() {
               }}>
                 <BookMarked style={{ width: '18px', height: '18px', color: '#22C55E', marginBottom: '12px' }} strokeWidth={1.7} />
                 <span style={{ fontFamily: 'var(--font-playfair)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px' }}>Hadis</span>
-                <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', lineHeight: 1.4 }}>Koleksi sahih</span>
+                <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1.4 }}>Koleksi sahih</span>
               </div>
             </Link>
 
@@ -519,7 +519,7 @@ export default async function HomePage() {
               }}>
                 <Compass style={{ width: '18px', height: '18px', color: '#A78BFA', marginBottom: '12px' }} strokeWidth={1.7} />
                 <span style={{ fontFamily: 'var(--font-playfair)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px' }}>Qiblat</span>
-                <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', lineHeight: 1.4 }}>Arah tepat</span>
+                <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1.4 }}>Arah tepat</span>
               </div>
             </Link>
 
@@ -531,7 +531,7 @@ export default async function HomePage() {
               }}>
                 <Clock style={{ width: '18px', height: '18px', color: '#38BDF8', marginBottom: '12px' }} strokeWidth={1.7} />
                 <span style={{ fontFamily: 'var(--font-playfair)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px' }}>Berbuka</span>
-                <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', lineHeight: 1.4 }}>Kiraan masa</span>
+                <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1.4 }}>Kiraan masa</span>
               </div>
             </Link>
           </div>
@@ -555,7 +555,7 @@ export default async function HomePage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
               <Image src={kdLogo} alt="KrackedDevs" height={20} style={{ objectFit: 'contain', display: 'block' }} />
               <span style={{
-                fontSize: '9px', fontWeight: 700, padding: '2px 8px', borderRadius: '100px',
+                fontSize: '13px', fontWeight: 700, padding: '2px 8px', borderRadius: '100px',
                 background: 'var(--primary-pale)', color: 'var(--primary)',
                 fontFamily: 'var(--font-jakarta)', letterSpacing: '0.1em',
               }}>
@@ -593,7 +593,7 @@ export default async function HomePage() {
           <div className="grid md:grid-cols-[1fr_auto] gap-8 items-end">
             <div>
               <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                 letterSpacing: '0.26em', textTransform: 'uppercase',
                 color: 'var(--primary)', fontWeight: 700, marginBottom: '20px',
                 display: 'flex', alignItems: 'center', gap: '10px',
@@ -627,7 +627,7 @@ export default async function HomePage() {
         {/* ── Quick access pill strip ── */}
         <section style={{ marginBottom: 'clamp(60px, 8vw, 108px)' }}>
           <p style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+            fontFamily: 'var(--font-jakarta)', fontSize: '13px',
             letterSpacing: '0.20em', textTransform: 'uppercase',
             color: 'var(--text-dim)', fontWeight: 600, marginBottom: '18px',
           }}>
@@ -671,7 +671,7 @@ export default async function HomePage() {
           >
             <div>
               <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                 letterSpacing: '0.20em', textTransform: 'uppercase',
                 color: 'var(--primary)', fontWeight: 600, marginBottom: '12px',
               }}>
@@ -737,11 +737,11 @@ export default async function HomePage() {
                       {String(d.getDate()).padStart(2, '0')}
                     </span>
                     <div style={{ background: cat.bg, padding: '20px 28px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', letterSpacing: '0.20em', textTransform: 'uppercase', color: cat.text, opacity: 0.75, fontWeight: 600 }}>
+                      <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', letterSpacing: '0.20em', textTransform: 'uppercase', color: cat.text, opacity: 0.75, fontWeight: 600 }}>
                         {cat.label}
                       </span>
                       {prog.needs_volunteers && (
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '4px 10px', borderRadius: '100px', background: 'rgba(255,255,255,0.22)', fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 600, color: cat.text }}>
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '4px 10px', borderRadius: '100px', background: 'rgba(255,255,255,0.22)', fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: cat.text }}>
                           <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#4ADE80' }} />
                           Perlu Sukarela
                         </span>
@@ -753,7 +753,7 @@ export default async function HomePage() {
                           <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: 'clamp(42px, 6vw, 60px)', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1, letterSpacing: '-0.03em' }}>
                             {d.getDate()}
                           </p>
-                          <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.14em', marginTop: '2px' }}>
+                          <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.14em', marginTop: '2px' }}>
                             {d.toLocaleDateString('ms-MY', { month: 'short' })} {d.getFullYear()}
                           </p>
                         </div>
@@ -791,12 +791,12 @@ export default async function HomePage() {
                       <div style={{ display: 'flex' }}>
                         <div style={{ width: '64px', flexShrink: 0, background: cat.bg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '18px 0' }}>
                           <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '26px', fontWeight: 700, color: cat.text, lineHeight: 1 }}>{d.getDate()}</p>
-                          <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '9px', color: cat.text, opacity: 0.65, textTransform: 'uppercase', letterSpacing: '0.12em', marginTop: '4px' }}>{d.toLocaleDateString('ms-MY', { month: 'short' })}</p>
+                          <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: cat.text, opacity: 0.65, textTransform: 'uppercase', letterSpacing: '0.12em', marginTop: '4px' }}>{d.toLocaleDateString('ms-MY', { month: 'short' })}</p>
                         </div>
                         <div style={{ flex: 1, padding: '14px 18px' }}>
-                          <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '9px', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-dim)', fontWeight: 600 }}>{cat.label}</span>
+                          <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-dim)', fontWeight: 600 }}>{cat.label}</span>
                           <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.25, marginTop: '4px', marginBottom: '7px' }}>{prog.title}</h3>
-                          <div style={{ display: 'flex', gap: '8px', fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)' }}>
+                          <div style={{ display: 'flex', gap: '8px', fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)' }}>
                             <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><Clock className="w-2.5 h-2.5" /> {prog.start_time}</span>
                           </div>
                         </div>
@@ -814,7 +814,7 @@ export default async function HomePage() {
                 return (
                   <Link key={prog.id} href={`/program/${prog.id}`} className="group overflow-hidden rounded-2xl glass-card-amber block animate-slideUp" style={{ animationDelay: `${i * 0.08}s` }}>
                     <div style={{ background: cat.bg, padding: '16px 20px' }}>
-                      <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: cat.text, opacity: 0.75, fontWeight: 600 }}>{cat.label}</span>
+                      <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', color: cat.text, opacity: 0.75, fontWeight: 600 }}>{cat.label}</span>
                     </div>
                     <div style={{ padding: '16px 20px 20px' }}>
                       <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px' }}>{prog.title}</h3>
@@ -837,7 +837,7 @@ export default async function HomePage() {
           <div className="md:col-span-3">
             <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '36px', gap: '16px' }}>
               <div>
-                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', letterSpacing: '0.20em', textTransform: 'uppercase', color: 'var(--primary)', fontWeight: 600, marginBottom: '10px' }}>Maklumat Terkini</p>
+                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', letterSpacing: '0.20em', textTransform: 'uppercase', color: 'var(--primary)', fontWeight: 600, marginBottom: '10px' }}>Maklumat Terkini</p>
                 <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: 'clamp(1.8rem, 4vw, 3.2rem)', fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>Pengumuman</h2>
               </div>
               <Link href="/" style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--primary)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', flexShrink: 0 }}>
@@ -863,15 +863,15 @@ export default async function HomePage() {
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
                       <span style={{ width: '7px', height: '7px', borderRadius: '50%', flexShrink: 0, background: catColors[ann.category] ?? catColors.umum }} />
-                      <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: catColors[ann.category] ?? catColors.umum }}>
+                      <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: catColors[ann.category] ?? catColors.umum }}>
                         {catLabel[ann.category] ?? ann.category}
                       </span>
                       {ann.is_pinned && (
-                        <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: '#D97706', letterSpacing: '0.06em' }}>
+                        <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: '#D97706', letterSpacing: '0.06em' }}>
                           <Pin className="w-2.5 h-2.5 inline mr-0.5" /> Disematkan
                         </span>
                       )}
-                      <time style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', marginLeft: 'auto' }}>
+                      <time style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', marginLeft: 'auto' }}>
                         {new Date(ann.created_at).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short' })}
                       </time>
                     </div>
@@ -903,12 +903,12 @@ export default async function HomePage() {
               <Link href="/qiblat" className="group relative rounded-2xl p-4 glass-card-indigo">
                 <Compass className="w-5 h-5 mb-3" style={{ color: '#6366F1' }} strokeWidth={1.8} />
                 <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px' }}>Qiblat</h3>
-                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)' }}>Arah tepat</p>
+                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)' }}>Arah tepat</p>
               </Link>
               <Link href="/buka-puasa" className="group relative rounded-2xl p-4 glass-card-amber">
                 <Clock className="w-5 h-5 mb-3" style={{ color: '#D97706' }} strokeWidth={1.8} />
                 <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px' }}>Berbuka</h3>
-                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)' }}>Kiraan masa</p>
+                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)' }}>Kiraan masa</p>
               </Link>
             </div>
           </div>
@@ -922,7 +922,7 @@ export default async function HomePage() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
               <Image src={kdLogo} alt="KrackedDevs" height={28} style={{ objectFit: 'contain', display: 'block' }} />
-              <span style={{ fontSize: '10px', fontWeight: 600, padding: '3px 8px', borderRadius: '100px', background: 'var(--primary-pale)', color: 'var(--primary)', fontFamily: 'var(--font-jakarta)' }}>RC26</span>
+              <span style={{ fontSize: '12px', fontWeight: 600, padding: '3px 8px', borderRadius: '100px', background: 'var(--primary-pale)', color: 'var(--primary)', fontFamily: 'var(--font-jakarta)' }}>RC26</span>
             </div>
             <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', lineHeight: 1.6 }}>
               Sajda dibina sempena Ramadan Challenge 2026 oleh KrackedDevs &mdash; komuniti developer Malaysia yang build real products.

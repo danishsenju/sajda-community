@@ -124,14 +124,14 @@ export function BukaPuasaContent() {
           }}>
             <Moon style={{ width: '12px', height: '12px', color: '#F59E0B' }} />
             <span style={{
-              fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+              fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
               letterSpacing: '0.18em', textTransform: 'uppercase', color: '#F59E0B',
             }}>
               Ramadan Kareem
             </span>
           </div>
           <span style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 600,
+            fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600,
             letterSpacing: '0.12em', color: 'var(--text-dim)',
           }}>
             {zoneLabel}{zoneCity ? ` · ${zoneCity}` : ''}
@@ -184,7 +184,7 @@ export function BukaPuasaContent() {
           {todayFormatted}
         </p>
         <p style={{
-          fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+          fontFamily: 'var(--font-jakarta)', fontSize: '13px',
           color: 'rgba(245,158,11,0.65)', letterSpacing: '0.04em',
         }}>
           {hijriDate}
@@ -220,14 +220,14 @@ export function BukaPuasaContent() {
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               }}>
                 <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                  fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                   letterSpacing: '0.22em', textTransform: 'uppercase',
                   color: 'rgba(252,211,77,0.6)',
                 }}>
                   Maghrib &bull; Berbuka Puasa
                 </span>
                 <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 600,
+                  fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600,
                   color: 'rgba(255,255,255,0.22)', letterSpacing: '0.08em',
                 }}>
                   {source}
@@ -241,7 +241,7 @@ export function BukaPuasaContent() {
               }}>
                 <div>
                   <p style={{
-                    fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                    fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                     letterSpacing: '0.22em', textTransform: 'uppercase',
                     color: 'rgba(252,211,77,0.4)', marginBottom: '8px',
                   }}>
@@ -260,14 +260,14 @@ export function BukaPuasaContent() {
                       width: '6px', height: '6px', borderRadius: '50%',
                       background: '#FCD34D', boxShadow: '0 0 8px rgba(252,211,77,0.8)',
                     }} />
-                    <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>
+                    <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>
                       Hari ini
                     </span>
                   </div>
                 </div>
                 <div style={{ borderLeft: '1px solid rgba(255,255,255,0.06)', paddingLeft: '20px' }}>
                   <p style={{
-                    fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                    fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                     letterSpacing: '0.22em', textTransform: 'uppercase',
                     color: 'rgba(255,255,255,0.25)', marginBottom: '14px',
                   }}>
@@ -290,7 +290,7 @@ export function BukaPuasaContent() {
                   display: 'flex', alignItems: 'center', gap: '8px',
                 }}>
                   <span style={{
-                    fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                    fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                     letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--text-dim)',
                   }}>
                     Waktu Solat Hari Ini
@@ -311,7 +311,7 @@ export function BukaPuasaContent() {
                         }} />
                       )}
                       <p style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                        fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                         letterSpacing: '0.14em', textTransform: 'uppercase',
                         color: p.highlight ? 'rgba(252,211,77,0.7)' : 'var(--text-dim)', marginBottom: '6px',
                       }}>
@@ -341,7 +341,7 @@ export function BukaPuasaContent() {
               }}>
                 <div style={{ width: '3px', height: '14px', borderRadius: '2px', background: 'var(--primary)' }} />
                 <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                  fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                   letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--primary)',
                 }}>
                   Doa Berbuka Puasa
@@ -380,7 +380,7 @@ export function BukaPuasaContent() {
               marginTop: '20px', flexWrap: 'wrap', gap: '8px',
             }}>
               <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                 color: 'var(--text-dim)', opacity: 0.6,
               }}>
                 {source} · Zon {zone}

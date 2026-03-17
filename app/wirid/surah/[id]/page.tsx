@@ -111,7 +111,7 @@ export default function SurahPage() {
                   </span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)' }}>
+                  <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)' }}>
                     {meta.numberOfAyahs} ayat · {revealLabel} · Surah {surahNum}
                   </span>
                 </div>
@@ -234,7 +234,7 @@ export default function SurahPage() {
                   width: '28px', height: '28px', borderRadius: '8px',
                   background: 'var(--elevated)', border: '1px solid var(--border)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontFamily: 'var(--font-jetbrains)', fontSize: '10px',
+                  fontFamily: 'var(--font-jetbrains)', fontSize: '12px',
                   color: 'var(--text-dim)',
                 }}>
                   {verse.numberInSurah}

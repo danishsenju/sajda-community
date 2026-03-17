@@ -158,7 +158,7 @@ export default function AdminLivePage() {
                         display: 'inline-flex', alignItems: 'center', gap: '5px',
                         padding: '2px 8px', borderRadius: '100px',
                         background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.3)',
-                        fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                        fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                         letterSpacing: '0.1em', color: '#EF4444',
                       }}>
                         <div style={{
@@ -188,7 +188,7 @@ export default function AdminLivePage() {
                     border: `1px solid ${s.is_active ? 'rgba(239,68,68,0.4)' : 'rgba(34,197,94,0.35)'}`,
                     background: s.is_active ? 'rgba(239,68,68,0.08)' : 'rgba(34,197,94,0.08)',
                     color: s.is_active ? '#EF4444' : 'var(--primary)',
-                    fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
+                    fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                   }}
                 >
                   {s.is_active ? 'Nyahaktif' : 'Aktifkan'}
@@ -233,7 +233,7 @@ export default function AdminLivePage() {
               required
             />
             {urlError && (
-              <p style={{ marginTop: '4px', fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: '#EF4444' }}>
+              <p style={{ marginTop: '4px', fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: '#EF4444' }}>
                 {urlError}
               </p>
             )}
@@ -249,7 +249,7 @@ export default function AdminLivePage() {
                   : <svg width="11" height="11" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                 }
                 <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 600,
+                  fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600,
                   color: platform === 'youtube' ? '#EF4444' : '#1877F2',
                 }}>
                   {platform === 'youtube' ? 'YouTube dikesan' : 'Facebook dikesan'}
@@ -261,7 +261,7 @@ export default function AdminLivePage() {
           <div style={{
             padding: '12px 14px', borderRadius: '10px',
             background: 'rgba(34,197,94,0.05)', border: '1px solid rgba(34,197,94,0.15)',
-            fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', lineHeight: 1.5,
+            fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', lineHeight: 1.5,
           }}>
             Siaran akan disimpan sebagai <strong>tidak aktif</strong>. Aktifkan bila siaran bermula.
             Hanya satu siaran boleh aktif pada satu masa.

@@ -206,13 +206,13 @@ export function PrayerTimesSection() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px', flexWrap: 'wrap' }}>
               <MapPin style={{ width: '11px', height: '11px', color: '#52c97a', flexShrink: 0 }} />
               <span style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                 fontWeight: 700, color: 'rgba(255,255,255,0.75)', letterSpacing: '0.04em',
               }}>
                 {activeLabel}{detected?.city && ` · ${detected.city}`}
               </span>
               <span style={{
-                fontFamily: 'var(--font-jetbrains)', fontSize: '9px',
+                fontFamily: 'var(--font-jetbrains)', fontSize: '13px',
                 color: '#52c97a', background: 'rgba(82,201,122,0.12)',
                 border: '1px solid rgba(82,201,122,0.25)',
                 padding: '1px 6px', borderRadius: '4px', letterSpacing: '0.10em',
@@ -221,7 +221,7 @@ export function PrayerTimesSection() {
               </span>
               {source === 'jakim' && (
                 <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '9px',
+                  fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                   color: 'rgba(82,201,122,0.55)', letterSpacing: '0.08em',
                 }}>
                   JAKIM e-Solat
@@ -250,7 +250,7 @@ export function PrayerTimesSection() {
             </div>
             {state.hijri && (
               <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+                fontFamily: 'var(--font-jakarta)', fontSize: '12px',
                 color: 'rgba(255,255,255,0.28)', letterSpacing: '0.04em',
               }}>
                 {state.hijri}
@@ -260,7 +260,7 @@ export function PrayerTimesSection() {
 
           <div style={{ textAlign: 'right', flexShrink: 0 }}>
             <p style={{
-              fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+              fontFamily: 'var(--font-jakarta)', fontSize: '12px',
               color: 'rgba(255,255,255,0.28)', letterSpacing: '0.14em',
               textTransform: 'uppercase', marginBottom: '3px',
             }}>

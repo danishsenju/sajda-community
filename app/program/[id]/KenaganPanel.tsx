@@ -86,7 +86,7 @@ export function KenaganPanel({ programId, userId, programTitle, programDate, pro
             <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
               Kenangan Anda
             </p>
-            <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', margin: 0 }}>
+            <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', margin: 0 }}>
               {existingReflection ? 'Anda telah meninggalkan kenangan' : 'Kongsi pengalaman dan dapatkan sijil'}
             </p>
           </div>
@@ -160,7 +160,7 @@ export function KenaganPanel({ programId, userId, programTitle, programDate, pro
                 <p style={{ fontFamily: 'var(--font-playfair)', fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '6px' }}>
                   Nama Anda
                 </p>
-                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', marginBottom: '8px' }}>
+                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', marginBottom: '8px' }}>
                   telah menyertai
                 </p>
                 <p style={{ fontFamily: 'var(--font-playfair)', fontSize: '14px', fontWeight: 600, color: 'var(--primary)', marginBottom: '10px', lineHeight: 1.3 }}>
@@ -169,7 +169,7 @@ export function KenaganPanel({ programId, userId, programTitle, programDate, pro
                 <span style={{
                   display: 'inline-block', padding: '4px 12px', borderRadius: '100px',
                   border: '1px solid var(--border)', fontFamily: 'var(--font-jakarta)',
-                  fontSize: '9px', color: 'var(--text-dim)',
+                  fontSize: '13px', color: 'var(--text-dim)',
                 }}>
                   {dateLabel} · {catLabel}
                 </span>
@@ -177,7 +177,7 @@ export function KenaganPanel({ programId, userId, programTitle, programDate, pro
 
               {/* Reflection textarea */}
               <div>
-                <label style={{ display: 'block', fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: '8px' }}>
                   Catatan Peribadi <span style={{ opacity: 0.5, textTransform: 'none', letterSpacing: 0 }}>(pilihan, max 300 huruf)</span>
                 </label>
                 <textarea
@@ -192,7 +192,7 @@ export function KenaganPanel({ programId, userId, programTitle, programDate, pro
                     resize: 'none', outline: 'none', lineHeight: 1.6, boxSizing: 'border-box',
                   }}
                 />
-                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', textAlign: 'right', marginTop: '4px' }}>
+                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', textAlign: 'right', marginTop: '4px' }}>
                   {reflection.length}/300
                 </p>
               </div>

@@ -149,7 +149,7 @@ export default function AdminBilalPage() {
       {/* Header */}
       <div style={{ marginBottom: '28px' }}>
         <p style={{
-          fontFamily: 'var(--font-jakarta)', fontSize: '10px', letterSpacing: '0.22em',
+          fontFamily: 'var(--font-jakarta)', fontSize: '12px', letterSpacing: '0.22em',
           textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: '6px',
         }}>
           Admin · Bilal
@@ -211,7 +211,7 @@ export default function AdminBilalPage() {
                 padding: '6px 14px', borderRadius: '8px',
                 border: '1px solid rgba(82,201,122,0.28)',
                 background: 'rgba(82,201,122,0.07)', color: '#52c97a',
-                fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 600, cursor: 'pointer',
+                fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
               }}
             >
               Minggu Ini
@@ -235,7 +235,7 @@ export default function AdminBilalPage() {
                 <tr style={{ borderBottom: '1px solid var(--border)' }}>
                   <th style={{
                     padding: '12px 16px', textAlign: 'left', width: '80px',
-                    fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+                    fontFamily: 'var(--font-jakarta)', fontSize: '12px',
                     letterSpacing: '0.16em', textTransform: 'uppercase',
                     color: 'var(--text-dim)', fontWeight: 600,
                     background: 'var(--elevated)',
@@ -247,13 +247,13 @@ export default function AdminBilalPage() {
                     return (
                       <th key={i} style={{
                         padding: '12px 8px', textAlign: 'center',
-                        fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                        fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                         color: isToday ? '#52c97a' : 'var(--text-secondary)',
                         fontWeight: isToday ? 700 : 500,
                         background: isToday ? 'rgba(82,201,122,0.06)' : 'var(--elevated)',
                       }}>
                         <div>{DAY_LABELS[i]}</div>
-                        <div style={{ fontSize: '10px', opacity: 0.65, marginTop: '2px' }}>
+                        <div style={{ fontSize: '12px', opacity: 0.65, marginTop: '2px' }}>
                           {d.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short' })}
                         </div>
                       </th>
@@ -296,7 +296,7 @@ export default function AdminBilalPage() {
                                 ? 'rgba(82,201,122,0.09)'
                                 : 'var(--elevated)',
                               color: currentId ? '#52c97a' : 'var(--text-dim)',
-                              fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 500,
+                              fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 500,
                               cursor: 'pointer', outline: 'none',
                               opacity: isSaving ? 0.5 : 1,
                               transition: 'all 0.15s',
@@ -319,7 +319,7 @@ export default function AdminBilalPage() {
           </div>
 
           <p style={{
-            marginTop: '12px', fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+            marginTop: '12px', fontFamily: 'var(--font-jakarta)', fontSize: '13px',
             color: 'var(--text-dim)',
           }}>
             Perubahan disimpan secara automatik apabila anda memilih bilal.
@@ -355,14 +355,14 @@ export default function AdminBilalPage() {
               border: '1px solid rgba(82,201,122,0.18)', background: 'rgba(82,201,122,0.04)',
             }}>
               <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 600,
+                fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 600,
                 color: '#52c97a', marginBottom: '12px', letterSpacing: '0.1em', textTransform: 'uppercase',
               }}>
                 Bilal Baru
               </p>
               <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
                 <div>
-                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', marginBottom: '5px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', marginBottom: '5px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                     Nama Penuh <span style={{ color: '#ef4444' }}>*</span>
                   </p>
                   <input
@@ -373,7 +373,7 @@ export default function AdminBilalPage() {
                   />
                 </div>
                 <div>
-                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', marginBottom: '5px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', marginBottom: '5px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                     No. Tel <span style={{ opacity: 0.5 }}>(pilihan)</span>
                   </p>
                   <input
@@ -431,7 +431,7 @@ export default function AdminBilalPage() {
                   <div style={{ flex: 1, display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
                     <input value={editName} onChange={e => setEditName(e.target.value)} placeholder="Nama penuh" style={{ padding: '5px 10px', borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--border)', color: 'var(--text-primary)', fontFamily: 'var(--font-jakarta)', fontSize: '12px', outline: 'none', width: '190px' }} onKeyDown={e => e.key === 'Enter' && saveEdit(b.id)} />
                     <input value={editPhone} onChange={e => setEditPhone(e.target.value)} placeholder="No. telefon" style={{ padding: '5px 10px', borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--border)', color: 'var(--text-primary)', fontFamily: 'var(--font-jakarta)', fontSize: '12px', outline: 'none', width: '140px' }} />
-                    <button onClick={() => saveEdit(b.id)} style={{ padding: '5px 14px', borderRadius: '6px', background: '#52c97a', color: '#04080A', border: 'none', fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>Simpan</button>
+                    <button onClick={() => saveEdit(b.id)} style={{ padding: '5px 14px', borderRadius: '6px', background: '#52c97a', color: '#04080A', border: 'none', fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700, cursor: 'pointer' }}>Simpan</button>
                     <button onClick={() => setEditId(null)} style={{ padding: '5px', background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }}><X style={{ width: '14px', height: '14px' }} /></button>
                   </div>
                 ) : (
@@ -441,11 +441,11 @@ export default function AdminBilalPage() {
                     </p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
                       {b.phone && (
-                        <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)' }}>
                           <Phone style={{ width: '10px', height: '10px' }} /> {b.phone}
                         </span>
                       )}
-                      <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', letterSpacing: '0.08em' }}>
+                      <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', letterSpacing: '0.08em' }}>
                         {b.is_active ? 'Aktif' : 'Tidak aktif'}
                       </span>
                     </div>
@@ -456,7 +456,7 @@ export default function AdminBilalPage() {
                   <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
                     <button
                       onClick={() => { setEditId(b.id); setEditName(b.name); setEditPhone(b.phone ?? ''); setEditNotes(b.notes ?? '') }}
-                      style={{ padding: '5px 12px', borderRadius: '6px', border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-secondary)', fontFamily: 'var(--font-jakarta)', fontSize: '11px', cursor: 'pointer' }}
+                      style={{ padding: '5px 12px', borderRadius: '6px', border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-secondary)', fontFamily: 'var(--font-jakarta)', fontSize: '13px', cursor: 'pointer' }}
                     >
                       Edit
                     </button>
@@ -467,7 +467,7 @@ export default function AdminBilalPage() {
                         border: `1px solid ${b.is_active ? 'rgba(239,68,68,0.22)' : 'rgba(82,201,122,0.22)'}`,
                         background: 'transparent',
                         color: b.is_active ? 'rgba(239,68,68,0.65)' : 'rgba(82,201,122,0.65)',
-                        fontFamily: 'var(--font-jakarta)', fontSize: '11px', cursor: 'pointer',
+                        fontFamily: 'var(--font-jakarta)', fontSize: '13px', cursor: 'pointer',
                       }}
                     >
                       {b.is_active ? 'Nyahaktif' : 'Aktifkan'}

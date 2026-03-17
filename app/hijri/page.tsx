@@ -203,7 +203,7 @@ export default function HijriCalendarPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
             <Moon style={{ width: '14px', height: '14px', color: '#22C55E' }} />
             <span style={{
-              fontFamily: 'var(--font-dm-sans)', fontSize: '10px',
+              fontFamily: 'var(--font-dm-sans)', fontSize: '12px',
               fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase',
               color: '#22C55E',
             }}>
@@ -278,7 +278,7 @@ export default function HijriCalendarPage() {
                     display: 'inline-flex', alignItems: 'center', gap: '5px',
                     padding: '4px 10px', borderRadius: '100px',
                     background: bg, border: `1px solid ${color}44`,
-                    fontFamily: 'var(--font-dm-sans)', fontSize: '10px',
+                    fontFamily: 'var(--font-dm-sans)', fontSize: '12px',
                     color,
                   }}>
                     <Star style={{ width: '8px', height: '8px' }} />
@@ -324,7 +324,7 @@ export default function HijriCalendarPage() {
               {HIJRI_MONTHS[hijriMonthNum - 1] ?? '—'} {hijriYear} H
             </p>
             <p style={{
-              fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+              fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
               color: 'var(--text-dim)', margin: '4px 0 0',
             }}>
               {gregMonthName}
@@ -498,7 +498,7 @@ export default function HijriCalendarPage() {
           ].map(({ color, bg, label }) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <div style={{ width: '10px', height: '10px', borderRadius: '2px', background: bg, border: `1px solid ${color}44` }} />
-              <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-secondary)' }}>
+              <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-secondary)' }}>
                 {label}
               </span>
             </div>
@@ -513,7 +513,7 @@ export default function HijriCalendarPage() {
         }}>
           <CalendarDays style={{ width: '14px', height: '14px', color: 'var(--text-dim)', flexShrink: 0 }} />
           <p style={{
-            fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+            fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
             color: 'var(--text-secondary)', margin: 0, lineHeight: 1.6,
           }}>
             Tarikh Hijri berdasarkan pengiraan Ummul Qura. Data waktu solat Malaysia dari JAKIM.

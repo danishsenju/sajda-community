@@ -105,7 +105,7 @@ export default async function BilalPage() {
               <tr style={{ borderBottom: '1px solid var(--border)' }}>
                 <th style={{
                   padding: '14px 20px', textAlign: 'left', width: '110px',
-                  fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+                  fontFamily: 'var(--font-jakarta)', fontSize: '12px',
                   letterSpacing: '0.18em', textTransform: 'uppercase',
                   color: 'var(--text-dim)', fontWeight: 600,
                 }}>
@@ -117,13 +117,13 @@ export default async function BilalPage() {
                   return (
                     <th key={i} style={{
                       padding: '14px 10px', textAlign: 'center',
-                      fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                      fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                       color: isToday ? 'var(--primary)' : 'var(--text-secondary)',
                       fontWeight: isToday ? 700 : 500,
                       background: isToday ? 'var(--primary-pale)' : 'transparent',
                     }}>
                       <div>{DAY_LABELS[i]}</div>
-                      <div style={{ fontSize: '10px', opacity: 0.6, marginTop: '2px' }}>
+                      <div style={{ fontSize: '12px', opacity: 0.6, marginTop: '2px' }}>
                         {d.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short' })}
                       </div>
                     </th>
@@ -157,7 +157,7 @@ export default async function BilalPage() {
                             display: 'inline-block',
                             padding: '4px 10px', borderRadius: '20px',
                             background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)',
-                            fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                            fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                             fontWeight: 600, color: 'var(--primary)',
                           }}>
                             {bilalName}
@@ -200,7 +200,7 @@ export default async function BilalPage() {
                     <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700, color: isToday ? 'var(--primary)' : 'var(--text-primary)' }}>
                       {DAY_LABELS[i]}
                     </span>
-                    <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', marginLeft: '8px' }}>
+                    <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', marginLeft: '8px' }}>
                       {d.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short' })}
                     </span>
                   </div>
@@ -208,7 +208,7 @@ export default async function BilalPage() {
                     <span style={{
                       padding: '2px 8px', borderRadius: '20px',
                       background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)',
-                      fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 600, color: 'var(--primary)',
+                      fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--primary)',
                     }}>
                       Hari Ini
                     </span>
@@ -238,7 +238,7 @@ export default async function BilalPage() {
                           <span style={{
                             padding: '3px 10px', borderRadius: '20px',
                             background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)',
-                            fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 600, color: 'var(--primary)',
+                            fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 600, color: 'var(--primary)',
                           }}>
                             {bilalName}
                           </span>
@@ -250,7 +250,7 @@ export default async function BilalPage() {
                   })}
 
                   {!hasAny && (
-                    <p style={{ padding: '8px 16px', fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', textAlign: 'center' }}>
+                    <p style={{ padding: '8px 16px', fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', textAlign: 'center' }}>
                       Jadual belum ditetapkan
                     </p>
                   )}
@@ -263,7 +263,7 @@ export default async function BilalPage() {
         {/* Legend */}
         {(bilals?.length ?? 0) > 0 && (
           <div style={{ marginTop: '32px', padding: '16px 20px', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--surface)' }}>
-            <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: '10px' }}>
+            <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: '10px' }}>
               Bilal Aktif
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>

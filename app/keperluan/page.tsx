@@ -117,7 +117,7 @@ export default async function KeperluanPage({
         <div className="max-w-5xl mx-auto" style={{ padding: '40px 24px 0' }}>
           {/* Label */}
           <p style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+            fontFamily: 'var(--font-jakarta)', fontSize: '12px',
             letterSpacing: '0.28em', textTransform: 'uppercase',
             color: '#52c97a', fontWeight: 700, marginBottom: '14px',
           }}>
@@ -161,7 +161,7 @@ export default async function KeperluanPage({
                 <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#EF4444', flexShrink: 0 }} />
               </span>
               <span style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
+                fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                 color: '#FCA5A5', letterSpacing: '0.12em', textTransform: 'uppercase',
               }}>
                 {urgentCount} Keperluan Mendesak
@@ -210,7 +210,7 @@ export default async function KeperluanPage({
                 <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F59E0B', flexShrink: 0 }} />
               </span>
               <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
+                fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                 color: '#FCD34D', letterSpacing: '0.14em', textTransform: 'uppercase',
               }}>
                 Permohonan Anda — Menunggu Kelulusan AJK
@@ -233,7 +233,7 @@ export default async function KeperluanPage({
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: 'flex', gap: '6px', marginBottom: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
                           <span style={{
-                            fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                            fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                             letterSpacing: '0.12em', textTransform: 'uppercase',
                             color: cfg.color, padding: '3px 8px',
                             background: `${cfg.dot}15`, borderRadius: '4px',
@@ -242,7 +242,7 @@ export default async function KeperluanPage({
                           </span>
                           {item.urgency === 'urgent' && (
                             <span style={{
-                              fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                              fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                               letterSpacing: '0.1em', textTransform: 'uppercase',
                               color: '#FCA5A5', padding: '3px 8px',
                               background: 'rgba(239,68,68,0.14)', borderRadius: '4px',
@@ -262,7 +262,7 @@ export default async function KeperluanPage({
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px', flexShrink: 0 }}>
                         <span style={{
-                          fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                          fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                           letterSpacing: '0.12em', textTransform: 'uppercase',
                           color: '#FCD34D', padding: '4px 10px',
                           background: 'rgba(245,158,11,0.15)', borderRadius: '4px',
@@ -270,7 +270,7 @@ export default async function KeperluanPage({
                           ⏳ Dalam Semakan
                         </span>
                         <span style={{
-                          fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                          fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                           color: 'var(--text-dim)',
                         }}>
                           {daysAgo === 0 ? 'Hari ini' : `${daysAgo}h lepas`}
@@ -297,7 +297,7 @@ export default async function KeperluanPage({
           </p>
           <Link href={`/keperluan?cat=${cat ?? 'semua'}${urgency === 'urgent' ? '' : '&urgency=urgent'}`}
             style={{
-              fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 600,
+              fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 600,
               padding: '6px 14px', borderRadius: '6px',
               border: `1px solid ${urgency === 'urgent' ? 'rgba(239,68,68,0.4)' : 'var(--border)'}`,
               color: urgency === 'urgent' ? '#FCA5A5' : 'var(--text-dim)',
@@ -366,7 +366,7 @@ export default async function KeperluanPage({
                     {/* Badges */}
                     <div style={{ display: 'flex', gap: '6px', marginBottom: '12px', flexWrap: 'wrap' }}>
                       <span style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                        fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                         letterSpacing: '0.12em', textTransform: 'uppercase',
                         color: cfg.color, padding: '3px 8px',
                         background: `${cfg.dot}15`, borderRadius: '4px',
@@ -375,7 +375,7 @@ export default async function KeperluanPage({
                       </span>
                       {item.urgency === 'urgent' && (
                         <span style={{
-                          fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                          fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                           letterSpacing: '0.1em', textTransform: 'uppercase',
                           color: '#FCA5A5', padding: '3px 8px',
                           background: 'rgba(239,68,68,0.14)', borderRadius: '4px',
@@ -413,12 +413,12 @@ export default async function KeperluanPage({
                         <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '13px', color: cfg.color, fontWeight: 600 }}>
                           {helperCount}
                         </span>
-                        <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)' }}>
+                        <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)' }}>
                           nak bantu
                         </span>
                       </div>
                       <span style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                        fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                         color: 'var(--text-dim)',
                         display: 'flex', alignItems: 'center', gap: '4px',
                       }}>

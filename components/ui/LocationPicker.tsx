@@ -226,7 +226,7 @@ export function LocationPicker({ value, onChange, defaultCenter = DEFAULT_CENTER
         }}>
           <MapPin style={{ width: '12px', height: '12px', color: '#22C55E', flexShrink: 0, marginTop: '2px' }} />
           <p style={{
-            fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+            fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
             color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5,
           }}>
             {address.split(',').slice(0, 4).join(', ')}
@@ -235,7 +235,7 @@ export function LocationPicker({ value, onChange, defaultCenter = DEFAULT_CENTER
       )}
 
       <p style={{
-        fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+        fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
         color: 'var(--text-dim)', marginTop: '6px',
       }}>
         Klik pada peta atau cari untuk pin lokasi pengkebumian

@@ -92,7 +92,7 @@ export default async function ProgramPage({
 
         <div className="max-w-5xl mx-auto" style={{ padding: '40px 24px 0' }}>
           <p style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+            fontFamily: 'var(--font-jakarta)', fontSize: '12px',
             letterSpacing: '0.28em', textTransform: 'uppercase',
             color: '#52c97a', fontWeight: 700, marginBottom: '14px',
           }}>
@@ -117,7 +117,7 @@ export default async function ProgramPage({
                 <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '28px', fontWeight: 700, color: '#52c97a' }}>
                   {upcomingList.length}
                 </span>
-                <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', marginLeft: '6px' }}>
+                <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', marginLeft: '6px' }}>
                   program akan datang
                 </span>
               </div>
@@ -128,7 +128,7 @@ export default async function ProgramPage({
                     <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '28px', fontWeight: 700, color: '#FCD34D' }}>
                       {totalVolunteerNeeded}
                     </span>
-                    <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', marginLeft: '6px' }}>
+                    <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', marginLeft: '6px' }}>
                       perlu sukarelawan
                     </span>
                   </div>
@@ -190,14 +190,14 @@ export default async function ProgramPage({
             {/* Section label */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
               <span style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--text-dim)',
               }}>
                 Akan Datang
               </span>
               <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
               <span style={{
-                fontFamily: 'var(--font-jetbrains)', fontSize: '11px', fontWeight: 600,
+                fontFamily: 'var(--font-jetbrains)', fontSize: '13px', fontWeight: 600,
                 color: '#52c97a', background: 'rgba(82,201,122,0.1)',
                 padding: '3px 10px', borderRadius: '4px',
               }}>
@@ -252,7 +252,7 @@ export default async function ProgramPage({
                         padding: '6px 8px', textAlign: 'center', position: 'relative',
                       }}>
                         <p style={{
-                          fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                          fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                           textTransform: 'uppercase', letterSpacing: '0.1em',
                           color: isFirst ? '#52c97a' : 'var(--text-dim)',
                           marginBottom: '2px',
@@ -266,7 +266,7 @@ export default async function ProgramPage({
                           {d.getDate()}
                         </p>
                         <p style={{
-                          fontFamily: 'var(--font-jakarta)', fontSize: '9px',
+                          fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                           color: 'var(--text-dim)', marginTop: '2px',
                         }}>
                           {DAYS_MS[d.getDay()]}
@@ -280,7 +280,7 @@ export default async function ProgramPage({
                         <div style={{ flex: 1 }}>
                           {/* Category badge */}
                           <span style={{
-                            fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                            fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                             letterSpacing: '0.12em', textTransform: 'uppercase',
                             color: cfg.color, padding: '2px 7px',
                             background: `${cfg.dot}15`, borderRadius: '4px',
@@ -297,7 +297,7 @@ export default async function ProgramPage({
                         </div>
                         {isFirst && (
                           <span style={{
-                            fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                            fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                             letterSpacing: '0.1em', textTransform: 'uppercase',
                             color: '#52c97a', padding: '4px 10px',
                             background: 'rgba(82,201,122,0.12)', borderRadius: '6px', flexShrink: 0,
@@ -344,7 +344,7 @@ export default async function ProgramPage({
                         <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
                             <span style={{
-                              fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 600,
+                              fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 600,
                               color: slotsFull ? 'var(--text-dim)' : '#FCD34D',
                               display: 'flex', alignItems: 'center', gap: '5px',
                             }}>
@@ -356,7 +356,7 @@ export default async function ProgramPage({
                               {!slotsFull && ` · ${slots - signups} lagi`}
                             </span>
                             <span style={{
-                              fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                              fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                               color: slotsFull ? 'var(--text-dim)' : '#FCD34D',
                               padding: '2px 8px', borderRadius: '4px',
                               background: slotsFull ? 'var(--border)' : 'rgba(245,158,11,0.12)',
@@ -410,7 +410,7 @@ export default async function ProgramPage({
           <div style={{ marginTop: '48px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
               <span style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--text-dim)',
               }}>
                 Program Lalu
@@ -427,7 +427,7 @@ export default async function ProgramPage({
                     borderRadius: '10px', padding: '14px', opacity: 0.5,
                   }}>
                     <p style={{
-                      fontFamily: 'var(--font-jetbrains)', fontSize: '11px',
+                      fontFamily: 'var(--font-jetbrains)', fontSize: '13px',
                       color: cfg.color, marginBottom: '5px',
                     }}>
                       {d.getDate()} {MONTHS_MS[d.getMonth()]} {d.getFullYear()}

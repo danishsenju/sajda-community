@@ -99,7 +99,7 @@ export default function SolatTrackerPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
             <Lock style={{ width: '12px', height: '12px', color: 'var(--text-dim)' }} />
             <span style={{
-              fontFamily: 'var(--font-dm-sans)', fontSize: '10px', fontWeight: 700,
+              fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 700,
               letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--text-dim)',
             }}>
               Peribadi & Sulit
@@ -156,7 +156,7 @@ export default function SolatTrackerPage() {
               }} />
             ))}
             <span style={{
-              fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+              fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
               color: 'var(--text-dim)', marginLeft: '4px',
             }}>
               {mounted ? doneSolat : 0} / 5 hari ini
@@ -172,7 +172,7 @@ export default function SolatTrackerPage() {
             }}>
               {mounted ? streak : 0}
             </span>
-            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)' }}>
+            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)' }}>
               hari
             </span>
           </div>
@@ -270,7 +270,7 @@ export default function SolatTrackerPage() {
                 {/* Done label */}
                 {done && (
                   <span style={{
-                    fontFamily: 'var(--font-dm-sans)', fontSize: '10px',
+                    fontFamily: 'var(--font-dm-sans)', fontSize: '12px',
                     fontWeight: 700, letterSpacing: '0.08em',
                     color: '#22C55E',
                     padding: '3px 8px', borderRadius: '100px',
@@ -292,7 +292,7 @@ export default function SolatTrackerPage() {
         }}>
           <Lock style={{ width: '11px', height: '11px', color: 'var(--text-dim)', flexShrink: 0, marginTop: '2px' }} />
           <p style={{
-            fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+            fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
             color: 'var(--text-dim)', margin: 0, lineHeight: 1.6,
           }}>
             Rekod solat anda tersimpan di peranti ini sahaja. Tiada nama atau profil dipaparkan kepada jemaah lain.
@@ -314,7 +314,7 @@ export default function SolatTrackerPage() {
             حَاسِبُوا أَنْفُسَكُمْ قَبْلَ أَنْ تُحَاسَبُوا
           </p>
           <p style={{
-            fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+            fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
             color: 'var(--text-dim)', margin: 0,
           }}>
             "Hitung dirimu sebelum kamu dihitung" — Umar ibn al-Khattab (ra)

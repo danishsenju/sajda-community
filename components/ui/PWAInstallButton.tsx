@@ -66,7 +66,7 @@ export function PWAInstallButton() {
         }}>
           Pasang Sajda di telefon
         </p>
-        <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'rgba(255,255,255,0.38)' }}>
+        <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'rgba(255,255,255,0.38)' }}>
           Akses pantas tanpa buka pelayar
         </p>
       </div>
@@ -202,10 +202,10 @@ export function PWAInstallInline() {
                   padding: '10px 12px', borderRadius: '8px',
                   background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)',
                 }}>
-                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700, color: '#52c97a', marginBottom: '3px' }}>
+                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700, color: '#52c97a', marginBottom: '3px' }}>
                     {item.label}
                   </p>
-                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'rgba(255,255,255,0.38)' }}>
+                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'rgba(255,255,255,0.38)' }}>
                     {item.steps}
                   </p>
                 </div>

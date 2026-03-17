@@ -224,7 +224,7 @@ export default function WiridPage() {
               <p style={{ fontFamily: 'var(--font-playfair)', fontSize: '14px', fontWeight: 700, color: '#22C55E', margin: '0 0 2px' }}>
                 MasyaAllah! {tab === 'pagi' ? 'Wirid pagi' : tab === 'petang' ? 'Wirid petang' : 'Doa solat'} selesai ✓
               </p>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'rgba(34,197,94,0.7)', margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'rgba(34,197,94,0.7)', margin: 0 }}>
                 Semoga amalan ini diterima Allah SWT
               </p>
             </div>
@@ -283,7 +283,7 @@ export default function WiridPage() {
                         </span>
                       </div>
                       <p style={{
-                        fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+                        fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
                         color: 'var(--text-dim)', margin: 0,
                       }}>
                         {s.benefit}
@@ -295,12 +295,12 @@ export default function WiridPage() {
                       <span style={{
                         padding: '2px 8px', borderRadius: '100px',
                         background: tagStyle.bg, color: tagStyle.color,
-                        fontFamily: 'var(--font-dm-sans)', fontSize: '10px', fontWeight: 600,
+                        fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 600,
                       }}>
                         {s.tag}
                       </span>
                       <span style={{
-                        fontFamily: 'var(--font-dm-sans)', fontSize: '10px',
+                        fontFamily: 'var(--font-dm-sans)', fontSize: '12px',
                         color: 'var(--text-dim)',
                       }}>
                         {s.verses} ayat
@@ -366,7 +366,7 @@ export default function WiridPage() {
                           display: 'inline-block', marginTop: '6px',
                           padding: '2px 8px', borderRadius: '100px',
                           background: 'rgba(245,158,11,0.10)', border: '1px solid rgba(245,158,11,0.20)',
-                          fontFamily: 'var(--font-jetbrains)', fontSize: '10px',
+                          fontFamily: 'var(--font-jetbrains)', fontSize: '12px',
                           color: 'rgba(245,158,11,0.8)',
                         }}>
                           ×{item.count}
@@ -400,7 +400,7 @@ export default function WiridPage() {
           marginTop: '24px', padding: '12px 16px', borderRadius: '10px',
           background: 'var(--surface)', border: '1px solid var(--border)',
         }}>
-          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', margin: 0, lineHeight: 1.6 }}>
+          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', margin: 0, lineHeight: 1.6 }}>
             {tab === 'surah'
               ? 'Teks Al-Quran dari al-quran.cloud. Terjemahan Bahasa Malaysia: Tafsir Pimpinan Ar-Rahman.'
               : 'Wirid dari Kitab Al-Mathurat (Hassan Al-Banna) & hadis-hadis sahih. Rekod disimpan di peranti ini sahaja.'}

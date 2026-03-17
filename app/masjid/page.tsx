@@ -91,7 +91,7 @@ export default async function MasjidPage() {
 
         <div className="max-w-5xl mx-auto" style={{ padding: '48px 24px 40px', position: 'relative' }}>
           <p style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+            fontFamily: 'var(--font-jakarta)', fontSize: '12px',
             letterSpacing: '0.28em', textTransform: 'uppercase',
             color: '#52c97a', fontWeight: 700, marginBottom: '14px',
           }}>
@@ -140,7 +140,7 @@ export default async function MasjidPage() {
                   <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '22px', fontWeight: 700, color: '#52c97a', lineHeight: 1 }}>
                     {s.value}
                   </p>
-                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', letterSpacing: '0.08em' }}>
+                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', letterSpacing: '0.08em' }}>
                     {s.label}
                   </p>
                 </div>
@@ -207,7 +207,7 @@ export default async function MasjidPage() {
                     <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '18px', fontWeight: 700, color: '#52c97a' }}>
                       {s.value}
                     </p>
-                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)' }}>
+                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)' }}>
                       {s.label}
                     </p>
                   </div>
@@ -241,7 +241,7 @@ export default async function MasjidPage() {
                         flexShrink: 0, zIndex: 1,
                       }} />
                       <span style={{
-                        fontFamily: 'var(--font-jetbrains)', fontSize: '11px', fontWeight: 700,
+                        fontFamily: 'var(--font-jetbrains)', fontSize: '13px', fontWeight: 700,
                         color: i === 0 ? '#52c97a' : 'var(--text-dim)',
                       }}>
                         {item.year}
@@ -291,12 +291,12 @@ export default async function MasjidPage() {
                   }}>
                     {label}
                   </p>
-                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', lineHeight: 1.5 }}>
+                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', lineHeight: 1.5 }}>
                     {active ? desc : 'Tiada buat masa ini'}
                   </p>
                   <span style={{
                     display: 'inline-block', marginTop: '8px',
-                    fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                    fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                     letterSpacing: '0.12em', textTransform: 'uppercase',
                     color: active ? '#52c97a' : 'var(--text-dim)',
                     padding: '2px 8px', borderRadius: '4px',
@@ -373,7 +373,7 @@ export default async function MasjidPage() {
                         <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '2px' }}>
                           {item.label}
                         </p>
-                        <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)' }}>
+                        <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)' }}>
                           {item.time}
                         </p>
                       </div>
@@ -400,7 +400,7 @@ export default async function MasjidPage() {
                 background: 'rgba(82,201,122,0.06)', border: '1px solid rgba(82,201,122,0.18)',
               }}>
                 <p style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                  fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                   letterSpacing: '0.18em', textTransform: 'uppercase',
                   color: 'var(--text-dim)', marginBottom: '8px',
                 }}>
@@ -412,7 +412,7 @@ export default async function MasjidPage() {
                 }}>
                   {phone}
                 </a>
-                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', marginTop: '4px' }}>
+                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', marginTop: '4px' }}>
                   Pejabat pengurusan masjid
                 </p>
               </div>
@@ -486,7 +486,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '18px' }}>
       <span style={{
-        fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+        fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
         letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--text-dim)',
         flexShrink: 0,
       }}>

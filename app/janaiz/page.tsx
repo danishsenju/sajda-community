@@ -106,7 +106,7 @@ export default function JanaizPage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
                 <Heart style={{ width: '14px', height: '14px', color: 'var(--text-dim)' }} />
                 <span style={{
-                  fontFamily: 'var(--font-dm-sans)', fontSize: '10px',
+                  fontFamily: 'var(--font-dm-sans)', fontSize: '12px',
                   fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase',
                   color: 'var(--text-dim)',
                 }}>
@@ -279,7 +279,7 @@ export default function JanaizPage() {
 
                     <div style={{ textAlign: 'right', flexShrink: 0 }}>
                       <p style={{
-                        fontFamily: 'var(--font-dm-sans)', fontSize: '10px',
+                        fontFamily: 'var(--font-dm-sans)', fontSize: '12px',
                         color: 'var(--text-dim)', margin: 0,
                       }}>
                         {timeAgo(notice.created_at)}
@@ -289,7 +289,7 @@ export default function JanaizPage() {
                           display: 'inline-flex', alignItems: 'center', gap: '3px',
                           marginTop: '4px', padding: '2px 8px', borderRadius: '100px',
                           background: 'rgba(34,197,94,0.10)', border: '1px solid rgba(34,197,94,0.20)',
-                          fontFamily: 'var(--font-dm-sans)', fontSize: '9px', fontWeight: 600,
+                          fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600,
                           color: '#22C55E',
                         }}>
                           <Shield style={{ width: '8px', height: '8px' }} />
@@ -313,7 +313,7 @@ export default function JanaizPage() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                         <Clock style={{ width: '11px', height: '11px', color: 'var(--text-dim)' }} />
                         <span style={{
-                          fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+                          fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
                           color: 'var(--text-secondary)',
                         }}>
                           Solat Jenazah: {notice.jenazah_time}
@@ -324,7 +324,7 @@ export default function JanaizPage() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                         <MapPin style={{ width: '11px', height: '11px', color: 'var(--text-dim)' }} />
                         <span style={{
-                          fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+                          fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
                           color: 'var(--text-secondary)',
                           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                           maxWidth: '200px',
@@ -380,7 +380,7 @@ export default function JanaizPage() {
             "Sesungguhnya kami milik Allah dan kepada-Nya kami kembali"
           </p>
           <p style={{
-            fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+            fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
             color: 'var(--text-dim)', margin: '6px 0 0',
           }}>
             — Al-Baqarah, 2:156

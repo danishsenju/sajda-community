@@ -67,7 +67,7 @@ export function BukaPuasaCountdown({
         }}>
           <span style={{ fontSize: '13px', lineHeight: 1 }}>🌙</span>
           <span style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+            fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
             letterSpacing: '0.1em', textTransform: 'uppercase',
             color: '#FCD34D',
           }}>
@@ -75,7 +75,7 @@ export function BukaPuasaCountdown({
           </span>
         </div>
         <p style={{
-          fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+          fontFamily: 'var(--font-jakarta)', fontSize: '13px',
           color: 'rgba(255,255,255,0.35)', lineHeight: 1.55,
         }}>
           Semoga ibadah puasa anda diterima Allah SWT.
@@ -123,7 +123,7 @@ export function BukaPuasaCountdown({
                 </span>
               </div>
               <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                 letterSpacing: '0.14em', textTransform: 'uppercase',
                 color: 'rgba(255,255,255,0.35)', marginTop: '6px',
               }}>
@@ -145,21 +145,21 @@ export function BukaPuasaCountdown({
         <div style={{ marginTop: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
             <span style={{
-              fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+              fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
               letterSpacing: '0.12em', textTransform: 'uppercase',
               color: 'rgba(255,255,255,0.28)',
             }}>
               Imsak {imsakTime}
             </span>
             <span style={{
-              fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+              fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
               letterSpacing: '0.12em', textTransform: 'uppercase',
               color: 'rgba(252,211,77,0.5)',
             }}>
               {Math.round(pct)}%
             </span>
             <span style={{
-              fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+              fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
               letterSpacing: '0.12em', textTransform: 'uppercase',
               color: 'rgba(252,211,77,0.65)',
             }}>

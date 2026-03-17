@@ -221,12 +221,12 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
                 <span style={{
                   padding: '2px 8px', borderRadius: '100px',
                   background: `${cfg.color}18`, color: cfg.color,
-                  fontFamily: 'var(--font-dm-sans)', fontSize: '9px', fontWeight: 700,
+                  fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700,
                   letterSpacing: '0.1em', textTransform: 'uppercase',
                 }}>
                   {cfg.label}
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: group.is_open && !full ? '#22C55E' : 'var(--text-dim)' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: group.is_open && !full ? '#22C55E' : 'var(--text-dim)' }}>
                   {group.is_open && !full
                     ? <><Unlock style={{ width: '9px', height: '9px' }} /> Terbuka</>
                     : <><Lock style={{ width: '9px', height: '9px' }} /> {full ? 'Penuh' : 'Tertutup'}</>
@@ -310,7 +310,7 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
                 <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '14px', fontWeight: 700, color: cfg.color, margin: 0 }}>
                   {s.value}
                 </p>
-                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '9px', color: 'var(--text-dim)', margin: 0, letterSpacing: '0.06em' }}>
+                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', margin: 0, letterSpacing: '0.06em' }}>
                   {s.label}
                 </p>
               </div>
@@ -396,7 +396,7 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
             )}
 
             <p style={{
-              fontFamily: 'var(--font-dm-sans)', fontSize: '10px', fontWeight: 700,
+              fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 700,
               letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-dim)',
               marginBottom: '14px',
             }}>
@@ -458,7 +458,7 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
             {/* Progress bar */}
             <div style={{ padding: '16px', borderRadius: '14px', background: 'var(--surface)', border: '1px solid var(--border)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-secondary)', fontWeight: 600 }}>
+                <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-secondary)', fontWeight: 600 }}>
                   Progress Al-Quran Saya
                 </span>
                 <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '12px', color: cfg.color, fontWeight: 700 }}>
@@ -474,7 +474,7 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
                 }} />
               </div>
               {totalJuzukDone === 30 && (
-                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: '#FCD34D', marginTop: '8px', textAlign: 'center', fontWeight: 600 }}>
+                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: '#FCD34D', marginTop: '8px', textAlign: 'center', fontWeight: 600 }}>
                   🎉 Tahniah! Anda telah khatam Al-Quran dalam halaqah ini!
                 </p>
               )}
@@ -518,7 +518,7 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
                         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                       }}>
                         {m.profiles?.full_name ?? 'Ahli'}
-                        {isMe && <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '9px', color: 'var(--text-dim)', marginLeft: '4px' }}>(Anda)</span>}
+                        {isMe && <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', marginLeft: '4px' }}>(Anda)</span>}
                       </p>
                       {m.role === 'ketua' && (
                         <span style={{
@@ -532,7 +532,7 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
                         </span>
                       )}
                     </div>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', margin: '2px 0 0' }}>
+                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', margin: '2px 0 0' }}>
                       Sertai {new Date(m.joined_at).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </p>
                   </div>
@@ -540,7 +540,7 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
                     <span style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '16px', fontWeight: 700, color: cfg.color }}>
                       {m.juzuk_done}
                     </span>
-                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '9px', color: 'var(--text-dim)', letterSpacing: '0.04em' }}>
+                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', letterSpacing: '0.04em' }}>
                       juzuk
                     </span>
                   </div>
@@ -563,7 +563,7 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
         {tab === 'leaderboard' && (
           <div style={{ animation: 'fadeUp 0.25s ease forwards' }}>
             <p style={{
-              fontFamily: 'var(--font-dm-sans)', fontSize: '10px', fontWeight: 700,
+              fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 700,
               letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-dim)',
               marginBottom: '14px',
             }}>
@@ -596,7 +596,7 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {m.profiles?.full_name ?? 'Ahli'}
-                        {isMe && <span style={{ color: 'var(--text-dim)', fontSize: '10px', marginLeft: '4px' }}>(Anda)</span>}
+                        {isMe && <span style={{ color: 'var(--text-dim)', fontSize: '12px', marginLeft: '4px' }}>(Anda)</span>}
                       </p>
                       {/* mini progress bar */}
                       <div style={{ height: '3px', borderRadius: '100px', background: 'var(--border)', marginTop: '6px', overflow: 'hidden' }}>
@@ -611,7 +611,7 @@ export default function HalaqahDetailPage({ params }: { params: Promise<{ id: st
                       <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '18px', fontWeight: 700, color: cfg.color, margin: 0 }}>
                         {m.juzuk_done}
                       </p>
-                      <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '9px', color: 'var(--text-dim)', margin: 0 }}>/ 30</p>
+                      <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', margin: 0 }}>/ 30</p>
                     </div>
                   </div>
                 )

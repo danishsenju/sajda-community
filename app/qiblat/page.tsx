@@ -158,7 +158,7 @@ export default function QiblatPage() {
 
         <div className="max-w-xl mx-auto" style={{ padding: '40px 24px 28px', position: 'relative' }}>
           <p style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+            fontFamily: 'var(--font-jakarta)', fontSize: '12px',
             letterSpacing: '0.28em', textTransform: 'uppercase',
             color: '#52c97a', fontWeight: 700, marginBottom: '14px',
           }}>
@@ -213,7 +213,7 @@ export default function QiblatPage() {
                 { label: 'B', angle: 270, left: '8px', top: '50%', transform: 'translateY(-50%)' },
               ].map((p) => (
                 <span key={p.label} style={{
-                  position: 'absolute', fontFamily: 'var(--font-jetbrains)', fontSize: '10px',
+                  position: 'absolute', fontFamily: 'var(--font-jetbrains)', fontSize: '12px',
                   fontWeight: 700, color: 'rgba(82,201,122,0.35)',
                   top: (p as any).top, bottom: (p as any).bottom,
                   left: (p as any).left, right: (p as any).right,
@@ -342,7 +342,7 @@ export default function QiblatPage() {
                       top: (p as any).top, bottom: (p as any).bottom,
                       left: (p as any).left, right: (p as any).right,
                       transform: p.transform,
-                      fontFamily: 'var(--font-jetbrains)', fontSize: '11px', fontWeight: 700,
+                      fontFamily: 'var(--font-jetbrains)', fontSize: '13px', fontWeight: 700,
                       color: p.color ?? 'rgba(255,255,255,0.3)',
                     }}>
                       {p.label}
@@ -432,7 +432,7 @@ export default function QiblatPage() {
                   </div>
                 ) : (
                   <span style={{
-                    fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                    fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                     color: 'var(--text-dim)',
                   }}>
                     {compassReady ? 'Pusing peranti ke arah kiblat' : 'Menunggu kompas…'}
@@ -466,7 +466,7 @@ export default function QiblatPage() {
                 background: 'rgba(82,201,122,0.06)', border: '1px solid rgba(82,201,122,0.15)',
               }}>
                 <p style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                  fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                   letterSpacing: '0.14em', textTransform: 'uppercase',
                   color: 'var(--text-dim)', marginBottom: '6px',
                 }}>
@@ -481,7 +481,7 @@ export default function QiblatPage() {
                 background: 'rgba(252,211,77,0.05)', border: '1px solid rgba(252,211,77,0.14)',
               }}>
                 <p style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                  fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                   letterSpacing: '0.14em', textTransform: 'uppercase',
                   color: 'var(--text-dim)', marginBottom: '6px',
                 }}>
@@ -502,7 +502,7 @@ export default function QiblatPage() {
                 marginBottom: '12px',
               }}>
                 <MapPin style={{ width: '13px', height: '13px', color: '#52c97a', flexShrink: 0 }} />
-                <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', color: 'var(--text-dim)' }}>
+                <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '13px', color: 'var(--text-dim)' }}>
                   {coords.lat.toFixed(4)}°N, {coords.lng.toFixed(4)}°E
                 </p>
               </div>
@@ -536,7 +536,7 @@ export default function QiblatPage() {
             )}
 
             <p style={{
-              textAlign: 'center', fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+              textAlign: 'center', fontFamily: 'var(--font-jakarta)', fontSize: '13px',
               color: 'var(--text-dim)', lineHeight: 1.6,
             }}>
               {compassReady

@@ -254,7 +254,7 @@ export function InstallPWA() {
                     marginTop: '12px', padding: '10px 14px', borderRadius: '12px',
                     background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.15)',
                   }}>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--primary)', margin: 0, lineHeight: 1.5 }}>
+                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--primary)', margin: 0, lineHeight: 1.5 }}>
                       💡 <strong>Tip:</strong> Pastikan anda menggunakan pelayar <strong>Safari</strong> di iPhone/iPad. Ciri ini tidak tersedia di Chrome/Firefox untuk iOS.
                     </p>
                   </div>

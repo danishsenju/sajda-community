@@ -113,7 +113,7 @@ export default function JadualImamPage() {
 
         <div className="max-w-4xl mx-auto">
           <p style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+            fontFamily: 'var(--font-jakarta)', fontSize: '12px',
             letterSpacing: '0.24em', textTransform: 'uppercase',
             color: 'var(--text-dim)', marginBottom: '8px', fontWeight: 600,
           }}>
@@ -248,7 +248,7 @@ export default function JadualImamPage() {
                       </p>
                       {isToday && (
                         <p style={{
-                          fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 600,
+                          fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 600,
                           letterSpacing: '0.16em', textTransform: 'uppercase',
                           color: 'rgba(82,201,122,0.6)', marginTop: '1px',
                         }}>
@@ -260,7 +260,7 @@ export default function JadualImamPage() {
 
                   {!dayHasImam && !loading && (
                     <span style={{
-                      fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+                      fontFamily: 'var(--font-jakarta)', fontSize: '12px',
                       color: 'var(--text-dim)', letterSpacing: '0.06em',
                     }}>
                       Belum ditetapkan
@@ -292,13 +292,13 @@ export default function JadualImamPage() {
                           }}>
                             {PRAYER_LABELS[prayer].bm}
                             {isJumaat && (
-                              <span style={{ marginLeft: '4px', fontSize: '9px', color: 'rgba(252,211,77,0.6)', fontWeight: 400 }}>
+                              <span style={{ marginLeft: '4px', fontSize: '13px', color: 'rgba(252,211,77,0.6)', fontWeight: 400 }}>
                                 Jumaat
                               </span>
                             )}
                           </p>
                           <p style={{
-                            fontFamily: 'var(--font-amiri)', fontSize: '11px',
+                            fontFamily: 'var(--font-amiri)', fontSize: '13px',
                             color: 'var(--text-dim)', direction: 'rtl',
                           }}>
                             {PRAYER_LABELS[prayer].ar}
@@ -331,7 +331,7 @@ export default function JadualImamPage() {
                             </div>
                           ) : (
                             <p style={{
-                              fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                              fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                               color: 'var(--text-dim)', fontStyle: 'italic',
                             }}>
                               —
@@ -359,7 +359,7 @@ export default function JadualImamPage() {
                 <tr style={{ borderBottom: '1px solid var(--border)' }}>
                   <th style={{
                     padding: '14px 20px', textAlign: 'left', width: '110px',
-                    fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+                    fontFamily: 'var(--font-jakarta)', fontSize: '12px',
                     letterSpacing: '0.18em', textTransform: 'uppercase',
                     color: 'var(--text-dim)', fontWeight: 600,
                     background: 'var(--surface)',
@@ -374,7 +374,7 @@ export default function JadualImamPage() {
                         background: isToday ? 'rgba(82,201,122,0.06)' : 'transparent',
                       }}>
                         <p style={{
-                          fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
+                          fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                           color: isToday ? '#52c97a' : 'var(--text-secondary)', marginBottom: '2px',
                         }}>
                           {DAY_SHORT[i]}
@@ -386,7 +386,7 @@ export default function JadualImamPage() {
                           {String(d.getDate()).padStart(2, '0')}
                         </p>
                         <p style={{
-                          fontFamily: 'var(--font-jakarta)', fontSize: '9px',
+                          fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                           color: isToday ? 'rgba(82,201,122,0.5)' : 'var(--text-dim)',
                           marginTop: '1px',
                         }}>
@@ -457,7 +457,7 @@ export default function JadualImamPage() {
                                 }} />
                               </div>
                               <p style={{
-                                fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 600,
+                                fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 600,
                                 color: isToday ? 'var(--text-primary)' : 'var(--text-secondary)',
                                 lineHeight: 1.3,
                               }}>
@@ -494,13 +494,13 @@ export default function JadualImamPage() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#52c97a', boxShadow: '0 0 6px rgba(82,201,122,0.5)' }} />
-            <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)' }}>
+            <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)' }}>
               Hari Ini
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <User style={{ width: '12px', height: '12px', color: 'var(--text-dim)' }} />
-            <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)' }}>
+            <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)' }}>
               Nama imam yang telah ditetapkan oleh AJK
             </span>
           </div>

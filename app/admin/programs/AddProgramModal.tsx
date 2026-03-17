@@ -174,7 +174,7 @@ export function AddProgramModal({ addAction }: { addAction: (fd: FormData) => Pr
                   onChange={handleImageChange} disabled={imageLoading} />
               </label>
             )}
-            <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', marginTop: '5px' }}>
+            <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', marginTop: '5px' }}>
               Gambar dipadat secara automatik ke maks. 800px lebar, format JPEG.
             </p>
           </div>

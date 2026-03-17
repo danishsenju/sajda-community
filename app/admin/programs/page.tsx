@@ -62,7 +62,7 @@ export default async function AdminProgramsPage() {
       <div className="flex items-start justify-between mb-6">
         <div>
           <p style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '10px', letterSpacing: '0.2em',
+            fontFamily: 'var(--font-jakarta)', fontSize: '12px', letterSpacing: '0.2em',
             textTransform: 'uppercase', color: 'var(--primary)', marginBottom: '4px', fontWeight: 700,
           }}>Admin</p>
           <h1 style={{ fontFamily: 'var(--font-playfair)', fontSize: '24px', fontWeight: 800, color: 'var(--text-primary)' }}>

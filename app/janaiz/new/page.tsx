@@ -339,7 +339,7 @@ export default function NewJanaizPage() {
                       Lokasi Ditandakan
                     </p>
                     <p style={{
-                      fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                      fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                       color: 'var(--text-dim)', margin: 0,
                       overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                     }}>
@@ -357,7 +357,7 @@ export default function NewJanaizPage() {
                       Pin Lokasi Pengkebumian
                     </p>
                     <p style={{
-                      fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                      fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                       color: 'var(--text-dim)', margin: 0,
                     }}>
                       Klik untuk buka peta dan tandakan lokasi
@@ -367,7 +367,7 @@ export default function NewJanaizPage() {
               </div>
               {burialPos && (
                 <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 600,
+                  fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600,
                   color: 'rgba(34,197,94,0.7)', flexShrink: 0,
                 }}>
                   Tukar →
@@ -437,7 +437,7 @@ export default function NewJanaizPage() {
           </button>
 
           <p style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+            fontFamily: 'var(--font-jakarta)', fontSize: '13px',
             color: 'var(--text-dim)', textAlign: 'center', lineHeight: 1.6, marginTop: '4px',
           }}>
             Notis ini akan kelihatan kepada semua pengguna. AJK masjid akan mengesahkan notis ini.
@@ -479,7 +479,7 @@ export default function NewJanaizPage() {
             }}>
               <div>
                 <p style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                  fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                   letterSpacing: '0.2em', textTransform: 'uppercase',
                   color: 'rgba(34,197,94,0.6)', marginBottom: '3px',
                 }}>
@@ -571,7 +571,7 @@ function SectionLabel({ children, style }: { children: React.ReactNode; style?: 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', margin: '18px 0 10px', ...style }}>
       <span style={{
-        fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+        fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
         letterSpacing: '0.2em', textTransform: 'uppercase',
         color: 'var(--primary)',
       }}>
@@ -601,7 +601,7 @@ function Field({ label, required, children }: { label: string; required?: boolea
     <div>
       <label style={{
         display: 'block',
-        fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 600,
+        fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 600,
         color: 'var(--text-secondary)', marginBottom: '7px',
         letterSpacing: '0.04em',
       }}>

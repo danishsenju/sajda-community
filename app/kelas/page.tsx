@@ -51,7 +51,7 @@ export default async function KelasPage() {
 
         <div className="max-w-5xl mx-auto" style={{ padding: '40px 24px 28px', position: 'relative' }}>
           <p style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+            fontFamily: 'var(--font-jakarta)', fontSize: '12px',
             letterSpacing: '0.28em', textTransform: 'uppercase',
             color: 'var(--primary)', fontWeight: 700, marginBottom: '14px',
           }}>
@@ -80,7 +80,7 @@ export default async function KelasPage() {
                   {items.length}
                 </p>
                 <p style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+                  fontFamily: 'var(--font-jakarta)', fontSize: '12px',
                   color: 'var(--text-dim)', letterSpacing: '0.1em', textTransform: 'uppercase',
                 }}>
                   Kelas Aktif
@@ -95,7 +95,7 @@ export default async function KelasPage() {
                   {totalOpen}
                 </p>
                 <p style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+                  fontFamily: 'var(--font-jakarta)', fontSize: '12px',
                   color: 'var(--text-dim)', letterSpacing: '0.1em', textTransform: 'uppercase',
                 }}>
                   Terbuka
@@ -110,7 +110,7 @@ export default async function KelasPage() {
               <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '5px', flexShrink: 0 }}>
                 <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: cfg.dot }} />
                 <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                  fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                   color: 'var(--text-dim)', fontWeight: 500,
                 }}>
                   {cfg.label}
@@ -157,7 +157,7 @@ export default async function KelasPage() {
                   </h2>
                   <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
                   <span style={{
-                    fontFamily: 'var(--font-jetbrains)', fontSize: '11px', fontWeight: 600,
+                    fontFamily: 'var(--font-jetbrains)', fontSize: '13px', fontWeight: 600,
                     color: cfg.color, background: cfg.bg,
                     padding: '3px 10px', borderRadius: '4px',
                   }}>
@@ -213,7 +213,7 @@ export default async function KelasPage() {
                             </h3>
                             {kelas.schedule_day && (
                               <span style={{
-                                fontFamily: 'var(--font-jetbrains)', fontSize: '10px', fontWeight: 700,
+                                fontFamily: 'var(--font-jetbrains)', fontSize: '12px', fontWeight: 700,
                                 textTransform: 'uppercase', letterSpacing: '0.08em',
                                 color: cfg.color, padding: '3px 8px',
                                 background: cfg.bg, borderRadius: '4px', flexShrink: 0,
@@ -277,13 +277,13 @@ export default async function KelasPage() {
                               )}
                               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <span style={{
-                                  fontFamily: 'var(--font-jetbrains)', fontSize: '11px',
+                                  fontFamily: 'var(--font-jetbrains)', fontSize: '13px',
                                   color: 'var(--text-dim)',
                                 }}>
                                   {bookings}/{cap} tempat
                                 </span>
                                 <span style={{
-                                  fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                                  fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                                   padding: '2px 8px', borderRadius: '4px',
                                   color: full ? 'var(--text-dim)' : nearFull ? '#F59E0B' : cfg.color,
                                   background: full ? 'var(--border)' : nearFull ? 'rgba(245,158,11,0.12)' : cfg.bg,

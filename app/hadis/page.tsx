@@ -128,7 +128,7 @@ export default async function HadisPage() {
 
             <span style={{
               fontFamily: 'var(--font-dm-sans)',
-              fontSize: '11px',
+              fontSize: '13px',
               color: 'var(--text-secondary)',
             }}>
               {today}
@@ -157,7 +157,7 @@ export default async function HadisPage() {
             </div>
             <p style={{
               fontFamily: 'var(--font-dm-sans)',
-              fontSize: '10px',
+              fontSize: '12px',
               fontWeight: 700,
               letterSpacing: '0.24em',
               textTransform: 'uppercase',
@@ -192,7 +192,7 @@ export default async function HadisPage() {
         }}>
           <span style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontSize: '11px',
+            fontSize: '13px',
             fontWeight: 600,
             padding: '5px 12px',
             borderRadius: '20px',
@@ -205,7 +205,7 @@ export default async function HadisPage() {
           {!apiHadith && (
             <span style={{
               fontFamily: 'var(--font-dm-sans)',
-              fontSize: '11px',
+              fontSize: '13px',
               padding: '5px 12px',
               borderRadius: '20px',
               background: 'var(--surface)',
@@ -217,7 +217,7 @@ export default async function HadisPage() {
           )}
           <span style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontSize: '11px',
+            fontSize: '13px',
             color: 'var(--text-secondary)',
             marginLeft: 'auto',
           }}>
@@ -298,7 +298,7 @@ export default async function HadisPage() {
               <div>
                 <p style={{
                   fontFamily: 'var(--font-dm-sans)',
-                  fontSize: '9px',
+                  fontSize: '13px',
                   fontWeight: 700,
                   letterSpacing: '0.18em',
                   textTransform: 'uppercase',
@@ -394,7 +394,7 @@ export default async function HadisPage() {
           </p>
           <p style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontSize: '11px',
+            fontSize: '13px',
             color: '#22C55E',
             fontWeight: 600,
           }}>

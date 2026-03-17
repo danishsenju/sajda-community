@@ -110,7 +110,7 @@ export default async function NewCariBarangPage({
                 </div>
               </label>
             </div>
-            <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)', marginTop: '6px' }}>
+            <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', marginTop: '6px' }}>
               Pilih jenis yang sesuai — tetapi kedua-dua pilihan di atas akan berfungsi.
             </p>
           </div>

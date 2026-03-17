@@ -36,7 +36,7 @@ function TypeBadge({ type }: { type: string }) {
       display: 'inline-flex', alignItems: 'center', gap: '4px',
       padding: '3px 10px', borderRadius: '100px',
       background: cfg.bg, color: cfg.color,
-      fontFamily: 'var(--font-dm-sans)', fontSize: '10px', fontWeight: 700,
+      fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 700,
       letterSpacing: '0.08em', textTransform: 'uppercase',
     }}>
       {cfg.icon} {cfg.label}
@@ -59,7 +59,7 @@ function ProgressRing({ value, max, color }: { value: number; max: number; color
         style={{ transition: 'stroke-dasharray 0.6s ease' }}
       />
       <text x="28" y="32" textAnchor="middle"
-        style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '11px', fontWeight: 700, fill: color }}>
+        style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '13px', fontWeight: 700, fill: color }}>
         {value}
       </text>
     </svg>
@@ -170,7 +170,7 @@ export default function HalaqahPage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                 <BookOpen style={{ width: '14px', height: '14px', color: 'var(--primary)' }} />
                 <span style={{
-                  fontFamily: 'var(--font-dm-sans)', fontSize: '10px', fontWeight: 700,
+                  fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 700,
                   letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--primary)',
                 }}>
                   Komuniti Al-Quran
@@ -217,7 +217,7 @@ export default function HalaqahPage() {
                 <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '22px', fontWeight: 700, color: 'var(--primary)', margin: 0, lineHeight: 1 }}>
                   {loading ? '—' : s.v}
                 </p>
-                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', color: 'var(--text-dim)', marginTop: '3px', letterSpacing: '0.06em' }}>
+                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)', marginTop: '3px', letterSpacing: '0.06em' }}>
                   {s.label}
                 </p>
               </div>
@@ -267,7 +267,7 @@ export default function HalaqahPage() {
         {!loading && !error && myGroupsList.length > 0 && (
           <div style={{ marginBottom: '32px' }}>
             <p style={{
-              fontFamily: 'var(--font-dm-sans)', fontSize: '10px', fontWeight: 700,
+              fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 700,
               letterSpacing: '0.18em', textTransform: 'uppercase',
               color: 'var(--primary)', marginBottom: '12px',
             }}>
@@ -284,7 +284,7 @@ export default function HalaqahPage() {
           <div>
             {myGroupsList.length > 0 && (
               <p style={{
-                fontFamily: 'var(--font-dm-sans)', fontSize: '10px', fontWeight: 700,
+                fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '0.18em', textTransform: 'uppercase',
                 color: 'var(--text-dim)', marginBottom: '12px',
               }}>
@@ -372,7 +372,7 @@ function GroupCard({ group, isMember, userId }: { group: Group; isMember: boolea
               {group.name}
             </h3>
             {isOwner && (
-              <span style={{ padding: '1px 6px', borderRadius: '6px', background: 'rgba(252,211,77,0.12)', color: '#FCD34D', fontFamily: 'var(--font-dm-sans)', fontSize: '9px', fontWeight: 700 }}>
+              <span style={{ padding: '1px 6px', borderRadius: '6px', background: 'rgba(252,211,77,0.12)', color: '#FCD34D', fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700 }}>
                 <Star style={{ width: '8px', height: '8px', display: 'inline', marginRight: '2px' }} />Ketua
               </span>
             )}
@@ -380,18 +380,18 @@ function GroupCard({ group, isMember, userId }: { group: Group; isMember: boolea
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             <TypeBadge type={group.type} />
-            <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)' }}>
               <Users style={{ width: '10px', height: '10px' }} />
               {group.member_count ?? 0}/{group.max_members} ahli
             </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)' }}>
               <Target style={{ width: '10px', height: '10px' }} />
               {group.weekly_target} juzuk/minggu
             </span>
           </div>
 
           {group.description && (
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', margin: '6px 0 0', lineHeight: 1.5, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', margin: '6px 0 0', lineHeight: 1.5, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
               {group.description}
             </p>
           )}
@@ -399,14 +399,14 @@ function GroupCard({ group, isMember, userId }: { group: Group; isMember: boolea
 
         {/* Right */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px', flexShrink: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontFamily: 'var(--font-dm-sans)', fontSize: '10px', color: group.is_open && !full ? '#22C55E' : 'var(--text-dim)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: group.is_open && !full ? '#22C55E' : 'var(--text-dim)' }}>
             {group.is_open && !full
               ? <><Unlock style={{ width: '10px', height: '10px' }} /> Terbuka</>
               : <><Lock style={{ width: '10px', height: '10px' }} /> {full ? 'Penuh' : 'Tertutup'}</>
             }
           </div>
           {isMember && (
-            <span style={{ padding: '2px 8px', borderRadius: '8px', background: 'rgba(34,197,94,0.10)', color: 'var(--primary)', fontFamily: 'var(--font-dm-sans)', fontSize: '9px', fontWeight: 700 }}>
+            <span style={{ padding: '2px 8px', borderRadius: '8px', background: 'rgba(34,197,94,0.10)', color: 'var(--primary)', fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700 }}>
               Ahli ✓
             </span>
           )}

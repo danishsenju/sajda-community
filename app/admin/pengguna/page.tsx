@@ -127,7 +127,7 @@ function AvatarCropModal({ profile, onClose, onSaved }: {
             <p style={{ fontFamily: 'var(--font-playfair)', fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
               Gambar Profil
             </p>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', margin: '2px 0 0' }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', margin: '2px 0 0' }}>
               {profile.full_name ?? 'Tiada nama'}
             </p>
           </div>
@@ -168,7 +168,7 @@ function AvatarCropModal({ profile, onClose, onSaved }: {
               <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-secondary)', margin: 0 }}>
                 Klik untuk muat naik gambar
               </p>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', margin: 0 }}>
                 JPG, PNG atau WEBP
               </p>
             </div>
@@ -291,7 +291,7 @@ function RoleBadge({ role }: { role: string }) {
       display: 'inline-flex', alignItems: 'center', gap: '4px',
       padding: '3px 10px', borderRadius: '100px',
       background: r.bg, color: r.color,
-      fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 600,
+      fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600,
       letterSpacing: '0.05em',
     }}>
       {role === 'superadmin' && <Shield style={{ width: '10px', height: '10px' }} />}
@@ -351,7 +351,7 @@ function RoleDropdown({ profile, currentSuperAdminId, onUpdate }: {
           display: 'inline-flex', alignItems: 'center', gap: '5px',
           padding: '5px 8px 5px 10px', borderRadius: '100px',
           background: r.bg, border: `1px solid ${r.color}55`,
-          fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 600,
+          fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600,
           color: r.color, letterSpacing: '0.04em',
           cursor: isSelf ? 'not-allowed' : 'pointer',
           outline: 'none', transition: 'border-color 0.15s, box-shadow 0.15s',
@@ -385,7 +385,7 @@ function RoleDropdown({ profile, currentSuperAdminId, onUpdate }: {
             borderBottom: '1px solid var(--border)',
           }}>
             <p style={{
-              fontFamily: 'var(--font-dm-sans)', fontSize: '9px', fontWeight: 700,
+              fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700,
               letterSpacing: '0.18em', textTransform: 'uppercase',
               color: 'var(--text-dim)', margin: 0,
             }}>Tukar Peranan</p>
@@ -428,7 +428,7 @@ function RoleDropdown({ profile, currentSuperAdminId, onUpdate }: {
                       {ro.label}
                     </p>
                     <p style={{
-                      fontFamily: 'var(--font-dm-sans)', fontSize: '10px',
+                      fontFamily: 'var(--font-dm-sans)', fontSize: '12px',
                       color: 'var(--text-dim)', margin: '1px 0 0',
                     }}>
                       {meta?.desc}
@@ -451,7 +451,7 @@ function RoleDropdown({ profile, currentSuperAdminId, onUpdate }: {
           position: 'absolute', top: 'calc(100% + 4px)', right: 0, zIndex: 110,
           background: '#1A0A0A', border: '1px solid #DC262644',
           borderRadius: '8px', padding: '5px 10px',
-          fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: '#EF4444',
+          fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: '#EF4444',
           whiteSpace: 'nowrap',
         }}>
           {msg}
@@ -510,7 +510,7 @@ export default function PenggunaPage() {
       {/* Header */}
       <div style={{ marginBottom: '28px' }}>
         <p style={{
-          fontFamily: 'var(--font-dm-sans)', fontSize: '10px', fontWeight: 700,
+          fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 700,
           letterSpacing: '0.2em', textTransform: 'uppercase',
           color: 'var(--primary)', marginBottom: '6px',
         }}>Panel Admin</p>
@@ -537,7 +537,7 @@ export default function PenggunaPage() {
             <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '1.6rem', fontWeight: 700, color: s.color, margin: 0, lineHeight: 1 }}>
               {loading ? '—' : s.value}
             </p>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', marginTop: '4px' }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', marginTop: '4px' }}>
               {s.label}
             </p>
           </div>
@@ -664,12 +664,12 @@ export default function PenggunaPage() {
                 }}>
                   {profile.full_name ?? 'Tiada nama'}
                   {profile.id === meId && (
-                    <span style={{ marginLeft: '8px', fontSize: '10px', fontWeight: 500, color: 'var(--text-dim)' }}>
+                    <span style={{ marginLeft: '8px', fontSize: '12px', fontWeight: 500, color: 'var(--text-dim)' }}>
                       (anda)
                     </span>
                   )}
                 </p>
-                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', margin: '2px 0 0' }}>
+                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', margin: '2px 0 0' }}>
                   {[profile.unit_blok, profile.phone].filter(Boolean).join(' · ') || 'Tiada maklumat tambahan'}
                 </p>
               </div>
@@ -685,7 +685,7 @@ export default function PenggunaPage() {
         </div>
       )}
 
-      <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', marginTop: '12px', textAlign: 'right' }}>
+      <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-dim)', marginTop: '12px', textAlign: 'right' }}>
         {filtered.length} daripada {profiles.length} pengguna
       </p>
 

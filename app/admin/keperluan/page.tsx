@@ -82,7 +82,7 @@ export default async function AdminKeperluanPage({
   return (
     <div className="max-w-3xl">
       <div className="mb-6">
-        <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: '4px', fontWeight: 700 }}>
+        <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: '4px', fontWeight: 700 }}>
           Admin
         </p>
         <h1 style={{ fontFamily: 'var(--font-playfair)', fontSize: '24px', fontWeight: 800, color: 'var(--text-primary)' }}>
@@ -106,7 +106,7 @@ export default async function AdminKeperluanPage({
             {f.key === 'pending' && items.length > 0 && filter === 'pending' && (
               <span style={{
                 marginLeft: '8px', background: 'rgba(255,255,255,0.25)',
-                borderRadius: '999px', padding: '1px 7px', fontSize: '11px',
+                borderRadius: '999px', padding: '1px 7px', fontSize: '13px',
               }}>{items.length}</span>
             )}
           </Link>
@@ -139,7 +139,7 @@ export default async function AdminKeperluanPage({
                 {/* Status + urgency badges */}
                 <div style={{ display: 'flex', gap: '6px', marginBottom: '8px', flexWrap: 'wrap' }}>
                   <span style={{
-                    fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                    fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                     letterSpacing: '0.12em', textTransform: 'uppercase',
                     color: STATUS_COLORS[item.status] ?? '#fff',
                     background: `${STATUS_COLORS[item.status] ?? '#fff'}18`,
@@ -149,7 +149,7 @@ export default async function AdminKeperluanPage({
                   </span>
                   {item.urgency === 'urgent' && (
                     <span style={{
-                      fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+                      fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
                       letterSpacing: '0.1em', textTransform: 'uppercase',
                       color: '#FCA5A5', padding: '3px 9px',
                       background: 'rgba(239,68,68,0.14)', borderRadius: '4px',
@@ -233,7 +233,7 @@ export default async function AdminKeperluanPage({
                         padding: '5px 10px', borderRadius: '8px',
                         background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.3)',
                         color: '#818cf8', cursor: 'pointer',
-                        fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
+                        fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
                         letterSpacing: '0.05em', textTransform: 'uppercase',
                         whiteSpace: 'nowrap',
                       }}>

@@ -31,7 +31,7 @@
   /* Text — green-white */
   --color-text-primary:   #E0EDE5;
   --color-text-secondary: #7A9E88;
-  --color-text-dim:       #3E5A4A;
+  --color-text-dim:       #6A9A84;
   --color-text-inverse:   #070C09;
 
   /* Legacy aliases */
@@ -91,8 +91,8 @@
   /* Text — green-tinted near-white */
   --text-primary:   #E0EDE5;
   --text-secondary: #7A9E88;
-  --text-dim:       #3E5A4A;
-  --text-muted:     #28402F;
+  --text-dim:       #6A9A84;
+  --text-muted:     #527A62;
   --text-inverse:   #070C09;
 
   /* Legacy aliases */
@@ -124,6 +124,8 @@ body {
   background-color: var(--void);
   color: var(--text-primary);
   font-family: var(--font-dm-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 15px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -342,6 +344,18 @@ body {
   );
   background-size: 200% 100%;
   animation: shimmer 1.6s infinite;
+  border-radius: 8px;
+}
+
+/* ======================================
+   TOUCH TARGET — ensure 44px min on mobile
+====================================== */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ======================================
@@ -1232,8 +1246,8 @@ html.light {
   /* Text — deep ink with green undertone */
   --text-primary:   #0D1F17;   /* Near-black with green undertone */
   --text-secondary: #1E4A30;   /* Deep forest green */
-  --text-dim:       #4A7260;   /* Mid sage */
-  --text-muted:     #86A898;   /* Light sage for placeholders */
+  --text-dim:       #2D5A42;   /* Mid sage */
+  --text-muted:     #4A6E5A;   /* Light sage for placeholders */
   --text-inverse:   #FFFFFF;
 
   /* Legacy aliases */

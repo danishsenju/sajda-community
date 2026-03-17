@@ -176,7 +176,7 @@ export default function JanaizDetailPage({ params }: { params: { id: string } })
                 display: 'inline-flex', alignItems: 'center', gap: '5px',
                 padding: '5px 12px', borderRadius: '100px',
                 background: 'rgba(34,197,94,0.10)', border: '1px solid rgba(34,197,94,0.20)',
-                fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 600,
+                fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600,
                 color: '#22C55E',
               }}>
                 <Shield style={{ width: '10px', height: '10px' }} />
@@ -191,7 +191,7 @@ export default function JanaizDetailPage({ params }: { params: { id: string } })
                 display: 'inline-flex', alignItems: 'center', gap: '5px',
                 padding: '5px 12px', borderRadius: '100px',
                 background: 'transparent', border: '1px solid var(--border)',
-                fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 500,
+                fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 500,
                 color: 'var(--text-secondary)', cursor: 'pointer',
               }}
             >
@@ -223,7 +223,7 @@ export default function JanaizDetailPage({ params }: { params: { id: string } })
                 <Clock style={{ width: '18px', height: '18px', color: '#22C55E' }} />
               </div>
               <div>
-                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-dim)', margin: '0 0 3px' }}>
+                <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-dim)', margin: '0 0 3px' }}>
                   Waktu Solat Jenazah
                 </p>
                 <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
@@ -254,7 +254,7 @@ export default function JanaizDetailPage({ params }: { params: { id: string } })
                   <MapPin style={{ width: '18px', height: '18px', color: '#22C55E' }} />
                 </div>
                 <div>
-                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-dim)', margin: '0 0 3px' }}>
+                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-dim)', margin: '0 0 3px' }}>
                     Lokasi Pengkebumian
                   </p>
                   <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '14px', fontWeight: 500, color: 'var(--text-primary)', margin: 0, lineHeight: 1.4 }}>
@@ -301,7 +301,7 @@ export default function JanaizDetailPage({ params }: { params: { id: string } })
             background: 'var(--surface)', border: '1px solid var(--border)',
             marginBottom: '16px',
           }}>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-dim)', margin: '0 0 10px' }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-dim)', margin: '0 0 10px' }}>
               Maklumat Tambahan
             </p>
             <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0 }}>
@@ -346,7 +346,7 @@ export default function JanaizDetailPage({ params }: { params: { id: string } })
 
         {/* Footer info */}
         <p style={{
-          fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+          fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
           color: 'var(--text-dim)', textAlign: 'center', marginTop: '20px', lineHeight: 1.6,
         }}>
           Dihantar pada {new Date(notice.created_at).toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}

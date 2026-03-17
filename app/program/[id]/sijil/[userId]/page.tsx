@@ -122,7 +122,7 @@ export default async function SijilPage({ params }: Props) {
 
             {/* Mosque label */}
             <p style={{
-              fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+              fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
               letterSpacing: '0.3em', textTransform: 'uppercase',
               color: 'var(--primary)', marginBottom: '8px',
             }}>
@@ -134,7 +134,7 @@ export default async function SijilPage({ params }: Props) {
 
             {/* Certificate label */}
             <p style={{
-              fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 600,
+              fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 600,
               letterSpacing: '0.25em', textTransform: 'uppercase',
               color: 'var(--text-dim)', marginBottom: '32px',
             }}>
@@ -169,7 +169,7 @@ export default async function SijilPage({ params }: Props) {
               display: 'inline-flex', alignItems: 'center', gap: '8px',
               padding: '6px 16px', borderRadius: '100px',
               border: '1px solid var(--border)', background: 'var(--void)',
-              fontFamily: 'var(--font-jakarta)', fontSize: '11px', color: 'var(--text-dim)',
+              fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)',
             }}>
               {dateLabel}
               <span style={{ opacity: 0.4 }}>·</span>
@@ -195,7 +195,7 @@ export default async function SijilPage({ params }: Props) {
 
             {/* Sajda wordmark */}
             <p style={{
-              fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+              fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
               letterSpacing: '0.3em', textTransform: 'uppercase',
               color: 'rgba(34,197,94,0.3)', marginTop: '32px',
             }}>

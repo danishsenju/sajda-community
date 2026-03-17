@@ -233,7 +233,7 @@ export default async function TazkirahPage() {
 
             <span style={{
               fontFamily: 'var(--font-dm-sans)',
-              fontSize: '11px',
+              fontSize: '13px',
               color: 'var(--text-secondary)',
             }}>
               {today}
@@ -262,7 +262,7 @@ export default async function TazkirahPage() {
             </div>
             <p style={{
               fontFamily: 'var(--font-dm-sans)',
-              fontSize: '10px',
+              fontSize: '12px',
               fontWeight: 700,
               letterSpacing: '0.24em',
               textTransform: 'uppercase',
@@ -332,7 +332,7 @@ export default async function TazkirahPage() {
                 background: 'rgba(34,197,94,0.08)',
                 border: '1px solid rgba(34,197,94,0.18)',
                 fontFamily: 'var(--font-dm-sans)',
-                fontSize: '11px',
+                fontSize: '13px',
                 fontWeight: 600,
                 color: '#22C55E',
                 letterSpacing: '0.04em',
@@ -401,7 +401,7 @@ export default async function TazkirahPage() {
                 color: 'var(--text-secondary)',
                 margin: 0,
               }}>
-                <span style={{ color: 'var(--text-dim)', fontSize: '11px' }}>Sumber: </span>
+                <span style={{ color: 'var(--text-dim)', fontSize: '13px' }}>Sumber: </span>
                 <span style={{ color: '#22C55E', fontWeight: 600 }}>
                   {surahName} {verseKey.split(':')[0]}:{verseNumber}
                 </span>
@@ -410,7 +410,7 @@ export default async function TazkirahPage() {
               {/* Brand right */}
               <p style={{
                 fontFamily: 'var(--font-dm-sans)',
-                fontSize: '11px',
+                fontSize: '13px',
                 color: 'var(--text-dim)',
                 margin: 0,
                 letterSpacing: '0.04em',

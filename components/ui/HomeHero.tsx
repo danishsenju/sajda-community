@@ -87,7 +87,7 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
 
           {/* Eyebrow */}
           <p className="animate-fadeUp delay-1" style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '9px',
+            fontFamily: 'var(--font-jakarta)', fontSize: '13px',
             letterSpacing: '0.28em', textTransform: 'uppercase',
             color: 'rgba(255,255,255,0.28)', fontWeight: 700, marginBottom: '8px',
           }}>
@@ -142,7 +142,7 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
                   {String(s.v).padStart(2, '0')}
                 </p>
                 <p style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '7px',
+                  fontFamily: 'var(--font-jakarta)', fontSize: '11px',
                   color: 'rgba(255,255,255,0.28)', letterSpacing: '0.18em',
                   textTransform: 'uppercase', marginTop: '5px', lineHeight: 1.2,
                   fontWeight: 600,
@@ -184,7 +184,7 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
           opacity: 0.5,
         }}>
           <div style={{ width: '1px', height: '38px', background: 'linear-gradient(to bottom, transparent, #52c97a)', animation: 'breathe 2.5s ease-in-out infinite' }} />
-          <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '7px', letterSpacing: '0.22em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', writingMode: 'vertical-rl' }}>terokai</span>
+          <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', letterSpacing: '0.22em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', writingMode: 'vertical-rl' }}>terokai</span>
         </div>
       </div>
 
@@ -244,7 +244,7 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
             {/* TOP: identity */}
             <div className="animate-fadeUp delay-1">
               <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+                fontFamily: 'var(--font-jakarta)', fontSize: '12px',
                 letterSpacing: '0.26em', textTransform: 'uppercase',
                 color: 'rgba(255,255,255,0.22)', fontWeight: 600, marginBottom: '10px',
               }}>
@@ -292,7 +292,7 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
                     </div>
                     {/* Label */}
                     <span style={{
-                      fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                      fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
                       color: 'rgba(255,255,255,0.28)',
                       letterSpacing: '0.22em', textTransform: 'uppercase',
                     }}>

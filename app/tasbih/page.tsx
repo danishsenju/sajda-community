@@ -152,7 +152,7 @@ export default function TasbihPage() {
                 {z.bm}
               </p>
               <p style={{
-                fontFamily: 'var(--font-jetbrains)', fontSize: '10px',
+                fontFamily: 'var(--font-jetbrains)', fontSize: '12px',
                 color: 'var(--text-dim)', margin: 0,
               }}>
                 {state.active === z.key && mounted ? `${state.totals[z.key]}` : `${mounted ? state.totals[z.key] : 0}`} kali sesi ini
@@ -238,7 +238,7 @@ export default function TasbihPage() {
             </p>
 
             <p style={{
-              fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+              fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
               color: 'var(--text-dim)', marginTop: '6px',
               position: 'relative', zIndex: 1,
             }}>

@@ -26,7 +26,7 @@ export async function MemoriesFeed({ programId }: { programId: string }) {
     <div className="rounded-2xl border p-5"
       style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
       <p style={{
-        fontFamily: 'var(--font-jakarta)', fontSize: '10px', fontWeight: 700,
+        fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700,
         letterSpacing: '0.18em', textTransform: 'uppercase',
         color: 'var(--primary)', marginBottom: '16px',
       }}>
@@ -50,7 +50,7 @@ export async function MemoriesFeed({ programId }: { programId: string }) {
               &ldquo;{m.reflection}&rdquo;
             </p>
             <p style={{
-              fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+              fontFamily: 'var(--font-jakarta)', fontSize: '12px',
               color: 'var(--text-dim)', margin: 0,
             }}>
               {m.profiles?.full_name ?? 'Jemaah'}

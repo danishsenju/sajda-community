@@ -165,7 +165,7 @@ function BottomNav() {
                 className={`bottom-nav-label${active ? ' active' : ''}`}
                 style={{
                   fontFamily: 'var(--font-jakarta)',
-                  fontSize: '9px',
+                  fontSize: '11px',
                   letterSpacing: '0.04em',
                   color: active ? '#0A7040' : 'rgba(255,255,255,0.22)',
                   fontWeight: active ? 700 : 400,
@@ -340,7 +340,7 @@ export function Navbar() {
                   <div key={cat.label}>
                     {ci > 0 && <div style={{ height: '1px', background: 'var(--border)', margin: '4px 0' }} />}
                     <p style={{
-                      fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                      fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
                       letterSpacing: '0.16em', textTransform: 'uppercase',
                       color: 'var(--text-dim)', padding: '6px 10px 4px',
                     }}>
@@ -392,7 +392,7 @@ export function Navbar() {
                 background: '#EF4444', animation: 'breathe 1.2s ease-in-out infinite',
               }} />
               <span style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                 fontWeight: 700, color: '#EF4444', letterSpacing: '0.1em',
               }}>
                 LIVE
@@ -476,7 +476,7 @@ export function Navbar() {
                 background: '#EF4444', animation: 'breathe 1.2s ease-in-out infinite',
               }} />
               <span style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '10px',
+                fontFamily: 'var(--font-jakarta)', fontSize: '12px',
                 fontWeight: 700, color: '#EF4444', letterSpacing: '0.08em',
               }}>
                 LIVE
@@ -561,7 +561,7 @@ export function Navbar() {
               {/* Tools — flat list per category */}
               {toolsCategories.map((cat, ci) => (
                 <div key={cat.label} className={ci < toolsCategories.length - 1 ? 'mb-2' : ''}>
-                  <p className="text-[9px] font-bold tracking-[0.18em] uppercase mb-1 px-2 pt-2"
+                  <p className="text-[11px] font-bold tracking-[0.18em] uppercase mb-1 px-2 pt-2"
                     style={{ fontFamily: 'var(--font-jakarta)', color: 'var(--text-dim)' }}>
                     {cat.label}
                   </p>
@@ -618,7 +618,7 @@ export function Navbar() {
               }}>
                 <Settings style={{ width: '12px', height: '12px', color: 'var(--primary)' }} />
                 <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                  fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
                   letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--text-dim)',
                 }}>
                   Tetapan
@@ -642,7 +642,7 @@ export function Navbar() {
                   </div>
                   <div>
                     <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Tema Paparan</p>
-                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', margin: 0 }}>
+                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', margin: 0 }}>
                       {!themeMounted ? '—' : theme === 'dark' ? 'Mod gelap aktif' : 'Mod cerah aktif'}
                     </p>
                   </div>
@@ -656,7 +656,7 @@ export function Navbar() {
                     {(['light', 'dark'] as const).map(t => (
                       <button key={t} onClick={() => setTheme(t)} style={{
                         padding: '4px 9px', borderRadius: '7px',
-                        fontSize: '10px', fontWeight: 600, fontFamily: 'var(--font-jakarta)',
+                        fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font-jakarta)',
                         cursor: 'pointer', border: 'none',
                         background: theme === t ? 'var(--primary)' : 'transparent',
                         color: theme === t ? '#04080A' : 'var(--text-secondary)',
@@ -684,7 +684,7 @@ export function Navbar() {
                   </div>
                   <div>
                     <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Saiz Teks</p>
-                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', margin: 0 }}>
+                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', margin: 0 }}>
                       {textSize === 'small' ? 'Kecil' : textSize === 'large' ? 'Besar' : 'Biasa'}
                     </p>
                   </div>
@@ -731,7 +731,7 @@ export function Navbar() {
                   </div>
                   <div>
                     <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Kurang Animasi</p>
-                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '10px', color: 'var(--text-dim)', margin: 0 }}>Sesuai untuk warga emas</p>
+                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', margin: 0 }}>Sesuai untuk warga emas</p>
                   </div>
                 </div>
                 {/* iOS-style toggle */}
@@ -828,14 +828,14 @@ export function Navbar() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '2px' }}>
                   <ShieldCheck style={{ width: '13px', height: '13px', color: 'var(--gold)' }} />
                   <span style={{
-                    fontFamily: 'var(--font-jakarta)', fontSize: '9px', fontWeight: 700,
+                    fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
                     letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--gold)',
                   }}>
                     Panel Admin
                   </span>
                 </div>
                 <p style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '11px',
+                  fontFamily: 'var(--font-jakarta)', fontSize: '13px',
                   color: 'var(--text-dim)', margin: 0,
                 }}>
                   {profile?.full_name?.split(' ')[0] ?? 'Admin'} · {profile?.role === 'superadmin' ? 'Superadmin' : 'AJK'}
