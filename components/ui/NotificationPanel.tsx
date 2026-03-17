@@ -108,6 +108,14 @@ export function NotificationPanel() {
   const loadedRef                 = useRef(false)
   const { pushState, pushLoading, enablePush, disablePush } = usePushState()
   const isIOS = typeof navigator !== 'undefined' && /iphone|ipad|ipod/i.test(navigator.userAgent)
+  // Standalone = installed to Home Screen (PWA). On iOS standalone, push IS supported.
+  const isStandalone = typeof window !== 'undefined' && (
+    window.matchMedia('(display-mode: standalone)').matches ||
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (navigator as any).standalone === true
+  )
+  // Only show the "add to home screen" guide when on iOS Safari (not installed)
+  const showIOSGuide = isIOS && !isStandalone
 
   // Close on outside click
   useEffect(() => {
@@ -440,13 +448,13 @@ export function NotificationPanel() {
                       ? 'Notifikasi push aktif'
                       : pushState === 'denied'
                       ? 'Notifikasi disekat'
-                      : isIOS
+                      : showIOSGuide
                       ? 'Tambah ke Home Screen untuk push'
                       : 'Notifikasi push tidak aktif'
                     }
                   </span>
                 </div>
-                {pushState !== 'denied' && !isIOS && (
+                {pushState !== 'denied' && !showIOSGuide && (
                   <button
                     onClick={() => pushState === 'on' ? disablePush() : enablePush()}
                     disabled={pushLoading || pushState === 'loading'}
