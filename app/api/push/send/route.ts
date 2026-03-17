@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     const admin = createAdminClient()
     const { data: subs, error: fetchErr } = await admin
       .from('push_subscriptions' as never)
-      .select('endpoint, p256dh, auth')
+      .select('endpoint, p256dh, auth_key')
 
     if (fetchErr) {
       return NextResponse.json({ error: fetchErr.message }, { status: 500 })
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
           await webpush.sendNotification(
             {
               endpoint: sub.endpoint,
-              keys: { p256dh: sub.p256dh, auth: sub.auth },
+              keys: { p256dh: sub.p256dh, auth: sub.auth_key },
             },
             payload
           )
