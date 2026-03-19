@@ -10,9 +10,10 @@ import {
 } from 'lucide-react'
 import { PersonStanding } from 'lucide-react'
 import { HomeHero } from '@/components/ui/HomeHero'
+import { GreetingBanner } from '@/components/ui/GreetingBanner'
 import kdLogo from '@/images/kdlogo.png'
 
-/* ── Mobile quick-access groups ── */
+/* ── Mobile quick-access groups — only tools NOT in bottom nav ── */
 const mobileGroups = [
   {
     label: 'Ibadah Harian',
@@ -21,15 +22,6 @@ const mobileGroups = [
       { href: '/tasbih', Icon: RotateCcw,   label: 'Tasbih',      color: '#10B981', glow: 'rgba(16,185,129,0.18)' },
       { href: '/wirid',  Icon: Sun,         label: 'Wirid',        color: '#14B8A6', glow: 'rgba(20,184,166,0.18)' },
       { href: '/hadis',  Icon: BookMarked,  label: 'Hadis',        color: '#6EE7B7', glow: 'rgba(110,231,183,0.18)' },
-    ],
-  },
-  {
-    label: 'Komuniti',
-    items: [
-      { href: '/keperluan',   Icon: Heart,          label: 'Keperluan', color: '#F87171', glow: 'rgba(248,113,113,0.18)' },
-      { href: '/program',     Icon: Calendar,       label: 'Program',   color: '#FBBF24', glow: 'rgba(251,191,36,0.18)' },
-      { href: '/kelas',       Icon: BookOpen,       label: 'Kelas',     color: '#60A5FA', glow: 'rgba(96,165,250,0.18)' },
-      { href: '/jadual-imam', Icon: PersonStanding, label: 'Imam',      color: '#2DD4BF', glow: 'rgba(45,212,191,0.18)' },
     ],
   },
   {
@@ -162,6 +154,9 @@ export default async function HomePage() {
           </span>
         </div>
 
+        {/* ── Personalised greeting (shown only when logged in) ── */}
+        <GreetingBanner />
+
         {/* ── Quick access icon grid ── */}
         <section style={{ padding: '20px 20px 0' }}>
           {mobileGroups.map((group, gi) => (
@@ -244,13 +239,6 @@ export default async function HomePage() {
                 </span>
                 <div style={{ width: '28px', height: '1px', background: 'linear-gradient(to right, var(--border), transparent)' }} />
               </div>
-              <Link href="/" style={{
-                display: 'flex', alignItems: 'center', gap: '3px',
-                fontFamily: 'var(--font-jakarta)', fontSize: '13px',
-                color: 'var(--primary)', textDecoration: 'none',
-              }}>
-                Semua <ChevronRight style={{ width: '12px', height: '12px' }} />
-              </Link>
             </div>
 
             {/* Featured announcement card */}
@@ -493,48 +481,6 @@ export default async function HomePage() {
               })}
             </div>
           )}
-        </section>
-
-        {/* ── Feature mini row — Hadis / Qiblat / Berbuka ── */}
-        <section style={{ padding: '36px 20px 0' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
-
-            {/* Hadis Harian */}
-            <Link href="/hadis" className="active:scale-95 transition-transform duration-150" style={{ textDecoration: 'none' }}>
-              <div className="quick-card-green" style={{
-                borderRadius: '18px', padding: '16px 14px 18px',
-                display: 'flex', flexDirection: 'column', minHeight: '110px',
-              }}>
-                <BookMarked style={{ width: '18px', height: '18px', color: '#22C55E', marginBottom: '12px' }} strokeWidth={1.7} />
-                <span style={{ fontFamily: 'var(--font-playfair)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px' }}>Hadis</span>
-                <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1.4 }}>Koleksi sahih</span>
-              </div>
-            </Link>
-
-            {/* Qiblat */}
-            <Link href="/qiblat" className="active:scale-95 transition-transform duration-150" style={{ textDecoration: 'none' }}>
-              <div className="quick-card-purple" style={{
-                borderRadius: '18px', padding: '16px 14px 18px',
-                display: 'flex', flexDirection: 'column', minHeight: '110px',
-              }}>
-                <Compass style={{ width: '18px', height: '18px', color: '#A78BFA', marginBottom: '12px' }} strokeWidth={1.7} />
-                <span style={{ fontFamily: 'var(--font-playfair)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px' }}>Qiblat</span>
-                <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1.4 }}>Arah tepat</span>
-              </div>
-            </Link>
-
-            {/* Berbuka */}
-            <Link href="/buka-puasa" className="active:scale-95 transition-transform duration-150" style={{ textDecoration: 'none' }}>
-              <div className="quick-card-blue" style={{
-                borderRadius: '18px', padding: '16px 14px 18px',
-                display: 'flex', flexDirection: 'column', minHeight: '110px',
-              }}>
-                <Clock style={{ width: '18px', height: '18px', color: '#38BDF8', marginBottom: '12px' }} strokeWidth={1.7} />
-                <span style={{ fontFamily: 'var(--font-playfair)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px' }}>Berbuka</span>
-                <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1.4 }}>Kiraan masa</span>
-              </div>
-            </Link>
-          </div>
         </section>
 
         {/* ── KrackedDevs mobile ── */}
