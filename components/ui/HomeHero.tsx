@@ -1,43 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Calendar } from 'lucide-react'
 import { PrayerTimesSection } from './PrayerTimesSection'
+import { NextPrayerMini } from './NextPrayerMini'
 import masjidImage from '@/images/masjidmsu.png'
-
-/* ── Count-up hook ── */
-function useCountUp(target: number, duration = 1400, delay = 0) {
-  const [count, setCount] = useState(0)
-  useEffect(() => {
-    if (target === 0) return
-    const timer = setTimeout(() => {
-      const t0 = Date.now()
-      const tick = () => {
-        const p = Math.min((Date.now() - t0) / duration, 1)
-        setCount(Math.round((1 - Math.pow(1 - p, 3)) * target))
-        if (p < 1) requestAnimationFrame(tick)
-      }
-      requestAnimationFrame(tick)
-    }, delay)
-    return () => clearTimeout(timer)
-  }, [target, duration, delay])
-  return count
-}
 
 type Props = { totalUsers: number; totalPrograms: number; resolvedKeperluan: number }
 
 export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props) {
-  const u = useCountUp(totalUsers,          1500, 400)
-  const p = useCountUp(totalPrograms,        1300, 600)
-  const k = useCountUp(resolvedKeperluan,    1100, 800)
-
-  const stats = [
-    { v: u, label: 'Ahli Komuniti',     accent: '#52c97a', glow: 'rgba(82,201,122,0.3)' },
-    { v: p, label: 'Program Aktif',     accent: '#FCD34D', glow: 'rgba(252,211,77,0.25)' },
-    { v: k, label: 'Keperluan Selesai', accent: '#F87171', glow: 'rgba(248,113,113,0.22)' },
-  ]
+  void totalUsers; void totalPrograms; void resolvedKeperluan // retained in Props for backward compat
 
   return (
     <>
@@ -111,65 +84,10 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
             Sajda
           </h1>
 
-          {/* Stats bar — only shown once community has meaningful numbers */}
-          {totalUsers >= 10 ? (
-            <div className="animate-fadeUp delay-3" style={{
-              display: 'flex',
-              borderRadius: '14px', overflow: 'hidden',
-              border: '1px solid rgba(255,255,255,0.08)',
-              background: 'rgba(4,8,10,0.68)',
-              backdropFilter: 'blur(28px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-              marginBottom: '12px',
-            }}>
-              {stats.map((s, i) => (
-                <div key={s.label} style={{
-                  flex: 1, padding: '14px 10px', textAlign: 'center',
-                  borderRight: i < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none',
-                  position: 'relative',
-                }}>
-                  <div style={{
-                    position: 'absolute', top: 0, left: '20%', right: '20%',
-                    height: '1.5px', background: s.accent, opacity: 0.55,
-                  }} />
-                  <p style={{
-                    fontFamily: 'var(--font-playfair)',
-                    fontSize: '26px', fontWeight: 800, fontStyle: 'italic',
-                    color: s.accent, lineHeight: 1, letterSpacing: '-0.02em',
-                    textShadow: `0 0 22px ${s.glow}`,
-                  }}>
-                    {String(s.v).padStart(2, '0')}
-                  </p>
-                  <p style={{
-                    fontFamily: 'var(--font-jakarta)', fontSize: '11px',
-                    color: 'rgba(255,255,255,0.28)', letterSpacing: '0.18em',
-                    textTransform: 'uppercase', marginTop: '5px', lineHeight: 1.2,
-                    fontWeight: 600,
-                  }}>
-                    {s.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="animate-fadeUp delay-3" style={{
-              borderRadius: '14px', overflow: 'hidden',
-              border: '1px solid rgba(255,255,255,0.08)',
-              background: 'rgba(4,8,10,0.68)',
-              backdropFilter: 'blur(28px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-              marginBottom: '12px',
-              padding: '16px 18px',
-            }}>
-              <p style={{
-                fontFamily: 'var(--font-playfair)', fontSize: '15px',
-                fontStyle: 'italic', fontWeight: 600,
-                color: 'rgba(255,255,255,0.55)', lineHeight: 1.5,
-              }}>
-                "Bukan sekadar info. Ini rumah komuniti kau."
-              </p>
-            </div>
-          )}
+          {/* Next prayer countdown */}
+          <div className="animate-fadeUp delay-3">
+            <NextPrayerMini />
+          </div>
 
           {/* CTAs */}
           <div className="animate-fadeUp delay-4" style={{ display: 'flex', gap: '8px' }}>
@@ -286,51 +204,9 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
                 Sajda
               </h1>
 
-              {totalUsers >= 10 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  {stats.map((s, i) => (
-                    <div key={s.label} className={`animate-fadeUp delay-${i + 3}`} style={{ position: 'relative', paddingLeft: '16px' }}>
-                      <div style={{
-                        position: 'absolute', left: 0, top: '4px', bottom: '4px',
-                        width: '2px', borderRadius: '2px',
-                        background: s.accent, opacity: 0.7,
-                        boxShadow: `0 0 8px ${s.glow}`,
-                      }} />
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '2px' }}>
-                        <span style={{
-                          fontFamily: 'var(--font-playfair)',
-                          fontSize: 'clamp(1.9rem, 3vw, 2.8rem)',
-                          fontWeight: 800, fontStyle: 'italic',
-                          color: s.accent, lineHeight: 1, letterSpacing: '-0.02em',
-                          textShadow: `0 0 28px ${s.glow}`,
-                        }}>
-                          {String(s.v).padStart(2, '0')}
-                        </span>
-                      </div>
-                      <span style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
-                        color: 'rgba(255,255,255,0.28)',
-                        letterSpacing: '0.22em', textTransform: 'uppercase',
-                      }}>
-                        {s.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="animate-fadeUp delay-3">
-                  <p style={{
-                    fontFamily: 'var(--font-playfair)',
-                    fontSize: 'clamp(1.1rem, 1.8vw, 1.4rem)',
-                    fontStyle: 'italic', fontWeight: 600,
-                    color: 'rgba(255,255,255,0.45)', lineHeight: 1.6,
-                    borderLeft: '2px solid #52c97a',
-                    paddingLeft: '16px',
-                  }}>
-                    "Bukan sekadar info.<br />Ini rumah komuniti kau."
-                  </p>
-                </div>
-              )}
+              <div className="animate-fadeUp delay-3">
+                <NextPrayerMini />
+              </div>
             </div>
 
             {/* BOTTOM: CTAs */}
