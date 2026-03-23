@@ -75,7 +75,7 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
 
           {/* SAJDA — main title */}
           <h1 className="animate-springUp delay-2" style={{
-            fontFamily: 'var(--font-poppins)',
+            fontFamily: 'var(--font-dm-sans)',
             fontSize: 'clamp(4.2rem, 18vw, 6rem)',
             fontWeight: 800, color: '#fff', lineHeight: 0.86,
             letterSpacing: '-0.03em', marginBottom: '20px',
@@ -195,7 +195,7 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
             {/* MIDDLE: Title + count-up stats */}
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: '16px', paddingBottom: '16px' }}>
               <h1 className="animate-springUp delay-2" style={{
-                fontFamily: 'var(--font-poppins)',
+                fontFamily: 'var(--font-dm-sans)',
                 fontSize: 'clamp(2.6rem, 4.2vw, 5rem)',
                 fontWeight: 800, color: '#fff', lineHeight: 0.85,
                 letterSpacing: '-0.03em', marginBottom: '28px',
