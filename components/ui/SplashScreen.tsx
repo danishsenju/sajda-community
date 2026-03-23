@@ -125,7 +125,7 @@ export function SplashScreen() {
         }}>
           <Image
             src={msuLogo}
-            alt="Komuniti MSU"
+            alt="Kariah MSU"
             height={80}
             style={{ objectFit: 'contain', display: 'block' }}
             priority
@@ -154,7 +154,7 @@ export function SplashScreen() {
           letterSpacing: '0.22em',
           textTransform: 'uppercase',
         }}>
-          Komuniti MSU
+          Kariah MSU
         </h1>
 
         {/* Subtitle */}

@@ -199,7 +199,7 @@ export default async function TazkirahPage() {
     year: 'numeric',
   })
 
-  const shareText = `${verse.arabic}\n\n"${verse.translation}"\n\n— Surah ${surahName}, Ayat ${verseNumber} (Terjemahan Basmeih)\n\nSajda — Komuniti Masjid Saujana Utama`
+  const shareText = `${verse.arabic}\n\n"${verse.translation}"\n\n— Surah ${surahName}, Ayat ${verseNumber} (Terjemahan Basmeih)\n\nKariah MSU — Masjid Saujana Utama`
 
   return (
     <div style={{ background: 'var(--void)', minHeight: '100vh' }}>
@@ -415,7 +415,7 @@ export default async function TazkirahPage() {
                 margin: 0,
                 letterSpacing: '0.04em',
               }}>
-                Sajda &middot; Komuniti MSU
+                Kariah MSU
               </p>
             </div>
 

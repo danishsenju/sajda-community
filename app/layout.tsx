@@ -47,14 +47,14 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'Komuniti MSU — Masjid Saujana Utama',
+  title: 'Kariah MSU — Masjid Saujana Utama',
   description:
     'Platform komuniti Masjid Saujana Utama. Waktu solat, program, keperluan komuniti, kelas agama dan hadis harian.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Komuniti MSU',
+    title: 'Kariah MSU',
   },
   icons: {
     icon: [

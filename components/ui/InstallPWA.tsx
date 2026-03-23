@@ -150,7 +150,7 @@ export function InstallPWA() {
                 </div>
                 <div>
                   <p style={{ fontFamily: 'var(--font-playfair)', fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', margin: 0, lineHeight: 1.2 }}>
-                    Pasang Sajda
+                    Pasang Kariah MSU
                   </p>
                   <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-secondary)', margin: '3px 0 0', lineHeight: 1.3 }}>
                     Buka dari skrin utama dengan mudah
@@ -176,7 +176,7 @@ export function InstallPWA() {
                 // Android — native install
                 <div>
                   <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '20px', lineHeight: 1.6 }}>
-                    Tekan butang di bawah. Aplikasi akan dipasang dan ikon Sajda akan muncul di skrin utama telefon anda.
+                    Tekan butang di bawah. Aplikasi akan dipasang dan ikon Kariah MSU akan muncul di skrin utama telefon anda.
                   </p>
                   <button
                     onClick={handleAndroidInstall}
@@ -198,7 +198,7 @@ export function InstallPWA() {
                 // iOS — manual instructions
                 <div>
                   <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '16px', lineHeight: 1.6 }}>
-                    Ikuti langkah mudah ini untuk simpan Sajda di skrin utama iPhone / iPad anda:
+                    Ikuti langkah mudah ini untuk simpan Kariah MSU di skrin utama iPhone / iPad anda:
                   </p>
 
                   {/* Steps */}
@@ -219,7 +219,7 @@ export function InstallPWA() {
                       num: '3',
                       icon: <Smartphone style={{ width: '18px', height: '18px', color: 'var(--primary)' }} />,
                       title: 'Tekan "Add"',
-                      desc: 'Tekan "Add" di sudut kanan atas. Ikon Sajda akan muncul di skrin utama anda!',
+                      desc: 'Tekan "Add" di sudut kanan atas. Ikon Kariah MSU akan muncul di skrin utama anda!',
                     },
                   ].map((step) => (
                     <div
@@ -265,7 +265,7 @@ export function InstallPWA() {
               {platform === 'android' && !deferredPrompt && (
                 <div>
                   <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '16px', lineHeight: 1.6 }}>
-                    Untuk pasang Sajda di Android:
+                    Untuk pasang Kariah MSU di Android:
                   </p>
                   {[
                     {
@@ -281,7 +281,7 @@ export function InstallPWA() {
                     {
                       icon: <Smartphone style={{ width: '18px', height: '18px', color: 'var(--primary)' }} />,
                       title: 'Tekan "Add"',
-                      desc: 'Sahkan untuk memasang. Ikon Sajda akan muncul di skrin utama!',
+                      desc: 'Sahkan untuk memasang. Ikon Kariah MSU akan muncul di skrin utama!',
                     },
                   ].map((step, i) => (
                     <div

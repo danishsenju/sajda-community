@@ -110,7 +110,7 @@ function SetupForm() {
             Profil Disimpan
           </p>
           <p className="text-sm" style={{ fontFamily: 'var(--font-jakarta)', color: 'var(--text-dim)' }}>
-            Selamat datang ke komuniti Sajda
+            Selamat datang ke Kariah MSU
           </p>
         </div>
       </div>
@@ -256,7 +256,7 @@ function SetupForm() {
       <div className="text-center pb-8">
         <p className="text-[10px] tracking-[0.2em] uppercase"
           style={{ fontFamily: 'var(--font-jakarta)', color: 'var(--text-dim)' }}>
-          Sajda — Masjid Saujana Utama
+          Kariah MSU
         </p>
       </div>
     </div>

@@ -386,7 +386,7 @@ export default async function MasjidPage() {
 
           {/* ── PWA INSTALL ── */}
           <section>
-            <SectionLabel>Pasang Aplikasi Sajda</SectionLabel>
+            <SectionLabel>Pasang Kariah MSU</SectionLabel>
             <PWAInstallInline />
           </section>
 

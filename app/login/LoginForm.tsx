@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { Mail, Eye, EyeOff, User, Lock, CheckCircle2 } from 'lucide-react'
 import { signIn, signUp, signInWithGoogle } from './actions'
-import sajdaLogo from '@/images/sajda-logo.png'
+import msuLogo from '@/images/masjidmsu-logo.png'
 import masjidBg  from '@/images/masjidmsu.png'
 
 type Props = {
@@ -122,9 +122,9 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
           <Image
-            src={sajdaLogo}
-            alt="Sajda"
-            height={36}
+            src={msuLogo}
+            alt="Kariah MSU"
+            height={44}
             width={115}
             style={{ filter: 'brightness(0) invert(1)', display: 'inline-block', marginBottom: '10px' }}
           />
