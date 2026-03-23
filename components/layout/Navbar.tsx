@@ -66,14 +66,13 @@ const bottomNav = [
   { href: '/profile',   label: 'Profil',    icon: User },
 ]
 
-/* ── MSU LOGO ── */
+/* ── MSU LOGO — circular badge, 1:1 aspect ratio ── */
 function MSULogo({ height = 32 }: { height?: number }) {
-  const width = Math.round(height * 3.2)
   return (
     <Image
       src={msuLogo}
       alt="Komuniti MSU"
-      width={width}
+      width={height}
       height={height}
       className="object-contain sajda-logo"
     />
@@ -282,7 +281,7 @@ export function Navbar() {
       >
         {/* Logo */}
         <Link href="/" className="flex items-center mr-10 flex-shrink-0">
-          <MSULogo height={30} />
+          <MSULogo height={40} />
         </Link>
 
         {/* Primary nav — centered links, minimal */}
@@ -457,7 +456,7 @@ export function Navbar() {
       >
         {/* Logo */}
         <Link href="/" className="flex items-center">
-          <MSULogo height={26} />
+          <MSULogo height={36} />
         </Link>
 
         {/* Right actions */}
