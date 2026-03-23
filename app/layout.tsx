@@ -6,6 +6,7 @@ import { InstallPWA } from '@/components/ui/InstallPWA'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { ServiceWorkerRegister } from '@/components/ui/ServiceWorkerRegister'
 import { SplashScreen } from '@/components/ui/SplashScreen'
+import { LiveRefresh } from '@/components/ui/LiveRefresh'
 
 // Cormorant Garamond — ultra-luxury high-contrast serif (Hermès, editorial)
 const playfair = Cormorant_Garamond({
@@ -85,6 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="min-h-screen pt-16 md:pt-16 pb-[82px] md:pb-0">
             {children}
           </main>
+          <LiveRefresh />
           <InstallPWA />
           <ServiceWorkerRegister />
         </ThemeProvider>
