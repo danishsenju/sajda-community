@@ -5,6 +5,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { InstallPWA } from '@/components/ui/InstallPWA'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { ServiceWorkerRegister } from '@/components/ui/ServiceWorkerRegister'
+import { SplashScreen } from '@/components/ui/SplashScreen'
 
 // Cormorant Garamond — ultra-luxury high-contrast serif (Hermès, editorial)
 const playfair = Cormorant_Garamond({
@@ -45,14 +46,14 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'Sajda — Komuniti Masjid Saujana Utama',
+  title: 'Komuniti MSU — Masjid Saujana Utama',
   description:
     'Platform komuniti Masjid Saujana Utama. Waktu solat, program, keperluan komuniti, kelas agama dan hadis harian.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Sajda',
+    title: 'Komuniti MSU',
   },
   icons: {
     icon: [
@@ -79,6 +80,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body>
         <ThemeProvider>
+          <SplashScreen />
           <Navbar />
           <main className="min-h-screen pt-16 md:pt-16 pb-[82px] md:pb-0">
             {children}
