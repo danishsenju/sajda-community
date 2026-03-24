@@ -123,7 +123,7 @@ export function LoginForm({ error, message, redirectTo, initialMode }: Props) {
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
           <Image
             src={msuLogo}
-            alt="Kariah MSU"
+            alt="Sajda"
             height={44}
             width={115}
             style={{ filter: 'brightness(0) invert(1)', display: 'inline-block', marginBottom: '10px' }}

@@ -64,7 +64,7 @@ export function PWAInstallButton() {
           fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
           color: 'rgba(255,255,255,0.88)', marginBottom: '1px',
         }}>
-          Pasang Kariah MSU di telefon
+          Pasang Sajda di telefon
         </p>
         <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'rgba(255,255,255,0.38)' }}>
           Akses pantas tanpa buka pelayar
@@ -183,7 +183,7 @@ export function PWAInstallInline() {
             border: 'none', cursor: 'pointer',
           }}>
             <Download style={{ width: '16px', height: '16px' }} />
-            Pasang Kariah MSU Sekarang
+            Pasang Sajda Sekarang
           </button>
         ) : (
           <div style={{ marginTop: '16px' }}>

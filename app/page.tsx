@@ -509,7 +509,7 @@ export default async function HomePage() {
               </span>
             </div>
             <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1.65, marginBottom: '14px' }}>
-              Kariah MSU dibina sempena Ramadan Challenge 2026 oleh KrackedDevs — komuniti developer Malaysia.
+              Sajda dibina sempena Ramadan Challenge 2026 oleh KrackedDevs — komuniti developer Malaysia.
             </p>
             <a
               href={process.env.NEXT_PUBLIC_KRACKEDDEVS_REFERRAL ?? '#'}
@@ -871,7 +871,7 @@ export default async function HomePage() {
               <span style={{ fontSize: '12px', fontWeight: 600, padding: '3px 8px', borderRadius: '100px', background: 'var(--primary-pale)', color: 'var(--primary)', fontFamily: 'var(--font-jakarta)' }}>RC26</span>
             </div>
             <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', lineHeight: 1.6 }}>
-              Kariah MSU dibina sempena Ramadan Challenge 2026 oleh KrackedDevs &mdash; komuniti developer Malaysia yang build real products.
+              Sajda dibina sempena Ramadan Challenge 2026 oleh KrackedDevs &mdash; komuniti developer Malaysia yang build real products.
             </p>
           </div>
           <a

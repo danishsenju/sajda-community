@@ -81,7 +81,7 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
             letterSpacing: '-0.03em', marginBottom: '20px',
             textShadow: '0 0 80px rgba(82,201,122,0.2), 0 4px 24px rgba(0,0,0,0.6)',
           }}>
-            Kariah MSU
+            Sajda
           </h1>
 
           {/* Next prayer countdown */}
@@ -201,7 +201,7 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
                 letterSpacing: '-0.03em', marginBottom: '28px',
                 textShadow: '0 0 60px rgba(82,201,122,0.15)',
               }}>
-                Kariah MSU
+                Sajda
               </h1>
 
               <div className="animate-fadeUp delay-3">

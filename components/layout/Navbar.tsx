@@ -71,7 +71,7 @@ function MSULogo({ height = 32 }: { height?: number }) {
   return (
     <Image
       src={msuLogo}
-      alt="Kariah MSU"
+      alt="Sajda"
       width={height}
       height={height}
       className="object-contain sajda-logo"

@@ -224,7 +224,7 @@ export function NotifPrompt() {
                 fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
                 color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 16px',
               }}>
-                Untuk aktifkan semula, pergi ke <strong>Settings → Kariah MSU → Notifications</strong> dan benarkan notifikasi.
+                Untuk aktifkan semula, pergi ke <strong>Settings → Sajda → Notifications</strong> dan benarkan notifikasi.
               </p>
               <button
                 onClick={() => setStage('hidden')}

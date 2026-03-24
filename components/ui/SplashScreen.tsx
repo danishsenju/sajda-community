@@ -56,7 +56,7 @@ export function SplashScreen() {
 
         <Image
           src={msuLogo}
-          alt="Kariah MSU"
+          alt="Sajda"
           height={120}
           width={120}
           style={{

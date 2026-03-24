@@ -74,7 +74,7 @@ export default function JanaizDetailPage({ params }: { params: { id: string } })
 
   async function handleShare() {
     if (!notice) return
-    const text = `Innalillahi wa inna ilaihi raaji'un\n\nTelah kembali ke rahmatullah:\n\n${notice.deceased_name}${notice.age ? ` (${notice.age} tahun)` : ''}\n\nTarikh: ${formatDate(notice.death_date)}${notice.jenazah_time ? `\nSolat Jenazah: ${notice.jenazah_time}` : ''}${notice.jenazah_location ? ` di ${notice.jenazah_location}` : ''}${notice.burial_location_text ? `\nPengkebumian: ${notice.burial_location_text}` : ''}\n\nSemoga rohnya dirahmati Allah.\n\nKariah MSU — Masjid Saujana Utama`
+    const text = `Innalillahi wa inna ilaihi raaji'un\n\nTelah kembali ke rahmatullah:\n\n${notice.deceased_name}${notice.age ? ` (${notice.age} tahun)` : ''}\n\nTarikh: ${formatDate(notice.death_date)}${notice.jenazah_time ? `\nSolat Jenazah: ${notice.jenazah_time}` : ''}${notice.jenazah_location ? ` di ${notice.jenazah_location}` : ''}${notice.burial_location_text ? `\nPengkebumian: ${notice.burial_location_text}` : ''}\n\nSemoga rohnya dirahmati Allah.\n\nSajda — Masjid Saujana Utama`
 
     if (navigator.share) {
       navigator.share({ title: `Notis Kematian — ${notice.deceased_name}`, text })

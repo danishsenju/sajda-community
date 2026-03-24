@@ -34,7 +34,7 @@ export function ShareButton({ text }: ShareButtonProps) {
     if (typeof navigator !== 'undefined' && navigator.share) {
       try {
         await navigator.share({
-          title: 'Tazkirah Harian — Kariah MSU',
+          title: 'Tazkirah Harian — Sajda',
           text,
         })
         return
