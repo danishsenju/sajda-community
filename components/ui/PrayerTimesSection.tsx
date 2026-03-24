@@ -21,7 +21,7 @@ type PrayerState = {
 
 /* ── Server-side cached prayer API (proxies JAKIM, falls back to Aladhan) ── */
 async function fetchPrayerTimes(zone: string): Promise<{ times: string[]; hijri: string; source: 'jakim' | 'aladhan' }> {
-  const res = await fetch(`/api/prayer?zone=${encodeURIComponent(zone)}`, { cache: 'no-store' })
+  const res = await fetch(`/api/prayer?zone=${encodeURIComponent(zone)}`)
   if (!res.ok) throw new Error(`API ${res.status}`)
   const json = await res.json()
   if (json.error) throw new Error(json.error)

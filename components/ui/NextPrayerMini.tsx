@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const PRAYER_NAMES = ['Imsak', 'Subuh', 'Syuruk', 'Zohor', 'Asr', 'Maghrib', 'Isyak']
 const IS_PRAYER   = [false, true, false, true, true, true, true]
@@ -111,20 +111,23 @@ function Corner({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
 export function NextPrayerMini() {
   const [info, setInfo] = useState<NextInfo | null>(null)
   const [tick, setTick]   = useState(0)
+  const mounted = useRef(true)
 
   useEffect(() => {
-    let times: string[] = []
+    mounted.current = true
     let interval: ReturnType<typeof setInterval>
 
     async function load() {
       try {
         const zone = getZone()
-        const res  = await fetch(`/api/prayer?zone=${encodeURIComponent(zone)}`, { cache: 'no-store' })
+        const res  = await fetch(`/api/prayer?zone=${encodeURIComponent(zone)}`)
         const json = await res.json()
-        times = (json.times as (string | null)[]).map(t => t ?? '—')
+        if (!mounted.current) return
+        const times = (json.times as (string | null)[]).map(t => t ?? '—')
         setInfo(compute(times))
         // tick every second for live countdown
         interval = setInterval(() => {
+          if (!mounted.current) { clearInterval(interval); return }
           setInfo(compute(times))
           setTick(t => t + 1)
         }, 1000)
@@ -134,7 +137,10 @@ export function NextPrayerMini() {
     }
 
     load()
-    return () => clearInterval(interval)
+    return () => {
+      mounted.current = false
+      clearInterval(interval)
+    }
   }, [])
 
   if (!info) {

@@ -7,6 +7,7 @@ import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { ServiceWorkerRegister } from '@/components/ui/ServiceWorkerRegister'
 import { SplashScreen } from '@/components/ui/SplashScreen'
 import { LiveRefresh } from '@/components/ui/LiveRefresh'
+import { NotifPrompt } from '@/components/ui/NotifPrompt'
 
 // Cormorant Garamond — ultra-luxury high-contrast serif (Hermès, editorial)
 const playfair = Cormorant_Garamond({
@@ -87,6 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </main>
           <LiveRefresh />
+          <NotifPrompt />
           <InstallPWA />
           <ServiceWorkerRegister />
         </ThemeProvider>

@@ -32,6 +32,12 @@ export function LiveRefresh() {
     setTimeout(() => router.refresh(), 400)
   }, [router, showToast])
 
+  // Stable refs so the useEffect never re-runs after mount
+  const refreshRef = useRef(refresh)
+  const routerRef  = useRef(router)
+  useEffect(() => { refreshRef.current = refresh }, [refresh])
+  useEffect(() => { routerRef.current  = router  }, [router])
+
   useEffect(() => {
     const supabase = createClient()
 
@@ -41,29 +47,30 @@ export function LiveRefresh() {
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'announcements' },
-        () => refresh('Pengumuman baru dari AJK'),
+        () => refreshRef.current('Pengumuman baru dari AJK'),
       )
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'programs' },
-        () => refresh('Program baru telah ditambah'),
+        () => refreshRef.current('Program baru telah ditambah'),
       )
       .on(
         'postgres_changes',
         { event: 'UPDATE', schema: 'public', table: 'announcements' },
-        () => router.refresh(),
+        () => routerRef.current.refresh(),
       )
       .subscribe()
 
     // ── Polling fallback every 90s ────────────────────────────────
     // Ensures stale content is never shown even if WS limit is hit.
-    const poll = setInterval(() => router.refresh(), 90_000)
+    const poll = setInterval(() => routerRef.current.refresh(), 90_000)
 
     return () => {
       supabase.removeChannel(channel)
       clearInterval(poll)
+      if (toastTimer.current) clearTimeout(toastTimer.current)
     }
-  }, [router, refresh])
+  }, []) // empty — runs once on mount only
 
   if (!toast) return null
 
