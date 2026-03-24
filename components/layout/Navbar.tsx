@@ -13,7 +13,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUser } from '@/hooks/useUser'
-import msuLogo from '@/images/masjidmsu-logo.png'
+import sajdaLogo from '@/images/sajda-logo.png'
 import { NotificationPanel } from '@/components/ui/NotificationPanel'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { useTheme } from 'next-themes'
@@ -66,13 +66,13 @@ const bottomNav = [
   { href: '/profile',   label: 'Profil',    icon: User },
 ]
 
-/* ── MSU LOGO — circular badge, 1:1 aspect ratio ── */
-function MSULogo({ height = 32 }: { height?: number }) {
+/* ── SAJDA LOGO — wide horizontal logo, ~3.2:1 aspect ratio ── */
+function SajdaLogo({ height = 32 }: { height?: number }) {
   return (
     <Image
-      src={msuLogo}
+      src={sajdaLogo}
       alt="Sajda"
-      width={height}
+      width={Math.round(height * 3.2)}
       height={height}
       className="object-contain sajda-logo"
     />
@@ -281,7 +281,7 @@ export function Navbar() {
       >
         {/* Logo */}
         <Link href="/" className="flex items-center mr-10 flex-shrink-0">
-          <MSULogo height={40} />
+          <SajdaLogo height={40} />
         </Link>
 
         {/* Primary nav — centered links, minimal */}
@@ -456,7 +456,7 @@ export function Navbar() {
       >
         {/* Logo */}
         <Link href="/" className="flex items-center">
-          <MSULogo height={36} />
+          <SajdaLogo height={36} />
         </Link>
 
         {/* Right actions */}
@@ -544,7 +544,7 @@ export function Navbar() {
             {/* Drawer header */}
             <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: 'var(--border)' }}>
               <div className="flex items-center">
-                <MSULogo height={22} />
+                <SajdaLogo height={22} />
               </div>
               <button
                 onClick={() => setDrawerOpen(false)}

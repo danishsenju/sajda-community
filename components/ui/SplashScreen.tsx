@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import msuLogo from '@/images/masjidmsu-logo.png'
+import sajdaLogo from '@/images/sajda-logo.png'
 
 export function SplashScreen() {
   const [phase, setPhase] = useState<'show' | 'exit' | 'gone'>('show')
@@ -55,10 +55,10 @@ export function SplashScreen() {
         }} />
 
         <Image
-          src={msuLogo}
+          src={sajdaLogo}
           alt="Sajda"
-          height={120}
-          width={120}
+          height={56}
+          width={180}
           style={{
             objectFit: 'contain',
             animation: 'logoIn 0.9s cubic-bezier(0.34, 1.3, 0.64, 1) 0.2s both',
