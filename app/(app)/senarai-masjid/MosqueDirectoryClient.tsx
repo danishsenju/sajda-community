@@ -119,12 +119,13 @@ export function MosqueDirectoryClient({ mosques, followedIds: init, isLoggedIn }
             onChange={e => setSearch(e.target.value)}
             style={{
               width: '100%',
-              padding: '12px 14px 12px 42px',
+              padding: '14px 14px 14px 46px',
+              minHeight: '52px',
               background: 'var(--surface)',
               border: '1px solid var(--border)',
               borderRadius: '12px',
               color: 'var(--text-primary)',
-              fontSize: '14px',
+              fontSize: '15px',
               fontFamily: 'var(--font-dm-sans)',
               outline: 'none',
               boxSizing: 'border-box',
@@ -140,17 +141,17 @@ export function MosqueDirectoryClient({ mosques, followedIds: init, isLoggedIn }
             value={state}
             onChange={e => setState(e.target.value)}
             style={{
-              padding: '10px 14px',
+              padding: '13px 16px', minHeight: '48px',
               background: 'var(--surface)',
               border: '1px solid var(--border)',
               borderRadius: '10px',
               color: 'var(--text-primary)',
-              fontSize: '13px',
+              fontSize: '14px',
               fontFamily: 'var(--font-dm-sans)',
               outline: 'none',
               cursor: 'pointer',
               colorScheme: 'dark',
-              minWidth: '160px',
+              minWidth: '170px',
             }}
           >
             {MALAYSIAN_STATES.map(s => (
@@ -159,18 +160,19 @@ export function MosqueDirectoryClient({ mosques, followedIds: init, isLoggedIn }
           </select>
 
           {/* Category pills */}
-          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             {CATEGORIES.map(cat => (
               <button
                 key={cat.value}
                 onClick={() => setCategory(cat.value)}
+                aria-pressed={category === cat.value}
                 style={{
-                  padding: '10px 16px',
+                  padding: '13px 20px', minHeight: '48px',
                   borderRadius: '10px',
                   background: category === cat.value ? 'var(--primary)' : 'var(--surface)',
                   border: `1px solid ${category === cat.value ? 'var(--primary)' : 'var(--border)'}`,
                   color: category === cat.value ? '#04080A' : 'var(--text-secondary)',
-                  fontSize: '13px',
+                  fontSize: '14px',
                   fontWeight: 600,
                   fontFamily: 'var(--font-dm-sans)',
                   cursor: 'pointer',

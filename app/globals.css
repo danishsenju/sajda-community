@@ -1403,10 +1403,10 @@ html.light .bottom-nav-pill {
 html.light .sajda-logo { filter: none !important; }
 
 /* ── Bottom nav icon/label — light mode colors ── */
-html.light .bottom-nav-icon { color: rgba(10,60,30,0.55) !important; }
-html.light .bottom-nav-icon.active { color: #0A7040 !important; filter: drop-shadow(0 0 5px rgba(10,112,64,0.45)) !important; }
-html.light .bottom-nav-label { color: rgba(10,60,30,0.55) !important; }
-html.light .bottom-nav-label.active { color: #0A7040 !important; }
+html.light .bottom-nav-icon { color: rgba(10,60,30,0.60) !important; }
+html.light .bottom-nav-icon.active { color: #16A34A !important; filter: drop-shadow(0 0 6px rgba(22,163,74,0.50)) !important; }
+html.light .bottom-nav-label { color: rgba(10,60,30,0.60) !important; }
+html.light .bottom-nav-label.active { color: #16A34A !important; }
 html.light .bottom-nav-active-glow { background: rgba(10,112,64,0.12) !important; border: 1px solid rgba(10,112,64,0.22) !important; box-shadow: 0 0 12px rgba(10,112,64,0.18) inset !important; }
 
 /* ── Top nav header — light mode ── */
@@ -1437,6 +1437,32 @@ html.light .section-divider {
 html.light ::selection {
   background: rgba(10, 112, 64, 0.18);
   color: #0D1F17;
+}
+
+/* ======================================
+   FOCUS RING — visible keyboard navigation
+====================================== */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* ======================================
+   REDUCE MOTION — respects OS setting
+====================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ── Transition for theme switch ── */

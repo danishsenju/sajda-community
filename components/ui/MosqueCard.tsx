@@ -143,13 +143,14 @@ export function MosqueCard({
             href={`/${mosque.slug}`}
             style={{
               flex: 1, textAlign: 'center',
-              padding: '9px 8px', borderRadius: '9px',
+              padding: '13px 8px', borderRadius: '10px', minHeight: '48px',
               background: 'var(--elevated)',
               border: '1px solid var(--border)',
-              fontSize: '12px', fontWeight: 600,
+              fontSize: '13px', fontWeight: 600,
               fontFamily: 'var(--font-dm-sans)',
               color: 'var(--text-secondary)',
               textDecoration: 'none',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
           >
             Lihat
@@ -159,10 +160,10 @@ export function MosqueCard({
             <button
               onClick={() => onFollow(mosque.id)}
               style={{
-                flex: 1, padding: '9px 8px', borderRadius: '9px',
+                flex: 1, padding: '13px 8px', borderRadius: '10px', minHeight: '48px',
                 background: isFollowing ? 'rgba(34,197,94,0.1)' : 'var(--primary)',
                 border: isFollowing ? '1px solid rgba(34,197,94,0.25)' : 'none',
-                fontSize: '12px', fontWeight: 700,
+                fontSize: '13px', fontWeight: 700,
                 fontFamily: 'var(--font-dm-sans)',
                 color: isFollowing ? 'var(--primary)' : '#04080A',
                 cursor: 'pointer', transition: 'all 0.15s',

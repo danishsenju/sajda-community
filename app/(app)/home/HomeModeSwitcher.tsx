@@ -42,12 +42,12 @@ export function HomeModeSwitcher({ children }: { children: React.ReactNode }) {
           display: 'flex',
           gap: 4,
           padding: '5px',
-          background: 'rgba(10,14,10,0.82)',
-          backdropFilter: 'blur(20px) saturate(1.8)',
-          WebkitBackdropFilter: 'blur(20px) saturate(1.8)',
-          border: '1px solid rgba(74,222,128,0.18)',
+          background: 'rgba(8,12,10,0.90)',
+          backdropFilter: 'blur(24px) saturate(1.8)',
+          WebkitBackdropFilter: 'blur(24px) saturate(1.8)',
+          border: '1px solid rgba(34,197,94,0.22)',
           borderRadius: '100px',
-          boxShadow: '0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(74,222,128,0.06)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(34,197,94,0.08)',
         }}>
           {([
             { key: 'ibadah',   label: 'Ibadah',   Icon: BookOpen },
@@ -56,26 +56,25 @@ export function HomeModeSwitcher({ children }: { children: React.ReactNode }) {
             <button
               key={key}
               onClick={() => select(key)}
+              aria-pressed={active === key}
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '7px',
-                padding: '9px 18px',
+                gap: '8px',
+                padding: '12px 22px',
                 borderRadius: '100px',
                 border: 'none',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
                 background: active === key ? 'var(--primary)' : 'transparent',
-                color: active === key ? '#04080A' : 'rgba(134,239,172,0.5)',
+                color: active === key ? '#04080A' : 'rgba(224,237,229,0.65)',
                 fontFamily: 'var(--font-dm-sans), sans-serif',
-                fontSize: '13px',
+                fontSize: '14px',
                 fontWeight: 700,
+                minHeight: '44px',
               }}
             >
-              <Icon
-                size={14}
-                strokeWidth={2.2}
-              />
+              <Icon size={16} strokeWidth={2.2} />
               {label}
             </button>
           ))}
@@ -96,18 +95,20 @@ export function HomeModeSwitcher({ children }: { children: React.ReactNode }) {
             <button
               key={m}
               onClick={() => select(m)}
+              aria-pressed={active === m}
               style={{
-                padding: '9px 24px',
+                padding: '11px 28px',
                 borderRadius: 10,
-                fontSize: 13,
+                fontSize: 14,
                 fontWeight: 600,
                 cursor: 'pointer',
                 border: 'none',
                 transition: 'all 0.2s',
                 background: active === m ? 'var(--primary)' : 'transparent',
-                color: active === m ? 'var(--void, #08090E)' : 'var(--text-dim)',
+                color: active === m ? 'var(--void, #08090E)' : 'var(--text-secondary)',
                 fontFamily: 'var(--font-dm-sans), DM Sans, sans-serif',
                 letterSpacing: '0.02em',
+                minHeight: '44px',
               }}
             >
               {m === 'ibadah' ? 'Ibadah' : 'Komuniti'}

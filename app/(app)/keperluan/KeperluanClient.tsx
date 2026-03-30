@@ -119,8 +119,8 @@ export function KeperluanClient({ items, pendingItems, followedMosques, isLogged
 
         <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 16px 0' }}>
           <p style={{
-            fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
-            letterSpacing: '0.28em', textTransform: 'uppercase',
+            fontFamily: 'var(--font-dm-sans)', fontSize: '12px',
+            letterSpacing: '0.22em', textTransform: 'uppercase',
             color: 'var(--primary)', fontWeight: 700, marginBottom: '10px',
           }}>
             // KOMUNITI
@@ -138,9 +138,9 @@ export function KeperluanClient({ items, pendingItems, followedMosques, isLogged
             </h1>
             <Link href="/keperluan/new" style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
-              padding: '10px 18px', borderRadius: '8px',
+              padding: '13px 22px', borderRadius: '10px', minHeight: '48px',
               background: 'var(--primary)', color: '#04080A',
-              fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 700,
+              fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700,
               flexShrink: 0, textDecoration: 'none', letterSpacing: '0.02em',
             }}>
               <Plus style={{ width: '13px', height: '13px' }} /> Hantar
@@ -180,19 +180,19 @@ export function KeperluanClient({ items, pendingItems, followedMosques, isLogged
                 onClick={() => setActiveMosque('semua')}
                 style={{
                   flexShrink: 0,
-                  display: 'flex', alignItems: 'center', gap: '7px',
-                  padding: '7px 14px', borderRadius: '20px',
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  padding: '11px 18px', borderRadius: '100px', minHeight: '44px',
                   background: activeMosque === 'semua' ? 'var(--primary)' : 'var(--surface)',
                   border: `1px solid ${activeMosque === 'semua' ? 'var(--primary)' : 'var(--border)'}`,
                   color: activeMosque === 'semua' ? '#04080A' : 'var(--text-secondary)',
-                  fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 600,
+                  fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600,
                   cursor: 'pointer', transition: 'all 0.15s',
                 }}
               >
                 <span style={{
-                  width: '20px', height: '20px', borderRadius: '50%',
+                  width: '22px', height: '22px', borderRadius: '50%',
                   background: activeMosque === 'semua' ? 'rgba(0,0,0,0.15)' : 'var(--elevated)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px',
                 }}>🕌</span>
                 Semua
               </button>
@@ -203,14 +203,14 @@ export function KeperluanClient({ items, pendingItems, followedMosques, isLogged
                   onClick={() => setActiveMosque(mosque.id)}
                   style={{
                     flexShrink: 0,
-                    display: 'flex', alignItems: 'center', gap: '7px',
-                    padding: '7px 14px', borderRadius: '20px',
+                    display: 'flex', alignItems: 'center', gap: '8px',
+                    padding: '11px 18px', borderRadius: '100px', minHeight: '44px',
                     background: activeMosque === mosque.id ? 'var(--primary)' : 'var(--surface)',
                     border: `1px solid ${activeMosque === mosque.id ? 'var(--primary)' : 'var(--border)'}`,
                     color: activeMosque === mosque.id ? '#04080A' : 'var(--text-secondary)',
-                    fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 600,
+                    fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600,
                     cursor: 'pointer', transition: 'all 0.15s',
-                    maxWidth: '160px',
+                    maxWidth: '180px',
                   }}
                 >
                   <span style={{
@@ -243,12 +243,12 @@ export function KeperluanClient({ items, pendingItems, followedMosques, isLogged
                 <button key={key}
                   onClick={() => setActiveCategory(key)}
                   style={{
-                    flexShrink: 0, padding: '13px 14px',
-                    fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 600,
+                    flexShrink: 0, padding: '14px 18px', minHeight: '48px',
+                    fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600,
                     borderBottom: `2px solid ${isActive ? dot : 'transparent'}`,
                     borderTop: 'none', borderLeft: 'none', borderRight: 'none',
                     background: 'transparent',
-                    color: isActive ? dot : 'var(--text-dim)',
+                    color: isActive ? dot : 'var(--text-secondary)',
                     letterSpacing: '0.02em', cursor: 'pointer',
                     transition: 'color 0.2s, border-color 0.2s',
                   }}>
@@ -343,10 +343,11 @@ export function KeperluanClient({ items, pendingItems, followedMosques, isLogged
               </p>
             </div>
             <Link href="/senarai-masjid" style={{
-              padding: '8px 16px', borderRadius: '8px',
+              padding: '12px 20px', borderRadius: '10px', minHeight: '44px',
               background: 'var(--primary)', color: '#04080A',
-              fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 700,
+              fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700,
               textDecoration: 'none', flexShrink: 0,
+              display: 'flex', alignItems: 'center',
             }}>
               Cari Masjid
             </Link>
@@ -362,11 +363,12 @@ export function KeperluanClient({ items, pendingItems, followedMosques, isLogged
           </p>
           <button
             onClick={() => setUrgentOnly(u => !u)}
+            aria-pressed={urgentOnly}
             style={{
-              fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 600,
-              padding: '6px 12px', borderRadius: '6px', cursor: 'pointer',
+              fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600,
+              padding: '11px 16px', borderRadius: '8px', cursor: 'pointer', minHeight: '44px',
               border: `1px solid ${urgentOnly ? 'rgba(239,68,68,0.4)' : 'var(--border)'}`,
-              color: urgentOnly ? '#FCA5A5' : 'var(--text-dim)',
+              color: urgentOnly ? '#FCA5A5' : 'var(--text-secondary)',
               background: urgentOnly ? 'rgba(239,68,68,0.08)' : 'transparent',
               letterSpacing: '0.04em', transition: 'all 0.15s',
             }}>
@@ -395,9 +397,9 @@ export function KeperluanClient({ items, pendingItems, followedMosques, isLogged
             </p>
             <Link href="/keperluan/new" style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
-              padding: '10px 20px', borderRadius: '8px',
+              padding: '13px 24px', borderRadius: '10px', minHeight: '48px',
               background: 'var(--primary)', color: '#04080A',
-              fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700,
+              fontFamily: 'var(--font-dm-sans)', fontSize: '14px', fontWeight: 700,
               textDecoration: 'none',
             }}>
               <Plus style={{ width: '14px', height: '14px' }} /> Hantar Keperluan

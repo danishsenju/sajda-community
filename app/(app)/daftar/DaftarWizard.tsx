@@ -50,12 +50,13 @@ const JAKIM_ZONES = [
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
-  padding: '11px 14px',
-  background: 'rgba(255,255,255,0.05)',
-  border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: '10px',
+  padding: '14px 16px',
+  minHeight: '52px',
+  background: 'rgba(255,255,255,0.07)',
+  border: '1px solid rgba(255,255,255,0.18)',
+  borderRadius: '12px',
   color: '#F0FDF4',
-  fontSize: '14px',
+  fontSize: '15px',
   fontFamily: 'var(--font-dm-sans)',
   outline: 'none',
   boxSizing: 'border-box',
@@ -63,17 +64,17 @@ const inputStyle: React.CSSProperties = {
 
 const selectStyle: React.CSSProperties = {
   ...inputStyle,
-  colorScheme: 'dark',          // browser paints the native popup in dark mode
+  colorScheme: 'dark',
   cursor: 'pointer',
 }
 
 const labelStyle: React.CSSProperties = {
   display: 'block',
-  fontSize: '12px',
+  fontSize: '14px',
   fontWeight: 600,
-  color: 'rgba(186,230,200,0.7)',
+  color: '#A6C9B0',
   fontFamily: 'var(--font-dm-sans)',
-  marginBottom: '6px',
+  marginBottom: '8px',
 }
 
 function CustomSelect({ value, onChange, options }: {
@@ -133,10 +134,11 @@ function CustomSelect({ value, onChange, options }: {
               style={{
                 display: 'block',
                 width: '100%',
-                padding: '10px 14px',
+                padding: '13px 16px',
+                minHeight: '48px',
                 background: o.value === value ? 'rgba(74,222,128,0.12)' : 'transparent',
                 color: o.value === value ? '#4ADE80' : '#F0FDF4',
-                fontSize: '14px',
+                fontSize: '15px',
                 fontFamily: 'var(--font-dm-sans)',
                 textAlign: 'left',
                 cursor: 'pointer',
@@ -487,11 +489,11 @@ export function DaftarWizard() {
                   flex: 1,
                   padding: '13px',
                   borderRadius: '12px',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: '#F0FDF4',
+                  background: 'rgba(255,255,255,0.07)',
+                  border: '1px solid rgba(255,255,255,0.20)',
+                  color: '#E0EDE5',
                   fontFamily: 'var(--font-dm-sans)',
-                  fontSize: '14px',
+                  fontSize: '15px',
                   fontWeight: 600,
                   cursor: 'pointer',
                   display: 'flex',
@@ -629,7 +631,7 @@ export function DaftarWizard() {
               <p style={{ fontFamily: 'var(--font-playfair)', fontSize: '22px', fontWeight: 700, color: '#22C55E', marginTop: '4px' }}>
                 RM{PLAN_PRICE_RM[plan]}<span style={{ fontSize: '13px', fontFamily: 'var(--font-dm-sans)', fontWeight: 400, color: 'rgba(186,230,200,0.5)' }}>/bulan</span>
               </p>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'rgba(186,230,200,0.4)', marginTop: '4px' }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', color: 'rgba(186,230,200,0.65)', marginTop: '4px' }}>
                 Bayaran melalui FPX atau kad kredit (Billplz)
               </p>
             </div>
@@ -641,11 +643,11 @@ export function DaftarWizard() {
                   flex: 1,
                   padding: '13px',
                   borderRadius: '12px',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: '#F0FDF4',
+                  background: 'rgba(255,255,255,0.07)',
+                  border: '1px solid rgba(255,255,255,0.20)',
+                  color: '#E0EDE5',
                   fontFamily: 'var(--font-dm-sans)',
-                  fontSize: '14px',
+                  fontSize: '15px',
                   fontWeight: 600,
                   cursor: 'pointer',
                   display: 'flex',
