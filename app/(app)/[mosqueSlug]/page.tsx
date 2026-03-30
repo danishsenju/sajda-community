@@ -155,9 +155,11 @@ export default async function MosqueHomePage({ params }: Props) {
           {/* Follow button */}
           <MosqueFollowButton
             mosqueId={mosque.id}
+            mosqueName={mosque.name}
+            mosqueSlug={mosqueSlug}
+            mosqueState={mosque.state ?? null}
             isFollowing={isFollowing}
             isLoggedIn={!!user}
-            mosqueSlug={mosqueSlug}
           />
         </div>
       </section>

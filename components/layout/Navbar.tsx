@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUser } from '@/hooks/useUser'
+import { useActiveMosque } from '@/hooks/useActiveMosque'
 import sajdaLogo from '@/images/sajda-logo.png'
 import { NotificationPanel } from '@/components/ui/NotificationPanel'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
@@ -59,11 +60,11 @@ const toolsCategories = [
 const toolsNav = toolsCategories.flatMap(c => c.items)
 
 const bottomNavKomuniti = [
-  { href: '/home',      label: 'Utama',     icon: Home },
-  { href: '/keperluan', label: 'Keperluan', icon: Heart },
-  { href: '/program',   label: 'Program',   icon: Calendar },
-  { href: '/live',      label: 'Live',      icon: Radio },
-  { href: '/profile',   label: 'Profil',    icon: User },
+  { href: '/home',        label: 'Utama',   icon: Home },
+  { href: '/keperluan',   label: 'Komuniti',icon: Users },
+  { href: '/masjid-saya', label: 'Masjid',  icon: Building2 },
+  { href: '/program',     label: 'Program', icon: Calendar },
+  { href: '/profile',     label: 'Profil',  icon: User },
 ]
 
 const bottomNavIbadah = [
@@ -226,6 +227,7 @@ const adminNavItems = [
 export function Navbar() {
   const pathname = usePathname()
   const { user, profile, isAJK, isSuperAdmin } = useUser()
+  const { active: activeMosqueInfo } = useActiveMosque()
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [toolsOpen, setToolsOpen] = useState(false)
   const [adminOpen, setAdminOpen] = useState(false)
@@ -481,9 +483,42 @@ export function Navbar() {
         }}
       >
         {/* Logo */}
-        <Link href="/" className="flex items-center">
+        <Link href="/home" className="flex items-center">
           <SajdaLogo height={36} />
         </Link>
+
+        {/* Active mosque pill — tap to switch */}
+        {activeMosqueInfo && (
+          <Link
+            href="/masjid-saya"
+            style={{
+              display: 'flex', alignItems: 'center', gap: '5px',
+              padding: '5px 10px 5px 8px', borderRadius: '100px',
+              background: 'rgba(34,197,94,0.08)',
+              border: '1px solid rgba(34,197,94,0.18)',
+              textDecoration: 'none',
+              maxWidth: '140px',
+              overflow: 'hidden',
+            }}
+          >
+            <div style={{
+              width: 18, height: 18, borderRadius: 5,
+              background: 'rgba(34,197,94,0.15)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0,
+            }}>
+              <Building2 style={{ width: 10, height: 10, color: '#22C55E' }} />
+            </div>
+            <span style={{
+              fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 700,
+              color: '#22C55E',
+              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+            }}>
+              {activeMosqueInfo.name.replace(/^(Masjid|Surau|Musolla)\s/i, '')}
+            </span>
+            <ChevronDown style={{ width: 10, height: 10, color: '#22C55E', flexShrink: 0 }} />
+          </Link>
+        )}
 
         {/* Right actions */}
         <div className="flex items-center gap-2">
