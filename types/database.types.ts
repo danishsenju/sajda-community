@@ -675,6 +675,189 @@ export interface Database {
         }
         Relationships: []
       }
+      mosques: {
+        Row: {
+          id: string
+          slug: string
+          name: string
+          category: string
+          address: string | null
+          state: string | null
+          phone: string | null
+          gmaps_url: string | null
+          logo_url: string | null
+          description: string | null
+          has_wudhu: boolean
+          has_womens_section: boolean
+          has_parking: boolean
+          has_accessibility: boolean
+          jakim_zone: string
+          is_active: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          slug: string
+          name: string
+          category?: string
+          address?: string | null
+          state?: string | null
+          phone?: string | null
+          gmaps_url?: string | null
+          logo_url?: string | null
+          description?: string | null
+          has_wudhu?: boolean
+          has_womens_section?: boolean
+          has_parking?: boolean
+          has_accessibility?: boolean
+          jakim_zone?: string
+          is_active?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          slug?: string
+          name?: string
+          category?: string
+          address?: string | null
+          state?: string | null
+          phone?: string | null
+          gmaps_url?: string | null
+          logo_url?: string | null
+          description?: string | null
+          has_wudhu?: boolean
+          has_womens_section?: boolean
+          has_parking?: boolean
+          has_accessibility?: boolean
+          jakim_zone?: string
+          is_active?: boolean
+          created_at?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          id: string
+          mosque_id: string
+          plan: string
+          status: string
+          toyyibpay_bill_code: string | null
+          amount_rm: number
+          billing_cycle: string
+          starts_at: string | null
+          expires_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          mosque_id: string
+          plan: string
+          status?: string
+          toyyibpay_bill_code?: string | null
+          amount_rm: number
+          billing_cycle?: string
+          starts_at?: string | null
+          expires_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          mosque_id?: string
+          plan?: string
+          status?: string
+          toyyibpay_bill_code?: string | null
+          amount_rm?: number
+          billing_cycle?: string
+          starts_at?: string | null
+          expires_at?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      mosque_ajk: {
+        Row: {
+          id: string
+          mosque_id: string
+          user_id: string
+          role: string
+          invited_by: string | null
+          joined_at: string
+        }
+        Insert: {
+          id?: string
+          mosque_id: string
+          user_id: string
+          role?: string
+          invited_by?: string | null
+          joined_at?: string
+        }
+        Update: {
+          id?: string
+          mosque_id?: string
+          user_id?: string
+          role?: string
+          invited_by?: string | null
+          joined_at?: string
+        }
+        Relationships: []
+      }
+      mosque_follows: {
+        Row: {
+          id: string
+          mosque_id: string
+          user_id: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          mosque_id: string
+          user_id: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          mosque_id?: string
+          user_id?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      ajk_invitations: {
+        Row: {
+          id: string
+          mosque_id: string
+          email: string
+          token: string
+          role: string
+          invited_by: string | null
+          accepted_at: string | null
+          expires_at: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          mosque_id: string
+          email: string
+          token: string
+          role?: string
+          invited_by?: string | null
+          accepted_at?: string | null
+          expires_at?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          mosque_id?: string
+          email?: string
+          token?: string
+          role?: string
+          invited_by?: string | null
+          accepted_at?: string | null
+          expires_at?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

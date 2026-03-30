@@ -52,6 +52,10 @@
   --font-syne:    var(--font-playfair);
   --font-jakarta: var(--font-dm-sans);
   --font-jetbrains-mono: var(--font-jetbrains);
+
+  /* StarBorder animations */
+  --animate-star-movement-bottom: star-movement-bottom linear infinite alternate;
+  --animate-star-movement-top:    star-movement-top    linear infinite alternate;
 }
 
 /* ======================================
@@ -142,6 +146,15 @@ body {
 /* ======================================
    ANIMATIONS
 ====================================== */
+@keyframes star-movement-bottom {
+  0%   { transform: translate(0%, 0%);    opacity: 1; }
+  100% { transform: translate(-100%, 0%); opacity: 0; }
+}
+@keyframes star-movement-top {
+  0%   { transform: translate(0%, 0%);   opacity: 1; }
+  100% { transform: translate(100%, 0%); opacity: 0; }
+}
+
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -367,6 +380,10 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: #3A5A4A; }
 .scrollbar-none { scrollbar-width: none; -ms-overflow-style: none; }
 .scrollbar-none::-webkit-scrollbar { display: none; }
+
+/* ── Home page mode toggle ── */
+[data-mode="ibadah"]  .home-komuniti-section { display: none !important; }
+[data-mode="komuniti"] .home-ibadah-section  { display: none !important; }
 
 /* ======================================
    REDUCE MOTION

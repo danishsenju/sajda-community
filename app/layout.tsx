@@ -1,13 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, Plus_Jakarta_Sans, Amiri, JetBrains_Mono, Poppins } from 'next/font/google'
 import './globals.css'
-import { Navbar } from '@/components/layout/Navbar'
-import { InstallPWA } from '@/components/ui/InstallPWA'
-import { ThemeProvider } from '@/components/providers/ThemeProvider'
-import { ServiceWorkerRegister } from '@/components/ui/ServiceWorkerRegister'
-import { SplashScreen } from '@/components/ui/SplashScreen'
-import { LiveRefresh } from '@/components/ui/LiveRefresh'
-import { NotifPrompt } from '@/components/ui/NotifPrompt'
 
 // Cormorant Garamond — ultra-luxury high-contrast serif (Hermès, editorial)
 const playfair = Cormorant_Garamond({
@@ -73,6 +66,9 @@ export const viewport: Viewport = {
   maximumScale: 1,
 }
 
+// Root layout — fonts and base HTML only.
+// Navigation and app chrome live in app/(app)/layout.tsx.
+// Landing page chrome lives in app/(marketing)/layout.tsx.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -80,19 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
       className={`${playfair.variable} ${dmSans.variable} ${amiri.variable} ${jetbrains.variable} ${poppins.variable}`}
     >
-      <body>
-        <ThemeProvider>
-          <SplashScreen />
-          <Navbar />
-          <main className="min-h-screen pt-16 md:pt-16 pb-[82px] md:pb-0">
-            {children}
-          </main>
-          <LiveRefresh />
-          <NotifPrompt />
-          <InstallPWA />
-          <ServiceWorkerRegister />
-        </ThemeProvider>
-      </body>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   )
 }

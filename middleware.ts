@@ -25,27 +25,36 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresh session
   const { data: { user } } = await supabase.auth.getUser()
+  const { pathname } = request.nextUrl
+  const hostname = request.headers.get('host') ?? ''
 
-  // Protect auth-required routes
-  const protectedPaths = ['/profile', '/keperluan/new']
-  const adminPaths = ['/admin']
-
-  const isProtected = protectedPaths.some(p => request.nextUrl.pathname.startsWith(p))
-  const isAdmin = adminPaths.some(p => request.nextUrl.pathname.startsWith(p))
-
-  if (isProtected && !user) {
+  // app.sajda.my → always redirect root to /home
+  const isAppDomain = hostname.startsWith('app.')
+  if (isAppDomain && pathname === '/') {
     const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    url.searchParams.set('redirect', request.nextUrl.pathname)
+    url.pathname = '/home'
     return NextResponse.redirect(url)
   }
 
-  if (isAdmin && !user) {
+  // On main domain (sajda.my): logged-in users visiting / go to /home
+  if (!isAppDomain && pathname === '/' && user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/home'
+    return NextResponse.redirect(url)
+  }
+
+  // Protect auth-required routes
+  const protectedPaths = ['/profile', '/keperluan/new', '/janaiz/new', '/halaqah/new', '/home']
+  const adminPaths = ['/admin']
+
+  const isProtected = protectedPaths.some(p => pathname.startsWith(p))
+  const isAdmin = adminPaths.some(p => pathname.startsWith(p))
+
+  if ((isProtected || isAdmin) && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
-    url.searchParams.set('redirect', request.nextUrl.pathname)
+    url.searchParams.set('redirect', pathname)
     return NextResponse.redirect(url)
   }
 
