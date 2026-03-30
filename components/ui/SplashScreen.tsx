@@ -64,7 +64,7 @@ export function SplashScreen() {
             animation: 'logoIn 0.9s cubic-bezier(0.34, 1.3, 0.64, 1) 0.2s both',
             position: 'relative',
             zIndex: 1,
-            filter: 'drop-shadow(0 0 32px rgba(82,201,122,0.4))',
+            filter: 'brightness(0) invert(1) drop-shadow(0 0 32px rgba(255,255,255,0.3))',
           }}
           priority
         />
