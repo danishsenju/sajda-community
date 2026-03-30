@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase'
 import { MosqueCard } from '@/components/ui/MosqueCard'
 import type { Mosque } from '@/lib/mosque'
 import type { PlanTier } from '@/lib/planFeatures'
-import { Search, SlidersHorizontal } from 'lucide-react'
+import { Search, Building2 } from 'lucide-react'
 
 interface MosqueWithMeta extends Mosque {
   follower_count: number
@@ -23,6 +23,13 @@ const MALAYSIAN_STATES = [
   'Semua Negeri','Johor','Kedah','Kelantan','Melaka','Negeri Sembilan',
   'Pahang','Perak','Perlis','Pulau Pinang','Sabah','Sarawak',
   'Selangor','Terengganu','Kuala Lumpur','Labuan','Putrajaya',
+]
+
+const CATEGORIES = [
+  { value: 'semua',   label: 'Semua' },
+  { value: 'masjid',  label: 'Masjid' },
+  { value: 'surau',   label: 'Surau' },
+  { value: 'musolla', label: 'Musolla' },
 ]
 
 export function MosqueDirectoryClient({ mosques, followedIds: init, isLoggedIn }: Props) {
@@ -67,137 +74,132 @@ export function MosqueDirectoryClient({ mosques, followedIds: init, isLoggedIn }
     <div style={{
       background: 'var(--void)',
       minHeight: '100vh',
-      paddingBottom: '80px',
-      paddingTop: '72px',
+      paddingBottom: '100px',
     }}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 20px' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 20px 24px' }}>
 
-        {/* Header */}
+        {/* ── Header ── */}
         <div style={{ marginBottom: '24px' }}>
+          <p style={{
+            fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 700,
+            letterSpacing: '0.16em', textTransform: 'uppercase',
+            color: 'var(--text-dim)', marginBottom: '6px',
+          }}>
+            Direktori
+          </p>
           <h1 style={{
             fontFamily: 'var(--font-playfair)',
             fontSize: 'clamp(22px, 5vw, 32px)',
             fontWeight: 700,
-            color: '#F0FDF4',
-            marginBottom: '6px',
+            color: 'var(--text-primary)',
+            marginBottom: '4px',
           }}>
             Senarai Masjid
           </h1>
           <p style={{
-            fontFamily: 'var(--font-dm-sans)',
-            fontSize: '13px',
-            color: 'rgba(186,230,200,0.5)',
+            fontFamily: 'var(--font-dm-sans)', fontSize: '13px',
+            color: 'var(--text-dim)',
           }}>
-            {mosques.length} masjid & surau aktif di Sajda
+            {mosques.length} masjid &amp; surau aktif di Sajda
           </p>
         </div>
 
-        {/* Filters */}
-        <div style={{
-          display: 'flex',
-          gap: '10px',
-          marginBottom: '24px',
-          flexWrap: 'wrap',
-        }}>
-          {/* Search */}
-          <div style={{
-            flex: '1 1 220px',
-            position: 'relative',
-            minWidth: '180px',
-          }}>
-            <Search style={{
-              position: 'absolute',
-              left: '12px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '14px', height: '14px',
-              color: 'rgba(186,230,200,0.35)',
-              pointerEvents: 'none',
-            }} />
-            <input
-              type="text"
-              placeholder="Cari nama masjid..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '10px 14px 10px 36px',
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.09)',
-                borderRadius: '10px',
-                color: '#F0FDF4',
-                fontSize: '13px',
-                fontFamily: 'var(--font-dm-sans)',
-                outline: 'none',
-                boxSizing: 'border-box',
-              }}
-            />
-          </div>
+        {/* ── Search ── */}
+        <div style={{ position: 'relative', marginBottom: '12px' }}>
+          <Search style={{
+            position: 'absolute', left: '14px', top: '50%',
+            transform: 'translateY(-50%)',
+            width: '15px', height: '15px',
+            color: 'var(--text-dim)', pointerEvents: 'none',
+          }} />
+          <input
+            type="text"
+            placeholder="Cari nama masjid..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '12px 14px 12px 42px',
+              background: 'var(--surface)',
+              border: '1px solid var(--border)',
+              borderRadius: '12px',
+              color: 'var(--text-primary)',
+              fontSize: '14px',
+              fontFamily: 'var(--font-dm-sans)',
+              outline: 'none',
+              boxSizing: 'border-box',
+              transition: 'border-color 0.15s',
+            }}
+          />
+        </div>
 
-          {/* State filter */}
+        {/* ── State + Category filters ── */}
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '24px', flexWrap: 'wrap' }}>
+          {/* State */}
           <select
             value={state}
             onChange={e => setState(e.target.value)}
             style={{
               padding: '10px 14px',
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.09)',
+              background: 'var(--surface)',
+              border: '1px solid var(--border)',
               borderRadius: '10px',
-              color: '#F0FDF4',
+              color: 'var(--text-primary)',
               fontSize: '13px',
               fontFamily: 'var(--font-dm-sans)',
               outline: 'none',
               cursor: 'pointer',
+              colorScheme: 'dark',
               minWidth: '160px',
             }}
           >
             {MALAYSIAN_STATES.map(s => (
-              <option key={s} value={s} style={{ background: '#0F1016' }}>{s}</option>
+              <option key={s} value={s}>{s}</option>
             ))}
           </select>
 
-          {/* Category filter */}
-          <div style={{ display: 'flex', gap: '6px' }}>
-            {['semua', 'masjid', 'surau', 'musolla'].map(cat => (
+          {/* Category pills */}
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+            {CATEGORIES.map(cat => (
               <button
-                key={cat}
-                onClick={() => setCategory(cat)}
+                key={cat.value}
+                onClick={() => setCategory(cat.value)}
                 style={{
-                  padding: '10px 14px',
+                  padding: '10px 16px',
                   borderRadius: '10px',
-                  background: category === cat ? 'rgba(34,197,94,0.12)' : 'rgba(255,255,255,0.04)',
-                  border: `1px solid ${category === cat ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.08)'}`,
-                  color: category === cat ? '#22C55E' : 'rgba(186,230,200,0.5)',
-                  fontSize: '12px',
+                  background: category === cat.value ? 'var(--primary)' : 'var(--surface)',
+                  border: `1px solid ${category === cat.value ? 'var(--primary)' : 'var(--border)'}`,
+                  color: category === cat.value ? '#04080A' : 'var(--text-secondary)',
+                  fontSize: '13px',
                   fontWeight: 600,
                   fontFamily: 'var(--font-dm-sans)',
                   cursor: 'pointer',
-                  textTransform: 'capitalize',
                   transition: 'all 0.15s',
                 }}
               >
-                {cat === 'semua' ? 'Semua' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+                {cat.label}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Results */}
+        {/* ── Results ── */}
         {filtered.length === 0 ? (
           <div style={{
-            textAlign: 'center',
-            padding: '64px 20px',
-            color: 'rgba(186,230,200,0.4)',
-            fontFamily: 'var(--font-dm-sans)',
+            textAlign: 'center', padding: '64px 20px',
+            color: 'var(--text-dim)', fontFamily: 'var(--font-dm-sans)',
           }}>
-            <p style={{ fontSize: '16px', marginBottom: '8px' }}>Tiada masjid dijumpai</p>
+            <Building2 style={{ width: 32, height: 32, margin: '0 auto 12px', opacity: 0.3 }} />
+            <p style={{ fontSize: '15px', fontWeight: 600, marginBottom: '6px', color: 'var(--text-secondary)' }}>
+              Tiada masjid dijumpai
+            </p>
             <p style={{ fontSize: '13px' }}>Cuba carian atau penapis yang berbeza</p>
           </div>
         ) : (
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-            gap: '16px',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+            gap: '14px',
           }}>
             {filtered.map(mosque => (
               <MosqueCard
@@ -207,7 +209,7 @@ export function MosqueDirectoryClient({ mosques, followedIds: init, isLoggedIn }
                 plan={mosque.plan}
                 isFollowing={follows.has(mosque.id)}
                 onFollow={loading ? undefined : handleFollow}
-                showFollowBtn={true}
+                showFollowBtn
               />
             ))}
           </div>

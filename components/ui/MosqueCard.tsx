@@ -17,20 +17,13 @@ interface MosqueCardProps {
 }
 
 const CATEGORY_LABEL: Record<string, string> = {
-  masjid:  'Masjid',
-  surau:   'Surau',
-  musolla: 'Musolla',
+  masjid: 'Masjid', surau: 'Surau', musolla: 'Musolla',
 }
 
-const PLAN_COLOR: Record<string, string> = {
-  surau:    'rgba(234,179,8,0.15)',
-  kariah:   'rgba(34,197,94,0.12)',
-  komuniti: 'rgba(168,85,247,0.12)',
-}
-const PLAN_TEXT: Record<string, string> = {
-  surau:    '#EAB308',
-  kariah:   '#22C55E',
-  komuniti: '#A855F7',
+const PLAN_COLOR: Record<string, { bg: string; text: string }> = {
+  surau:    { bg: 'rgba(234,179,8,0.12)',   text: '#D97706' },
+  kariah:   { bg: 'rgba(34,197,94,0.10)',   text: '#16A34A' },
+  komuniti: { bg: 'rgba(168,85,247,0.10)',  text: '#7C3AED' },
 }
 
 export function MosqueCard({
@@ -41,21 +34,23 @@ export function MosqueCard({
   onFollow,
   showFollowBtn = true,
 }: MosqueCardProps) {
+  const planStyle = plan ? PLAN_COLOR[plan] : null
+
   return (
     <div style={{
-      background: 'rgba(15,16,22,0.85)',
-      border: '1px solid rgba(255,255,255,0.08)',
+      background: 'var(--surface)',
+      border: '1px solid var(--border)',
       borderRadius: '16px',
       overflow: 'hidden',
-      transition: 'border-color 0.2s, transform 0.2s',
       display: 'flex',
       flexDirection: 'column',
+      transition: 'border-color 0.2s, box-shadow 0.2s',
     }}>
-      {/* Logo / header band */}
+      {/* Header band */}
       <div style={{
         height: '72px',
-        background: 'linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(15,16,22,0) 100%)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        background: 'linear-gradient(135deg, rgba(34,197,94,0.07) 0%, transparent 100%)',
+        borderBottom: '1px solid var(--border)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -72,29 +67,24 @@ export function MosqueCard({
         ) : (
           <div style={{
             width: '48px', height: '48px', borderRadius: '12px',
-            background: 'rgba(34,197,94,0.1)',
-            border: '1px solid rgba(34,197,94,0.2)',
+            background: 'rgba(34,197,94,0.08)',
+            border: '1px solid rgba(34,197,94,0.18)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <Building2 style={{ width: '22px', height: '22px', color: 'rgba(34,197,94,0.7)' }} />
+            <Building2 style={{ width: '22px', height: '22px', color: 'var(--primary)' }} />
           </div>
         )}
 
         {/* Plan badge */}
-        {plan && (
+        {plan && planStyle && (
           <div style={{
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            padding: '3px 8px',
-            borderRadius: '6px',
-            background: PLAN_COLOR[plan] ?? 'rgba(255,255,255,0.08)',
-            fontSize: '10px',
-            fontWeight: 700,
+            position: 'absolute', top: '10px', right: '10px',
+            padding: '3px 8px', borderRadius: '6px',
+            background: planStyle.bg,
+            fontSize: '10px', fontWeight: 700,
             fontFamily: 'var(--font-dm-sans)',
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            color: PLAN_TEXT[plan] ?? '#F0FDF4',
+            letterSpacing: '0.06em', textTransform: 'uppercase',
+            color: planStyle.text,
           }}>
             {PLAN_LABEL[plan]}
           </div>
@@ -104,28 +94,21 @@ export function MosqueCard({
       {/* Content */}
       <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-            <span style={{
-              fontSize: '10px',
-              fontWeight: 600,
-              fontFamily: 'var(--font-dm-sans)',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: 'rgba(34,197,94,0.7)',
-            }}>
-              {CATEGORY_LABEL[mosque.category] ?? mosque.category}
-            </span>
-          </div>
+          <span style={{
+            fontSize: '10px', fontWeight: 600,
+            fontFamily: 'var(--font-dm-sans)',
+            letterSpacing: '0.08em', textTransform: 'uppercase',
+            color: 'var(--primary)', display: 'block', marginBottom: '4px',
+          }}>
+            {CATEGORY_LABEL[mosque.category] ?? mosque.category}
+          </span>
           <Link
             href={`/${mosque.slug}`}
             style={{
               fontFamily: 'var(--font-playfair)',
-              fontSize: '15px',
-              fontWeight: 700,
-              color: '#F0FDF4',
-              textDecoration: 'none',
-              lineHeight: 1.3,
-              display: 'block',
+              fontSize: '15px', fontWeight: 700,
+              color: 'var(--text-primary)',
+              textDecoration: 'none', lineHeight: 1.3, display: 'block',
             }}
           >
             {mosque.name}
@@ -134,12 +117,10 @@ export function MosqueCard({
 
         {(mosque.address || mosque.state) && (
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
-            <MapPin style={{ width: '12px', height: '12px', color: 'rgba(186,230,200,0.4)', marginTop: '2px', flexShrink: 0 }} />
+            <MapPin style={{ width: '12px', height: '12px', color: 'var(--text-dim)', marginTop: '2px', flexShrink: 0 }} />
             <span style={{
-              fontFamily: 'var(--font-dm-sans)',
-              fontSize: '12px',
-              color: 'rgba(186,230,200,0.5)',
-              lineHeight: 1.4,
+              fontFamily: 'var(--font-dm-sans)', fontSize: '12px',
+              color: 'var(--text-dim)', lineHeight: 1.4,
             }}>
               {mosque.state ?? mosque.address}
             </span>
@@ -147,31 +128,27 @@ export function MosqueCard({
         )}
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <Users style={{ width: '12px', height: '12px', color: 'rgba(186,230,200,0.4)' }} />
+          <Users style={{ width: '12px', height: '12px', color: 'var(--text-dim)' }} />
           <span style={{
-            fontFamily: 'var(--font-dm-sans)',
-            fontSize: '12px',
-            color: 'rgba(186,230,200,0.5)',
+            fontFamily: 'var(--font-dm-sans)', fontSize: '12px',
+            color: 'var(--text-dim)',
           }}>
             {followerCount.toLocaleString()} pengikut
           </span>
         </div>
 
-        {/* Bottom row */}
+        {/* Actions */}
         <div style={{ display: 'flex', gap: '8px', marginTop: 'auto', paddingTop: '4px' }}>
           <Link
             href={`/${mosque.slug}`}
             style={{
-              flex: 1,
-              textAlign: 'center',
-              padding: '8px',
-              borderRadius: '8px',
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              fontSize: '12px',
-              fontWeight: 600,
+              flex: 1, textAlign: 'center',
+              padding: '9px 8px', borderRadius: '9px',
+              background: 'var(--elevated)',
+              border: '1px solid var(--border)',
+              fontSize: '12px', fontWeight: 600,
               fontFamily: 'var(--font-dm-sans)',
-              color: '#F0FDF4',
+              color: 'var(--text-secondary)',
               textDecoration: 'none',
             }}
           >
@@ -182,16 +159,13 @@ export function MosqueCard({
             <button
               onClick={() => onFollow(mosque.id)}
               style={{
-                flex: 1,
-                padding: '8px',
-                borderRadius: '8px',
-                background: isFollowing ? 'rgba(34,197,94,0.12)' : '#22C55E',
-                border: isFollowing ? '1px solid rgba(34,197,94,0.3)' : 'none',
-                fontSize: '12px',
-                fontWeight: 700,
+                flex: 1, padding: '9px 8px', borderRadius: '9px',
+                background: isFollowing ? 'rgba(34,197,94,0.1)' : 'var(--primary)',
+                border: isFollowing ? '1px solid rgba(34,197,94,0.25)' : 'none',
+                fontSize: '12px', fontWeight: 700,
                 fontFamily: 'var(--font-dm-sans)',
-                color: isFollowing ? '#22C55E' : '#08090E',
-                cursor: 'pointer',
+                color: isFollowing ? 'var(--primary)' : '#04080A',
+                cursor: 'pointer', transition: 'all 0.15s',
               }}
             >
               {isFollowing ? 'Diikuti ✓' : 'Ikut'}
