@@ -25,20 +25,28 @@ export function HomeModeSwitcher({ children }: { children: React.ReactNode }) {
   return (
     <div data-mode={active}>
 
-      {/* ── Sticky tab bar ── */}
+      {/* ── Floating pill toggle — fixed above bottom nav, always visible ── */}
       <div
         className="md:hidden"
         style={{
-          position: 'sticky',
-          top: 56,   /* mobile navbar is h-14 (56px) — sit flush below it */
-          zIndex: 20, /* below navbar z-50 */
-          background: 'rgba(8,9,14,0.88)',
-          backdropFilter: 'blur(24px) saturate(1.8)',
-          WebkitBackdropFilter: 'blur(24px) saturate(1.8)',
-          borderBottom: '1px solid var(--border)',
+          position: 'fixed',
+          bottom: 90,   /* sits above the 82px bottom nav */
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 40,
         }}
       >
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+        <div style={{
+          display: 'flex',
+          gap: 4,
+          padding: '5px',
+          background: 'rgba(10,14,10,0.82)',
+          backdropFilter: 'blur(20px) saturate(1.8)',
+          WebkitBackdropFilter: 'blur(20px) saturate(1.8)',
+          border: '1px solid rgba(74,222,128,0.18)',
+          borderRadius: '100px',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(74,222,128,0.06)',
+        }}>
           {([
             { key: 'ibadah',   label: 'Ibadah',   Icon: BookOpen },
             { key: 'komuniti', label: 'Komuniti',  Icon: Users },
@@ -49,27 +57,22 @@ export function HomeModeSwitcher({ children }: { children: React.ReactNode }) {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                padding: '14px 0 12px',
+                gap: '7px',
+                padding: '9px 18px',
+                borderRadius: '100px',
                 border: 'none',
-                background: 'transparent',
                 cursor: 'pointer',
-                borderBottom: active === key
-                  ? '2px solid var(--primary)'
-                  : '2px solid transparent',
-                color: active === key ? 'var(--primary)' : 'rgba(134,239,172,0.35)',
-                transition: 'color 0.2s, border-color 0.2s',
+                transition: 'all 0.2s',
+                background: active === key ? 'var(--primary)' : 'transparent',
+                color: active === key ? '#04080A' : 'rgba(134,239,172,0.5)',
                 fontFamily: 'var(--font-dm-sans), sans-serif',
-                fontSize: '14px',
-                fontWeight: active === key ? 700 : 500,
-                letterSpacing: '0.01em',
+                fontSize: '13px',
+                fontWeight: 700,
               }}
             >
               <Icon
-                size={16}
-                strokeWidth={active === key ? 2.2 : 1.6}
-                style={{ transition: 'stroke-width 0.2s' }}
+                size={14}
+                strokeWidth={2.2}
               />
               {label}
             </button>
