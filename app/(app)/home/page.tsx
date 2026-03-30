@@ -98,9 +98,9 @@ export default async function HomePage() {
 
           {/* Ibadah Harian */}
           <section style={{ marginTop: '8px' }}>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: '12px' }}>
+            <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '14px', margin: '0 0 14px' }}>
               Ibadah Harian
-            </p>
+            </h2>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               {[
                 { href: '/solat',  Icon: CheckSquare, label: 'Jejak Solat',    sub: 'Rekod 5 waktu',   color: '#22C55E' },
@@ -114,25 +114,25 @@ export default async function HomePage() {
                   className="active:scale-95 transition-transform duration-150"
                   style={{
                     textDecoration: 'none',
-                    display: 'flex', alignItems: 'center', gap: '12px',
-                    padding: '14px 14px',
-                    borderRadius: '16px',
+                    display: 'flex', flexDirection: 'column',
+                    alignItems: 'center', justifyContent: 'center',
+                    gap: '12px', padding: '22px 14px',
+                    borderRadius: '20px', minHeight: '130px',
                     background: 'var(--surface)',
                     border: '1px solid var(--border)',
-                    borderLeft: `3px solid ${color}`,
-                    boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+                    borderBottom: `3px solid ${color}`,
                   }}
                 >
                   <div style={{
-                    width: '42px', height: '42px', borderRadius: '12px', flexShrink: 0,
+                    width: '52px', height: '52px', borderRadius: '16px',
                     background: `${color}18`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
-                    <Icon style={{ width: '19px', height: '19px', color }} strokeWidth={1.8} />
+                    <Icon style={{ width: '24px', height: '24px', color }} strokeWidth={1.8} />
                   </div>
-                  <div style={{ minWidth: 0 }}>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px', lineHeight: 1.2 }}>{label}</p>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', lineHeight: 1 }}>{sub}</p>
+                  <div style={{ textAlign: 'center' }}>
+                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px', lineHeight: 1.2 }}>{label}</p>
+                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1 }}>{sub}</p>
                   </div>
                 </Link>
               ))}
@@ -140,10 +140,10 @@ export default async function HomePage() {
           </section>
 
           {/* Alat & Info */}
-          <section style={{ marginTop: '20px' }}>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: '12px' }}>
+          <section style={{ marginTop: '28px' }}>
+            <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 14px' }}>
               Alat &amp; Info
-            </p>
+            </h2>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               {[
                 { href: '/qiblat',     Icon: Compass,  label: 'Arah Kiblat',   sub: 'GPS + kompas',      color: '#7C3AED' },
@@ -157,25 +157,25 @@ export default async function HomePage() {
                   className="active:scale-95 transition-transform duration-150"
                   style={{
                     textDecoration: 'none',
-                    display: 'flex', alignItems: 'center', gap: '12px',
-                    padding: '14px 14px',
-                    borderRadius: '16px',
+                    display: 'flex', flexDirection: 'column',
+                    alignItems: 'center', justifyContent: 'center',
+                    gap: '12px', padding: '22px 14px',
+                    borderRadius: '20px', minHeight: '130px',
                     background: 'var(--surface)',
                     border: '1px solid var(--border)',
-                    borderLeft: `3px solid ${color}`,
-                    boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+                    borderBottom: `3px solid ${color}`,
                   }}
                 >
                   <div style={{
-                    width: '42px', height: '42px', borderRadius: '12px', flexShrink: 0,
+                    width: '52px', height: '52px', borderRadius: '16px',
                     background: `${color}18`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
-                    <Icon style={{ width: '19px', height: '19px', color }} strokeWidth={1.8} />
+                    <Icon style={{ width: '24px', height: '24px', color }} strokeWidth={1.8} />
                   </div>
-                  <div style={{ minWidth: 0 }}>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px', lineHeight: 1.2 }}>{label}</p>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', lineHeight: 1 }}>{sub}</p>
+                  <div style={{ textAlign: 'center' }}>
+                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px', lineHeight: 1.2 }}>{label}</p>
+                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1 }}>{sub}</p>
                   </div>
                 </Link>
               ))}
@@ -265,13 +265,13 @@ export default async function HomePage() {
 
         {/* ── Date strip ── */}
         <div style={{
-          padding: '18px 20px 0',
+          padding: '22px 20px 0',
           display: 'flex', alignItems: 'center', gap: '10px',
         }}>
-          <div style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 6px var(--primary)' }} />
+          <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 8px var(--primary)' }} />
           <span style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '13px',
-            color: 'var(--text-dim)', letterSpacing: '0.04em',
+            fontFamily: 'var(--font-dm-sans)', fontSize: '14px', fontWeight: 500,
+            color: 'var(--text-secondary)',
           }}>
             {mDateLabel}
           </span>
@@ -280,16 +280,16 @@ export default async function HomePage() {
         {/* ── Personalised greeting (shown only when logged in) ── */}
         <GreetingBanner />
 
-        {/* ── Quick community links horizontal scroll ── */}
-        <div style={{ overflowX: 'auto', scrollbarWidth: 'none', padding: '16px 16px 4px' }}>
-          <div style={{ display: 'flex', gap: '8px', width: 'max-content' }}>
+        {/* ── Quick community links — 3-column icon grid ── */}
+        <div style={{ padding: '24px 20px 0' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
             {[
-              { href: '/keperluan',   Icon: Heart,          label: 'Keperluan',   color: '#F87171', bg: 'rgba(248,113,113,0.1)'  },
-              { href: '/program',     Icon: Calendar,       label: 'Program',     color: '#FBBF24', bg: 'rgba(251,191,36,0.1)'   },
-              { href: '/kelas',       Icon: BookOpen,       label: 'Kelas',       color: '#60A5FA', bg: 'rgba(96,165,250,0.1)'   },
-              { href: '/halaqah',     Icon: BookMarked,     label: 'Halaqah',     color: '#34D399', bg: 'rgba(52,211,153,0.1)'   },
-              { href: '/janaiz',      Icon: Heart,          label: 'Janaiz',      color: '#94A3B8', bg: 'rgba(148,163,184,0.1)'  },
-              { href: '/cari-barang', Icon: Search,         label: 'Cari Barang', color: '#A78BFA', bg: 'rgba(167,139,250,0.1)'  },
+              { href: '/keperluan',   Icon: Heart,          label: 'Keperluan',   color: '#F87171', bg: 'rgba(248,113,113,0.08)'  },
+              { href: '/program',     Icon: Calendar,       label: 'Program',     color: '#FBBF24', bg: 'rgba(251,191,36,0.08)'   },
+              { href: '/kelas',       Icon: BookOpen,       label: 'Kelas',       color: '#60A5FA', bg: 'rgba(96,165,250,0.08)'   },
+              { href: '/halaqah',     Icon: BookMarked,     label: 'Halaqah',     color: '#34D399', bg: 'rgba(52,211,153,0.08)'   },
+              { href: '/janaiz',      Icon: Heart,          label: 'Janaiz',      color: '#94A3B8', bg: 'rgba(148,163,184,0.08)'  },
+              { href: '/cari-barang', Icon: Search,         label: 'Cari Barang', color: '#A78BFA', bg: 'rgba(167,139,250,0.08)'  },
             ].map(({ href, Icon, label, color, bg }) => (
               <Link
                 key={href}
@@ -297,14 +297,24 @@ export default async function HomePage() {
                 className="active:scale-95 transition-transform duration-150"
                 style={{
                   textDecoration: 'none',
-                  display: 'flex', alignItems: 'center', gap: '7px',
-                  padding: '9px 14px', borderRadius: '100px',
-                  background: bg, border: `1px solid ${color}25`,
-                  whiteSpace: 'nowrap',
+                  display: 'flex', flexDirection: 'column',
+                  alignItems: 'center', justifyContent: 'center',
+                  gap: '10px', padding: '18px 10px',
+                  borderRadius: '18px', minHeight: '92px',
+                  background: bg, border: `1px solid ${color}20`,
                 }}
               >
-                <Icon style={{ width: '14px', height: '14px', color }} strokeWidth={2} />
-                <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                <div style={{
+                  width: '46px', height: '46px', borderRadius: '13px', flexShrink: 0,
+                  background: `${color}18`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <Icon style={{ width: '22px', height: '22px', color }} strokeWidth={1.8} />
+                </div>
+                <span style={{
+                  fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 600,
+                  color: 'var(--text-primary)', textAlign: 'center', lineHeight: 1.2,
+                }}>
                   {label}
                 </span>
               </Link>
@@ -317,17 +327,20 @@ export default async function HomePage() {
           <section style={{ padding: '36px 20px 0' }}>
 
             {/* Section header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '11px',
-                  letterSpacing: '0.14em', textTransform: 'uppercase',
-                  color: 'var(--text-secondary)', fontWeight: 700,
-                }}>
-                  Pengumuman
-                </span>
-                <div style={{ width: '28px', height: '1px', background: 'linear-gradient(to right, var(--border), transparent)' }} />
-              </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
+              <h2 style={{
+                fontFamily: 'var(--font-playfair)', fontSize: '20px',
+                fontWeight: 700, color: 'var(--text-primary)', margin: 0,
+              }}>
+                Pengumuman
+              </h2>
+              <Link href="/admin/announcements" style={{
+                display: 'flex', alignItems: 'center', gap: '3px',
+                fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600,
+                color: 'var(--primary)', textDecoration: 'none',
+              }}>
+                Semua <ChevronRight style={{ width: '12px', height: '12px' }} />
+              </Link>
             </div>
 
             {/* Featured announcement card */}
@@ -336,8 +349,10 @@ export default async function HomePage() {
               const color = catColors[ann.category] ?? catColors.umum
               return (
                 <div
-                  className="liquid-glass-warm"
-                  style={{ borderRadius: '20px', marginBottom: '10px', overflow: 'hidden' }}
+                  style={{
+                    borderRadius: '20px', marginBottom: '10px', overflow: 'hidden',
+                    background: 'var(--surface)', border: '1px solid var(--border)',
+                  }}
                 >
                   {/* Color top stripe */}
                   <div style={{ height: '3px', background: `linear-gradient(to right, ${color}, ${color}55)` }} />
@@ -443,20 +458,16 @@ export default async function HomePage() {
         <section style={{ padding: '36px 20px 0' }}>
 
           {/* Section header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '11px',
-                letterSpacing: '0.14em', textTransform: 'uppercase',
-                color: 'var(--text-secondary)', fontWeight: 700,
-              }}>
-                Program
-              </span>
-              <div style={{ width: '28px', height: '1px', background: 'linear-gradient(to right, var(--border), transparent)' }} />
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
+            <h2 style={{
+              fontFamily: 'var(--font-playfair)', fontSize: '20px',
+              fontWeight: 700, color: 'var(--text-primary)', margin: 0,
+            }}>
+              Program
+            </h2>
             <Link href="/program" style={{
               display: 'flex', alignItems: 'center', gap: '3px',
-              fontFamily: 'var(--font-jakarta)', fontSize: '13px',
+              fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600,
               color: 'var(--primary)', textDecoration: 'none',
             }}>
               Semua <ChevronRight style={{ width: '12px', height: '12px' }} />
