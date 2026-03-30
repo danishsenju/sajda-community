@@ -98,15 +98,15 @@ export default async function HomePage() {
 
           {/* Ibadah Harian */}
           <section style={{ marginTop: '8px' }}>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(134,239,172,0.4)', marginBottom: '12px' }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: '12px' }}>
               Ibadah Harian
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               {[
-                { href: '/solat',  Icon: CheckSquare, label: 'Jejak Solat',   sub: 'Rekod 5 waktu',      color: '#22C55E' },
-                { href: '/tasbih', Icon: RotateCcw,   label: 'Tasbih & Zikir',sub: '4 jenis zikir',      color: '#10B981' },
-                { href: '/wirid',  Icon: Sun,         label: 'Wirid Harian',  sub: 'Pagi & petang',      color: '#14B8A6' },
-                { href: '/hadis',  Icon: BookMarked,  label: 'Hadis Harian',  sub: 'Koleksi sahih',      color: '#6EE7B7' },
+                { href: '/solat',  Icon: CheckSquare, label: 'Jejak Solat',    sub: 'Rekod 5 waktu',   color: '#22C55E' },
+                { href: '/tasbih', Icon: RotateCcw,   label: 'Tasbih & Zikir', sub: '4 jenis zikir',   color: '#10B981' },
+                { href: '/wirid',  Icon: Sun,         label: 'Wirid Harian',   sub: 'Pagi & petang',   color: '#14B8A6' },
+                { href: '/hadis',  Icon: BookMarked,  label: 'Hadis Harian',   sub: 'Koleksi sahih',   color: '#059669' },
               ].map(({ href, Icon, label, sub, color }) => (
                 <Link
                   key={href}
@@ -118,21 +118,21 @@ export default async function HomePage() {
                     padding: '14px 14px',
                     borderRadius: '16px',
                     background: 'var(--surface)',
-                    border: `1px solid ${color}1A`,
+                    border: '1px solid var(--border)',
                     borderLeft: `3px solid ${color}`,
-                    boxShadow: `0 2px 16px ${color}0A`,
+                    boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
                   }}
                 >
                   <div style={{
                     width: '42px', height: '42px', borderRadius: '12px', flexShrink: 0,
-                    background: `${color}14`,
+                    background: `${color}18`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
                     <Icon style={{ width: '19px', height: '19px', color }} strokeWidth={1.8} />
                   </div>
                   <div style={{ minWidth: 0 }}>
                     <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px', lineHeight: 1.2 }}>{label}</p>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'rgba(134,239,172,0.4)', lineHeight: 1 }}>{sub}</p>
+                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', lineHeight: 1 }}>{sub}</p>
                   </div>
                 </Link>
               ))}
@@ -141,15 +141,15 @@ export default async function HomePage() {
 
           {/* Alat & Info */}
           <section style={{ marginTop: '20px' }}>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(134,239,172,0.4)', marginBottom: '12px' }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: '12px' }}>
               Alat &amp; Info
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               {[
-                { href: '/qiblat',     Icon: Compass,  label: 'Arah Kiblat',   sub: 'GPS + kompas',       color: '#A78BFA' },
-                { href: '/buka-puasa', Icon: Clock,    label: 'Waktu Berbuka', sub: 'Kiraan masa puasa',  color: '#38BDF8' },
-                { href: '/hijri',      Icon: Moon,     label: 'Hijri',         sub: 'Kalendar Islam',     color: '#C084FC' },
-                { href: '/tazkirah',   Icon: Sparkles, label: 'Tazkirah',      sub: 'Peringatan harian',  color: '#FCD34D' },
+                { href: '/qiblat',     Icon: Compass,  label: 'Arah Kiblat',   sub: 'GPS + kompas',      color: '#7C3AED' },
+                { href: '/buka-puasa', Icon: Clock,    label: 'Waktu Berbuka', sub: 'Kiraan masa puasa', color: '#0891B2' },
+                { href: '/hijri',      Icon: Moon,     label: 'Hijri',         sub: 'Kalendar Islam',    color: '#6D28D9' },
+                { href: '/tazkirah',   Icon: Sparkles, label: 'Tazkirah',      sub: 'Peringatan harian', color: '#D97706' },
               ].map(({ href, Icon, label, sub, color }) => (
                 <Link
                   key={href}
@@ -161,21 +161,21 @@ export default async function HomePage() {
                     padding: '14px 14px',
                     borderRadius: '16px',
                     background: 'var(--surface)',
-                    border: `1px solid ${color}1A`,
+                    border: '1px solid var(--border)',
                     borderLeft: `3px solid ${color}`,
-                    boxShadow: `0 2px 16px ${color}0A`,
+                    boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
                   }}
                 >
                   <div style={{
                     width: '42px', height: '42px', borderRadius: '12px', flexShrink: 0,
-                    background: `${color}14`,
+                    background: `${color}18`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
                     <Icon style={{ width: '19px', height: '19px', color }} strokeWidth={1.8} />
                   </div>
                   <div style={{ minWidth: 0 }}>
                     <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px', lineHeight: 1.2 }}>{label}</p>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'rgba(134,239,172,0.4)', lineHeight: 1 }}>{sub}</p>
+                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', lineHeight: 1 }}>{sub}</p>
                   </div>
                 </Link>
               ))}
