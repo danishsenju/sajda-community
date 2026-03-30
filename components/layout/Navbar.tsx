@@ -58,12 +58,20 @@ const toolsCategories = [
 // flat list kept for active-check helpers
 const toolsNav = toolsCategories.flatMap(c => c.items)
 
-const bottomNav = [
-  { href: '/',          label: 'Utama',     icon: Home },
+const bottomNavKomuniti = [
+  { href: '/home',      label: 'Utama',     icon: Home },
   { href: '/keperluan', label: 'Keperluan', icon: Heart },
   { href: '/program',   label: 'Program',   icon: Calendar },
   { href: '/live',      label: 'Live',      icon: Radio },
   { href: '/profile',   label: 'Profil',    icon: User },
+]
+
+const bottomNavIbadah = [
+  { href: '/home',    label: 'Utama',   icon: Home },
+  { href: '/solat',   label: 'Solat',   icon: CheckSquare },
+  { href: '/tasbih',  label: 'Tasbih',  icon: RotateCcw },
+  { href: '/wirid',   label: 'Wirid',   icon: Sun },
+  { href: '/profile', label: 'Profil',  icon: User },
 ]
 
 /* ── SAJDA LOGO — wide horizontal logo, ~3.2:1 aspect ratio ── */
@@ -79,11 +87,29 @@ function SajdaLogo({ height = 32 }: { height?: number }) {
   )
 }
 
-/* ── MOBILE BOTTOM NAV — Liquid Glass Floating Pill ── */
+/* ── MOBILE BOTTOM NAV — mode-aware floating pill ── */
 function BottomNav() {
   const pathname = usePathname()
+  const [mode, setMode] = useState<'komuniti' | 'ibadah'>('komuniti')
+
+  useEffect(() => {
+    // Read initial mode
+    const saved = localStorage.getItem('home-mode')
+    if (saved === 'ibadah' || saved === 'komuniti') setMode(saved)
+
+    // Listen for changes dispatched by HomeModeSwitcher
+    const handler = (e: Event) => {
+      const m = (e as CustomEvent<'komuniti' | 'ibadah'>).detail
+      if (m === 'ibadah' || m === 'komuniti') setMode(m)
+    }
+    window.addEventListener('home-mode-change', handler)
+    return () => window.removeEventListener('home-mode-change', handler)
+  }, [])
+
+  const items = mode === 'ibadah' ? bottomNavIbadah : bottomNavKomuniti
+
   const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname.startsWith(href)
+    href === '/home' ? pathname === '/home' || pathname === '/' : pathname.startsWith(href)
 
   return (
     <nav
@@ -114,9 +140,10 @@ function BottomNav() {
             '0 0 0 0.5px rgba(82,201,122,0.06) inset',
           ].join(', '),
           padding: '0 6px',
+          transition: 'all 0.25s ease',
         }}
       >
-        {bottomNav.map(({ href, label, icon: Icon }) => {
+        {items.map(({ href, label, icon: Icon }) => {
           const active = isActive(href)
           return (
             <Link
@@ -135,7 +162,6 @@ function BottomNav() {
                 textDecoration: 'none',
               }}
             >
-              {/* Active pill glow behind icon */}
               {active && (
                 <span className="bottom-nav-active-glow" style={{
                   position: 'absolute',

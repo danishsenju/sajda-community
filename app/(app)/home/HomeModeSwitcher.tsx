@@ -18,6 +18,8 @@ export function HomeModeSwitcher({ children }: { children: React.ReactNode }) {
   function select(m: Mode) {
     setMode(m)
     localStorage.setItem('home-mode', m)
+    // Notify BottomNav (same tab — storage events don't fire in same tab)
+    window.dispatchEvent(new CustomEvent('home-mode-change', { detail: m }))
   }
 
   const active = mounted ? mode : 'komuniti'
