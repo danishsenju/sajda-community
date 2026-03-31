@@ -85,7 +85,21 @@ export function InstallPWA() {
         }}
       >
         <button
-          onClick={() => setShowModal(true)}
+          onClick={async () => {
+            if (deferredPrompt) {
+              // Android/Desktop — skip modal, trigger native prompt directly
+              setInstalling(true)
+              await deferredPrompt.prompt()
+              const { outcome } = await deferredPrompt.userChoice
+              if (outcome === 'accepted') setInstalled(true)
+              setDeferredPrompt(null)
+              setInstalling(false)
+            } else {
+              // iOS or Android without prompt — show instructions modal
+              setShowModal(true)
+            }
+          }}
+          disabled={installing}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -98,13 +112,14 @@ export function InstallPWA() {
             fontSize: '12px',
             fontWeight: 700,
             border: 'none',
-            cursor: 'pointer',
+            cursor: installing ? 'wait' : 'pointer',
             boxShadow: '0 4px 20px rgba(34,197,94,0.40)',
             letterSpacing: '0.01em',
+            opacity: installing ? 0.7 : 1,
           }}
         >
           <Download style={{ width: '14px', height: '14px' }} />
-          Pasang App
+          {installing ? 'Memasang...' : 'Pasang App'}
         </button>
       </div>
 
