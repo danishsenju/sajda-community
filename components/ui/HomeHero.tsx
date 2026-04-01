@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { Calendar } from 'lucide-react'
+import { Calendar, Users } from 'lucide-react'
 import { PrayerTimesSection } from './PrayerTimesSection'
 import { NextPrayerMini } from './NextPrayerMini'
 import masjidImage from '@/images/masjidmsu.png'
@@ -10,18 +10,20 @@ import masjidImage from '@/images/masjidmsu.png'
 type Props = { totalUsers: number; totalPrograms: number; resolvedKeperluan: number }
 
 export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props) {
-  void totalUsers; void totalPrograms; void resolvedKeperluan // retained in Props for backward compat
+  void totalUsers; void totalPrograms; void resolvedKeperluan
 
   return (
     <>
       {/* ══════════════════════════════════════════════════
-          MOBILE — Full-bleed cinematic hero
+          MOBILE — 50vh cinematic hero (content-first)
+          iOS HIG: hero serves context, not art.
+          Prayer countdown is the primary CTA surface.
       ══════════════════════════════════════════════════ */}
       <div
         className="md:hidden"
-        style={{ position: 'relative', height: '62vh', overflow: 'hidden', background: '#04080A' }}
+        style={{ position: 'relative', height: '50vh', minHeight: '320px', maxHeight: '480px', overflow: 'hidden', background: '#04080A' }}
       >
-        {/* Ken Burns background image */}
+        {/* Ken Burns background */}
         <div style={{ position: 'absolute', inset: 0, animation: 'kenBurns 14s ease-out forwards' }}>
           <Image
             src={masjidImage}
@@ -32,95 +34,93 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
           />
         </div>
 
-        {/* Gradient cinematic overlay */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(4,8,10,0.0) 0%, rgba(4,8,10,0.25) 30%, rgba(4,8,10,0.78) 60%, rgba(4,8,10,0.97) 84%, #04080A 100%)' }} />
-        {/* Side vignette */}
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 0% 100%, rgba(82,201,122,0.16) 0%, transparent 55%)' }} />
+        {/* Gradient overlay — heavier at bottom so text pops */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to bottom, rgba(4,8,10,0.15) 0%, rgba(4,8,10,0.30) 25%, rgba(4,8,10,0.72) 55%, rgba(4,8,10,0.96) 80%, #04080A 100%)',
+        }} />
 
-        {/* Floating green aura — top right */}
+        {/* Green aura — top right */}
         <div className="animate-float" style={{
           position: 'absolute', top: '-40px', right: '-60px',
-          width: '320px', height: '320px', borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(82,201,122,0.16) 0%, transparent 65%)',
+          width: '280px', height: '280px', borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(82,201,122,0.14) 0%, transparent 65%)',
           filter: 'blur(50px)', pointerEvents: 'none', animationDuration: '5s',
         }} />
 
-        {/* Spinning Islamic geometric watermark — top center */}
-        <div style={{ position: 'absolute', top: '6%', left: '50%', transform: 'translateX(-50%)', opacity: 0.055, pointerEvents: 'none' }}>
-          <svg width="190" height="190" viewBox="0 0 200 200" fill="none" className="animate-spin-slow">
+        {/* Geometric watermark — subtle, top center */}
+        <div style={{ position: 'absolute', top: '8%', left: '50%', transform: 'translateX(-50%)', opacity: 0.04, pointerEvents: 'none' }}>
+          <svg width="160" height="160" viewBox="0 0 200 200" fill="none" className="animate-spin-slow">
             <polygon points="100,8 116,65 174,65 128,99 146,156 100,122 54,156 72,99 26,65 84,65" stroke="#52c97a" strokeWidth="1.2" fill="none"/>
             <circle cx="100" cy="100" r="92" stroke="#52c97a" strokeWidth="0.5" fill="none"/>
-            <circle cx="100" cy="100" r="62" stroke="#52c97a" strokeWidth="0.35" fill="none"/>
             <rect x="58" y="58" width="84" height="84" stroke="#52c97a" strokeWidth="0.5" fill="none" transform="rotate(45 100 100)"/>
           </svg>
         </div>
 
-        {/* Bottom content overlay */}
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0 22px 22px' }}>
+        {/* Bottom content */}
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0 24px 24px' }}>
 
           {/* Eyebrow */}
           <p className="animate-fadeUp delay-1" style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '13px',
-            letterSpacing: '0.28em', textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.28)', fontWeight: 700, marginBottom: '8px',
+            fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+            letterSpacing: '0.30em', textTransform: 'uppercase',
+            color: 'rgba(255,255,255,0.40)', fontWeight: 600, marginBottom: '6px',
           }}>
             Komuniti Masjid Saujana Utama
           </p>
 
           {/* Green rule */}
           <div className="animate-fadeUp delay-1" style={{
-            width: '30px', height: '2px', background: '#52c97a', marginBottom: '12px',
-            boxShadow: '0 0 10px rgba(82,201,122,0.7), 0 0 20px rgba(82,201,122,0.3)',
+            width: '24px', height: '2px', background: '#52c97a', marginBottom: '10px',
           }} />
 
-          {/* SAJDA — main title */}
+          {/* SAJDA title */}
           <h1 className="animate-springUp delay-2" style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontSize: 'clamp(4.2rem, 18vw, 6rem)',
-            fontWeight: 800, color: '#fff', lineHeight: 0.86,
-            letterSpacing: '-0.03em', marginBottom: '20px',
-            textShadow: '0 0 80px rgba(82,201,122,0.2), 0 4px 24px rgba(0,0,0,0.6)',
+            fontSize: 'clamp(3.6rem, 16vw, 5.5rem)',
+            fontWeight: 800, color: '#fff', lineHeight: 0.88,
+            letterSpacing: '-0.03em', marginBottom: '16px',
           }}>
             Sajda
           </h1>
 
-          {/* Next prayer countdown */}
-          <div className="animate-fadeUp delay-3">
+          {/* Prayer countdown — frosted glass surface */}
+          <div className="animate-fadeUp delay-3" style={{
+            background: 'rgba(4,8,10,0.60)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            border: '1px solid rgba(82,201,122,0.18)',
+            borderRadius: '12px',
+            padding: '12px 16px',
+            marginBottom: '16px',
+            display: 'inline-block',
+            width: '100%',
+          }}>
             <NextPrayerMini />
           </div>
 
-          {/* CTAs */}
+          {/* CTAs — 8pt gap, no box-shadow, radius 8px */}
           <div className="animate-fadeUp delay-4" style={{ display: 'flex', gap: '8px' }}>
             <Link href="/program" style={{
               flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-              gap: '7px', padding: '13px',
-              background: 'linear-gradient(135deg, #52c97a 0%, #2D6A4F 100%)',
-              color: '#04080A', borderRadius: '12px', fontSize: '13px', fontWeight: 700,
-              fontFamily: 'var(--font-jakarta)', textDecoration: 'none',
-              boxShadow: '0 4px 24px rgba(82,201,122,0.35)',
+              gap: '6px', padding: '13px',
+              background: '#22C55E',
+              color: '#04080A', borderRadius: '8px', fontSize: '13px', fontWeight: 700,
+              fontFamily: 'var(--font-dm-sans)', textDecoration: 'none',
             }}>
               <Calendar style={{ width: '14px', height: '14px' }} /> Program
             </Link>
             <Link href="/keperluan" style={{
               flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-              padding: '13px', background: 'rgba(255,255,255,0.07)',
-              color: 'rgba(255,255,255,0.65)', borderRadius: '12px',
-              fontSize: '13px', fontWeight: 500, fontFamily: 'var(--font-jakarta)',
-              textDecoration: 'none', border: '1px solid rgba(255,255,255,0.09)',
+              gap: '6px', padding: '13px',
+              background: 'rgba(255,255,255,0.06)',
+              color: 'rgba(255,255,255,0.72)', borderRadius: '8px',
+              fontSize: '13px', fontWeight: 500, fontFamily: 'var(--font-dm-sans)',
+              textDecoration: 'none', border: '1px solid rgba(255,255,255,0.12)',
             }}>
-              Keperluan
+              <Users style={{ width: '14px', height: '14px' }} /> Keperluan
             </Link>
           </div>
-        </div>
-
-        {/* Scroll hint */}
-        <div style={{
-          position: 'absolute', right: '18px', bottom: '164px',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px',
-          opacity: 0.5,
-        }}>
-          <div style={{ width: '1px', height: '38px', background: 'linear-gradient(to bottom, transparent, #52c97a)', animation: 'breathe 2.5s ease-in-out infinite' }} />
-          <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '11px', letterSpacing: '0.22em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', writingMode: 'vertical-rl' }}>terokai</span>
         </div>
       </div>
 
@@ -130,111 +130,115 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
       </div>
 
       {/* ══════════════════════════════════════════════════
-          DESKTOP — Split editorial viewport layout
+          DESKTOP — Split editorial viewport
+          Left: dark brand panel — prayer countdown is hero
+          Right: mosque image
       ══════════════════════════════════════════════════ */}
       <div className="hidden md:flex flex-col h-[calc(100dvh-64px)]">
         <section className="flex flex-1 min-h-0">
 
-          {/* LEFT: Dark panel with orbs + geometric */}
+          {/* LEFT — dark panel */}
           <div
-            className="w-[44%] flex flex-col justify-between"
+            className="w-[42%] flex flex-col justify-between"
             style={{
               background: 'linear-gradient(160deg, #071410 0%, #0D1C12 55%, #091810 100%)',
-              padding: 'clamp(28px, 3.5vw, 52px)',
+              padding: 'clamp(32px, 3.5vw, 56px)',
               position: 'relative', overflow: 'hidden',
             }}
           >
-            {/* Orb — top right */}
+            {/* Orb top right */}
             <div className="animate-float" style={{
               position: 'absolute', top: '-80px', right: '-100px',
               width: '380px', height: '380px', borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(82,201,122,0.11) 0%, transparent 65%)',
+              background: 'radial-gradient(circle, rgba(82,201,122,0.10) 0%, transparent 65%)',
               filter: 'blur(60px)', pointerEvents: 'none', animationDuration: '7s',
             }} />
-            {/* Orb — bottom left */}
+            {/* Orb bottom left */}
             <div className="animate-float" style={{
               position: 'absolute', bottom: '-60px', left: '-80px',
-              width: '260px', height: '260px', borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(82,201,122,0.07) 0%, transparent 65%)',
+              width: '240px', height: '240px', borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(82,201,122,0.06) 0%, transparent 65%)',
               filter: 'blur(45px)', pointerEvents: 'none',
               animationDuration: '9s', animationDelay: '3s',
             }} />
 
-            {/* Spinning geometric watermark */}
+            {/* Geometric watermark */}
             <div className="animate-spin-slow" style={{
-              position: 'absolute', right: '-20px', top: '50%',
+              position: 'absolute', right: '-24px', top: '50%',
               transform: 'translateY(-50%)',
-              width: 'clamp(200px, 24vw, 280px)',
-              height: 'clamp(200px, 24vw, 280px)',
-              opacity: 0.05, pointerEvents: 'none',
+              width: 'clamp(180px, 22vw, 256px)',
+              height: 'clamp(180px, 22vw, 256px)',
+              opacity: 0.04, pointerEvents: 'none',
             }}>
               <svg viewBox="0 0 200 200" fill="none">
                 <polygon points="100,6 117,65 176,65 129,99 148,158 100,124 52,158 71,99 24,65 83,65" stroke="#52c97a" strokeWidth="1.2" fill="none"/>
                 <rect x="50" y="50" width="100" height="100" stroke="#52c97a" strokeWidth="0.7" fill="none" transform="rotate(45 100 100)"/>
                 <circle cx="100" cy="100" r="92" stroke="#52c97a" strokeWidth="0.5" fill="none"/>
-                <circle cx="100" cy="100" r="58" stroke="#52c97a" strokeWidth="0.35" fill="none"/>
-                <polygon points="100,30 110,65 148,65 118,86 130,120 100,100 70,120 82,86 52,65 90,65" stroke="#52c97a" strokeWidth="0.5" fill="none"/>
               </svg>
             </div>
 
             {/* TOP: identity */}
             <div className="animate-fadeUp delay-1">
               <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '12px',
-                letterSpacing: '0.26em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.22)', fontWeight: 600, marginBottom: '10px',
+                fontFamily: 'var(--font-dm-sans)', fontSize: '11px',
+                letterSpacing: '0.28em', textTransform: 'uppercase',
+                color: 'rgba(255,255,255,0.24)', fontWeight: 600, marginBottom: '8px',
               }}>
                 Komuniti Masjid Saujana Utama
               </p>
-              <div style={{
-                width: '28px', height: '2px', background: '#52c97a',
-                boxShadow: '0 0 10px rgba(82,201,122,0.6)',
-              }} />
+              <div style={{ width: '24px', height: '2px', background: '#52c97a' }} />
             </div>
 
-            {/* MIDDLE: Title + count-up stats */}
+            {/* MIDDLE — title + prayer countdown */}
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: '16px', paddingBottom: '16px' }}>
               <h1 className="animate-springUp delay-2" style={{
                 fontFamily: 'var(--font-dm-sans)',
-                fontSize: 'clamp(2.6rem, 4.2vw, 5rem)',
-                fontWeight: 800, color: '#fff', lineHeight: 0.85,
-                letterSpacing: '-0.03em', marginBottom: '28px',
-                textShadow: '0 0 60px rgba(82,201,122,0.15)',
+                fontSize: 'clamp(2.4rem, 4.0vw, 4.8rem)',
+                fontWeight: 800, color: '#fff', lineHeight: 0.86,
+                letterSpacing: '-0.03em', marginBottom: '24px',
               }}>
                 Sajda
               </h1>
 
-              <div className="animate-fadeUp delay-3">
+              {/* Prayer countdown — frosted glass card */}
+              <div className="animate-fadeUp delay-3" style={{
+                background: 'rgba(4,8,10,0.45)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(82,201,122,0.14)',
+                borderRadius: '12px',
+                padding: '16px 20px',
+              }}>
                 <NextPrayerMini />
               </div>
             </div>
 
-            {/* BOTTOM: CTAs */}
+            {/* BOTTOM — CTAs */}
             <div className="animate-fadeUp delay-6" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               <Link href="/program" style={{
-                display: 'inline-flex', alignItems: 'center', gap: '7px',
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
                 padding: '11px 24px',
-                background: 'linear-gradient(135deg, #52c97a 0%, #2D6A4F 100%)',
-                color: '#04080A', borderRadius: '100px',
-                fontSize: '12px', fontWeight: 700, fontFamily: 'var(--font-jakarta)',
-                textDecoration: 'none', boxShadow: '0 4px 24px rgba(82,201,122,0.3)',
+                background: '#22C55E',
+                color: '#04080A', borderRadius: '8px',
+                fontSize: '12px', fontWeight: 700, fontFamily: 'var(--font-dm-sans)',
+                textDecoration: 'none',
               }}>
                 <Calendar style={{ width: '13px', height: '13px' }} /> Program
               </Link>
               <Link href="/keperluan" style={{
-                display: 'inline-flex', alignItems: 'center', gap: '7px',
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
                 padding: '11px 24px',
-                background: 'rgba(255,255,255,0.06)',
-                color: 'rgba(255,255,255,0.55)', borderRadius: '100px',
-                fontSize: '12px', fontWeight: 500, fontFamily: 'var(--font-jakarta)',
-                textDecoration: 'none', border: '1px solid rgba(255,255,255,0.08)',
+                background: 'rgba(255,255,255,0.05)',
+                color: 'rgba(255,255,255,0.60)', borderRadius: '8px',
+                fontSize: '12px', fontWeight: 500, fontFamily: 'var(--font-dm-sans)',
+                textDecoration: 'none', border: '1px solid rgba(255,255,255,0.10)',
               }}>
-                Keperluan
+                <Users style={{ width: '13px', height: '13px' }} /> Keperluan
               </Link>
             </div>
           </div>
 
-          {/* RIGHT: Mosque image — Ken Burns */}
+          {/* RIGHT — Mosque image */}
           <div className="flex-1 relative" style={{ overflow: 'hidden' }}>
             <div style={{ position: 'absolute', inset: 0, animation: 'kenBurns 16s ease-out forwards' }}>
               <Image
@@ -243,23 +247,16 @@ export function HomeHero({ totalUsers, totalPrograms, resolvedKeperluan }: Props
                 fill
                 className="object-cover object-center"
                 priority
-                sizes="56vw"
+                sizes="58vw"
               />
             </div>
             {/* Gradient blends */}
             <div style={{
               position: 'absolute', inset: 0,
               background: [
-                'linear-gradient(to right, rgba(7,20,16,0.7) 0%, rgba(7,20,16,0.15) 28%, transparent 50%)',
-                'linear-gradient(to bottom, transparent 40%, rgba(7,20,16,0.6) 100%)',
+                'linear-gradient(to right, rgba(7,20,16,0.72) 0%, rgba(7,20,16,0.18) 28%, transparent 50%)',
+                'linear-gradient(to bottom, transparent 40%, rgba(7,20,16,0.55) 100%)',
               ].join(', '),
-            }} />
-            {/* Green lens flare top-right */}
-            <div style={{
-              position: 'absolute', top: '-30px', right: '-30px',
-              width: '350px', height: '350px', borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(82,201,122,0.1) 0%, transparent 60%)',
-              filter: 'blur(40px)', pointerEvents: 'none',
             }} />
           </div>
         </section>

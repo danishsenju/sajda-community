@@ -93,15 +93,15 @@ export default async function HomePage() {
       <div className="home-ibadah-section">
 
         {/* Mobile ibadah tools */}
-        <div className="md:hidden" style={{ padding: '20px 16px 96px' }}>
+        <div className="md:hidden" style={{ padding: '24px 20px 96px' }}>
           <GreetingBanner />
 
           {/* Ibadah Harian */}
           <section style={{ marginTop: '8px' }}>
-            <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '14px', margin: '0 0 14px' }}>
+            <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '12px', margin: '0 0 12px' }}>
               Ibadah Harian
             </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               {[
                 { href: '/solat',  Icon: CheckSquare, label: 'Jejak Solat',    sub: 'Rekod 5 waktu',   color: '#22C55E' },
                 { href: '/tasbih', Icon: RotateCcw,   label: 'Tasbih & Zikir', sub: '4 jenis zikir',   color: '#10B981' },
@@ -116,23 +116,23 @@ export default async function HomePage() {
                     textDecoration: 'none',
                     display: 'flex', flexDirection: 'column',
                     alignItems: 'center', justifyContent: 'center',
-                    gap: '12px', padding: '22px 14px',
-                    borderRadius: '20px', minHeight: '130px',
+                    gap: '12px', padding: '20px 12px',
+                    borderRadius: '16px', minHeight: '128px',
                     background: 'var(--surface)',
                     border: '1px solid var(--border)',
-                    borderBottom: `3px solid ${color}`,
+                    borderBottom: `2px solid ${color}`,
                   }}
                 >
                   <div style={{
-                    width: '52px', height: '52px', borderRadius: '16px',
+                    width: '48px', height: '48px', borderRadius: '12px',
                     background: `${color}18`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
-                    <Icon style={{ width: '24px', height: '24px', color }} strokeWidth={1.8} />
+                    <Icon style={{ width: '22px', height: '22px', color }} strokeWidth={1.8} />
                   </div>
                   <div style={{ textAlign: 'center' }}>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px', lineHeight: 1.2 }}>{label}</p>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1 }}>{sub}</p>
+                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px', lineHeight: 1.2 }}>{label}</p>
+                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', lineHeight: 1 }}>{sub}</p>
                   </div>
                 </Link>
               ))}
@@ -140,11 +140,11 @@ export default async function HomePage() {
           </section>
 
           {/* Alat & Info */}
-          <section style={{ marginTop: '28px' }}>
-            <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 14px' }}>
+          <section style={{ marginTop: '24px' }}>
+            <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 12px' }}>
               Alat &amp; Info
             </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               {[
                 { href: '/qiblat',     Icon: Compass,  label: 'Arah Kiblat',   sub: 'GPS + kompas',      color: '#7C3AED' },
                 { href: '/buka-puasa', Icon: Clock,    label: 'Waktu Berbuka', sub: 'Kiraan masa puasa', color: '#0891B2' },
@@ -159,23 +159,23 @@ export default async function HomePage() {
                     textDecoration: 'none',
                     display: 'flex', flexDirection: 'column',
                     alignItems: 'center', justifyContent: 'center',
-                    gap: '12px', padding: '22px 14px',
-                    borderRadius: '20px', minHeight: '130px',
+                    gap: '12px', padding: '20px 12px',
+                    borderRadius: '16px', minHeight: '128px',
                     background: 'var(--surface)',
                     border: '1px solid var(--border)',
-                    borderBottom: `3px solid ${color}`,
+                    borderBottom: `2px solid ${color}`,
                   }}
                 >
                   <div style={{
-                    width: '52px', height: '52px', borderRadius: '16px',
+                    width: '48px', height: '48px', borderRadius: '12px',
                     background: `${color}18`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
-                    <Icon style={{ width: '24px', height: '24px', color }} strokeWidth={1.8} />
+                    <Icon style={{ width: '22px', height: '22px', color }} strokeWidth={1.8} />
                   </div>
                   <div style={{ textAlign: 'center' }}>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px', lineHeight: 1.2 }}>{label}</p>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1 }}>{sub}</p>
+                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px', lineHeight: 1.2 }}>{label}</p>
+                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', lineHeight: 1 }}>{sub}</p>
                   </div>
                 </Link>
               ))}
@@ -282,14 +282,14 @@ export default async function HomePage() {
 
         {/* ── Quick community links — 3-column icon grid ── */}
         <div style={{ padding: '24px 20px 0' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
             {[
-              { href: '/keperluan',   Icon: Heart,          label: 'Keperluan',   color: '#F87171', bg: 'rgba(248,113,113,0.08)'  },
-              { href: '/program',     Icon: Calendar,       label: 'Program',     color: '#FBBF24', bg: 'rgba(251,191,36,0.08)'   },
-              { href: '/kelas',       Icon: BookOpen,       label: 'Kelas',       color: '#60A5FA', bg: 'rgba(96,165,250,0.08)'   },
-              { href: '/halaqah',     Icon: BookMarked,     label: 'Halaqah',     color: '#34D399', bg: 'rgba(52,211,153,0.08)'   },
-              { href: '/janaiz',      Icon: Heart,          label: 'Janaiz',      color: '#94A3B8', bg: 'rgba(148,163,184,0.08)'  },
-              { href: '/cari-barang', Icon: Search,         label: 'Cari Barang', color: '#A78BFA', bg: 'rgba(167,139,250,0.08)'  },
+              { href: '/keperluan',   Icon: Heart,          label: 'Keperluan',   color: '#F87171', bg: 'rgba(248,113,113,0.07)'  },
+              { href: '/program',     Icon: Calendar,       label: 'Program',     color: '#FBBF24', bg: 'rgba(251,191,36,0.07)'   },
+              { href: '/kelas',       Icon: BookOpen,       label: 'Kelas',       color: '#60A5FA', bg: 'rgba(96,165,250,0.07)'   },
+              { href: '/halaqah',     Icon: BookMarked,     label: 'Halaqah',     color: '#34D399', bg: 'rgba(52,211,153,0.07)'   },
+              { href: '/janaiz',      Icon: Heart,          label: 'Janaiz',      color: '#94A3B8', bg: 'rgba(148,163,184,0.07)'  },
+              { href: '/cari-barang', Icon: Search,         label: 'Cari Barang', color: '#A78BFA', bg: 'rgba(167,139,250,0.07)'  },
             ].map(({ href, Icon, label, color, bg }) => (
               <Link
                 key={href}
@@ -299,17 +299,17 @@ export default async function HomePage() {
                   textDecoration: 'none',
                   display: 'flex', flexDirection: 'column',
                   alignItems: 'center', justifyContent: 'center',
-                  gap: '10px', padding: '18px 10px',
-                  borderRadius: '18px', minHeight: '92px',
-                  background: bg, border: `1px solid ${color}20`,
+                  gap: '8px', padding: '16px 8px',
+                  borderRadius: '16px', minHeight: '96px',
+                  background: bg, border: `1px solid ${color}1E`,
                 }}
               >
                 <div style={{
-                  width: '46px', height: '46px', borderRadius: '13px', flexShrink: 0,
-                  background: `${color}18`,
+                  width: '44px', height: '44px', borderRadius: '12px', flexShrink: 0,
+                  background: `${color}16`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
-                  <Icon style={{ width: '22px', height: '22px', color }} strokeWidth={1.8} />
+                  <Icon style={{ width: '20px', height: '20px', color }} strokeWidth={1.8} />
                 </div>
                 <span style={{
                   fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 600,
@@ -324,7 +324,7 @@ export default async function HomePage() {
 
         {/* ── Announcements ── */}
         {safeAnns.length > 0 && (
-          <section style={{ padding: '36px 20px 0' }}>
+          <section style={{ padding: '32px 20px 0' }}>
 
             {/* Section header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
@@ -350,7 +350,7 @@ export default async function HomePage() {
               return (
                 <div
                   style={{
-                    borderRadius: '20px', marginBottom: '10px', overflow: 'hidden',
+                    borderRadius: '16px', marginBottom: '10px', overflow: 'hidden',
                     background: 'var(--surface)', border: '1px solid var(--border)',
                   }}
                 >
@@ -417,7 +417,7 @@ export default async function HomePage() {
                   <div
                     key={ann.id}
                     style={{
-                      borderRadius: '14px',
+                      borderRadius: '12px',
                       background: 'var(--surface)',
                       border: '1px solid var(--border)',
                       padding: '14px 16px',
@@ -455,7 +455,7 @@ export default async function HomePage() {
         )}
 
         {/* ── Programs ── */}
-        <section style={{ padding: '36px 20px 0' }}>
+        <section style={{ padding: '32px 20px 0' }}>
 
           {/* Section header */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
@@ -496,7 +496,7 @@ export default async function HomePage() {
                     className="active:scale-[0.98] transition-transform duration-150"
                     style={{
                       textDecoration: 'none', display: 'flex',
-                      borderRadius: '16px', overflow: 'hidden',
+                      borderRadius: '12px', overflow: 'hidden',
                       border: '1px solid var(--border)',
                       background: 'var(--surface)',
                     }}
@@ -584,9 +584,9 @@ export default async function HomePage() {
         </section>
 
         {/* ── KrackedDevs mobile ── */}
-        <div style={{ margin: '36px 20px 0', position: 'relative' }}>
+        <div style={{ margin: '32px 20px 0', position: 'relative' }}>
           <div style={{
-            borderRadius: '20px', overflow: 'hidden',
+            borderRadius: '16px', overflow: 'hidden',
             background: 'var(--surface)', border: '1px solid var(--border)',
             padding: '20px',
           }}>

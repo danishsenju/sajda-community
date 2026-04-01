@@ -119,8 +119,8 @@ function BottomNav() {
         bottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
         left: '50%',
         transform: 'translateX(-50%)',
-        width: 'calc(100% - 32px)',
-        maxWidth: '340px',
+        width: 'calc(100% - 40px)',
+        maxWidth: '360px',
       }}
     >
       <div
@@ -131,16 +131,15 @@ function BottomNav() {
           justifyContent: 'space-around',
           height: '64px',
           borderRadius: '100px',
-          background: 'rgba(6,10,8,0.82)',
-          backdropFilter: 'blur(28px) saturate(200%)',
-          WebkitBackdropFilter: 'blur(28px) saturate(200%)',
-          border: '1px solid rgba(255,255,255,0.10)',
+          background: 'rgba(6,10,8,0.88)',
+          backdropFilter: 'blur(32px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(32px) saturate(180%)',
+          border: '1px solid rgba(255,255,255,0.11)',
           boxShadow: [
-            '0 12px 40px rgba(0,0,0,0.55)',
-            '0 1.5px 0 rgba(255,255,255,0.08) inset',
-            '0 0 0 0.5px rgba(82,201,122,0.08) inset',
+            '0 16px 48px rgba(0,0,0,0.60)',
+            '0 1px 0 rgba(255,255,255,0.07) inset',
           ].join(', '),
-          padding: '0 8px',
+          padding: '0 4px',
           transition: 'all 0.25s ease',
         }}
       >
@@ -156,31 +155,31 @@ function BottomNav() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '3px',
+                gap: '4px',
                 position: 'relative',
-                padding: '6px 0',
+                padding: '8px 0',
                 WebkitTapHighlightColor: 'transparent',
                 textDecoration: 'none',
+                minHeight: '44px',
               }}
             >
               {active && (
                 <span className="bottom-nav-active-glow" style={{
                   position: 'absolute',
-                  inset: '4px 6px',
+                  inset: '4px 4px',
                   borderRadius: '100px',
-                  background: 'rgba(82,201,122,0.13)',
-                  border: '1px solid rgba(82,201,122,0.18)',
-                  boxShadow: '0 0 12px rgba(82,201,122,0.15) inset',
+                  background: 'rgba(82,201,122,0.15)',
+                  border: '1px solid rgba(82,201,122,0.20)',
                 }} />
               )}
               <Icon
                 className={`bottom-nav-icon${active ? ' active' : ''}`}
                 style={{
-                  width: '22px',
-                  height: '22px',
-                  color: active ? 'var(--primary)' : 'rgba(255,255,255,0.50)',
-                  filter: active ? 'drop-shadow(0 0 6px rgba(34,197,94,0.55))' : 'none',
-                  transition: 'all 0.18s ease',
+                  width: '20px',
+                  height: '20px',
+                  color: active ? 'var(--primary)' : 'rgba(255,255,255,0.48)',
+                  filter: active ? 'drop-shadow(0 0 5px rgba(34,197,94,0.50))' : 'none',
+                  transition: 'color 0.18s ease, filter 0.18s ease',
                   position: 'relative',
                   zIndex: 1,
                   flexShrink: 0,
@@ -191,9 +190,9 @@ function BottomNav() {
                 className={`bottom-nav-label${active ? ' active' : ''}`}
                 style={{
                   fontFamily: 'var(--font-dm-sans)',
-                  fontSize: '12px',
-                  letterSpacing: '0.02em',
-                  color: active ? 'var(--primary)' : 'rgba(255,255,255,0.50)',
+                  fontSize: '11px',
+                  letterSpacing: '0.01em',
+                  color: active ? 'var(--primary)' : 'rgba(255,255,255,0.48)',
                   fontWeight: active ? 700 : 500,
                   transition: 'color 0.18s ease',
                   position: 'relative',
