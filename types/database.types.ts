@@ -741,7 +741,7 @@ export interface Database {
           mosque_id: string
           plan: string
           status: string
-          toyyibpay_bill_code: string | null
+          billplz_bill_id: string | null
           amount_rm: number
           billing_cycle: string
           starts_at: string | null
@@ -753,7 +753,7 @@ export interface Database {
           mosque_id: string
           plan: string
           status?: string
-          toyyibpay_bill_code?: string | null
+          billplz_bill_id?: string | null
           amount_rm: number
           billing_cycle?: string
           starts_at?: string | null
@@ -765,7 +765,7 @@ export interface Database {
           mosque_id?: string
           plan?: string
           status?: string
-          toyyibpay_bill_code?: string | null
+          billplz_bill_id?: string | null
           amount_rm?: number
           billing_cycle?: string
           starts_at?: string | null

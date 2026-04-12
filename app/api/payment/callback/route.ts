@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase-admin'
-import { verifySignature, isBillPaid } from '@/lib/billplz'
+import { verifyWebhookSignature as verifySignature, isBillPaid } from '@/lib/billplz'
 
 /**
  * Billplz sends a POST callback when payment status changes.
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     const { data: sub } = await supabase
       .from('subscriptions')
       .select('id, mosque_id, plan')
-      .eq('toyyibpay_bill_code', billId)   // column reused for Billplz bill ID
+      .eq('billplz_bill_id', billId)
       .single()
 
     if (!sub) {

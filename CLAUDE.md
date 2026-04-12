@@ -680,6 +680,29 @@ NEXT_PUBLIC_KRACKEDDEVS_REFERRAL=your_referral_link
 **Best Design (30%):** Sacred Futurism aesthetic — judges have never seen a mosque app look this good  
 **Growth Award (30%):** Volunteer signup creates natural viral loop — AJK shares, jemaah signs up, done
 
+
+# SAJDA — Islamic Community Platform
+
+## Documentation
+- Full SRS: /docs/SAJDA_SRS_v1_0.pdf
+- Current database schema: /docs/schema.sql
+
+## Current state
+- Hackathon MVP for Masjid Saujana Utama
+- Landing page exists with pricing — needs UI overhaul
+- Billplz code exists but not connected to sandbox
+- Stack: Next.js 14, Supabase, Tailwind, Vercel
+
+## Priority right now
+1. UI redesign — Sacred Futurism theme
+2. Billplz sandbox connection
+3. Phase 1 features per SRS
+
+## Design system
+- Primary: #3DFF8F (sacred green)
+- Background: #0A1628 (near-black)  
+- Fonts: Syne (headings), DM Sans (body)
+- Style: professional SaaS, not student project
 ---
 
 *Built with ❤️ for RC26 — Ramadan Challenge 2026 by KrackedDevs*

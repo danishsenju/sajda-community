@@ -13,7 +13,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <ThemeProvider>
       <SplashScreen />
       <Navbar />
-      <main className="min-h-screen pt-14 md:pt-16 pb-[82px] md:pb-0">
+      {/*
+        UX RATIONALE: pt-14 (56px) = mobile top bar height.
+        pb-[80px] = 64px nav + 16px breathing room above nav.
+        pb-[calc(80px+env(safe-area-inset-bottom,0px))] handles iPhone home indicator.
+        Desktop (md+): pt-16 (60px) desktop nav, no bottom padding (no bottom nav).
+      */}
+      <main
+        className="min-h-screen pt-14 md:pt-16 md:pb-0"
+        style={{ paddingBottom: 'calc(80px + env(safe-area-inset-bottom, 0px))' }}
+      >
         {children}
       </main>
       <LiveRefresh />

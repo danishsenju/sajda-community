@@ -1,993 +1,569 @@
+// UX RATIONALE: Home = daily dashboard, not a landing page.
+// Users open this app 3-5x per day: primarily for prayer times, then quick tools.
+// Above-the-fold target (375px, accounting for top bar 56px + bottom nav 64px):
+//   Available ≈ 255px. Must show: prayer hero card. Everything else scrolls.
+// Progressive disclosure: summary first, detail on tap.
+// Server component for announcements + programs — fast initial paint.
+// PrayerHeroClient handles the live countdown independently (client-side).
+
 export const revalidate = 30
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { createClient } from '@/lib/supabase-server'
 import {
   Heart, Calendar, BookOpen, BookMarked,
-  Compass, Clock, Search, Pin, ArrowRight, MapPin, Sparkles, Moon,
-  CheckSquare, Sun, RotateCcw, ChevronRight,
+  Compass, Clock, CheckSquare, Sun, RotateCcw, Moon,
+  Sparkles, ChevronRight, MapPin, Pin,
 } from 'lucide-react'
-import { PersonStanding } from 'lucide-react'
-import { HomeHero } from '@/components/ui/HomeHero'
-import { GreetingBanner } from '@/components/ui/GreetingBanner'
-import { HomeModeSwitcher } from './HomeModeSwitcher'
-import kdLogo from '@/images/kdlogo.png'
+import { PrayerHeroSection } from './PrayerHeroSection'
+import { CategoryBadge } from '@/components/ui/Badge'
 
-/* ── Desktop pill strip ── */
-const quickAccess = [
-  { href: '/keperluan',   icon: Heart,          label: 'Keperluan',      color: '#DC2626', bg: '#FEF2F2' },
-  { href: '/program',     icon: Calendar,       label: 'Program',        color: '#D97706', bg: '#FFFBEB' },
-  { href: '/kelas',       icon: BookOpen,       label: 'Kelas',          color: '#2563EB', bg: '#EFF6FF' },
-  { href: '/jadual-imam', icon: PersonStanding, label: 'Jadual Imam',    color: '#0D9488', bg: '#F0FDFA' },
-  { href: '/hadis',       icon: BookMarked,     label: 'Hadis Harian',   color: '#2D6A4F', bg: '#E8F5EE' },
-  { href: '/solat',       icon: CheckSquare,    label: 'Jejak Solat',    color: '#22C55E', bg: 'rgba(34,197,94,0.08)' },
-  { href: '/tasbih',      icon: RotateCcw,      label: 'Tasbih',         color: '#16A34A', bg: 'rgba(22,163,74,0.08)' },
-  { href: '/wirid',       icon: Sun,            label: 'Wirid Harian',   color: '#15803D', bg: 'rgba(21,128,61,0.08)' },
-  { href: '/tazkirah',    icon: Sparkles,       label: 'Tazkirah',       color: '#22C55E', bg: 'rgba(34,197,94,0.08)' },
-  { href: '/hijri',       icon: Moon,           label: 'Kalendar Hijri', color: '#8B5CF6', bg: '#F5F3FF' },
-  { href: '/janaiz',      icon: Heart,          label: 'Papan Janaiz',   color: '#6B7280', bg: '#F9FAFB' },
-  { href: '/qiblat',      icon: Compass,        label: 'Qiblat',         color: '#7C3AED', bg: '#F5F3FF' },
-  { href: '/buka-puasa',  icon: Clock,          label: 'Waktu Berbuka',  color: '#0891B2', bg: '#ECFEFF' },
-  { href: '/cari-barang', icon: Search,         label: 'Cari Barang',    color: '#059669', bg: '#ECFDF5' },
+/* ── MALAYSIA DATE HELPERS ── */
+function getMalaysiaDate() {
+  const now = new Date()
+  const mNow = new Date(now.getTime() + (8 * 60 - now.getTimezoneOffset()) * 60000)
+  return {
+    dateLabel: mNow.toLocaleDateString('ms-MY', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+    }),
+    today: mNow.toISOString().split('T')[0],
+  }
+}
+
+/* ── TIME FORMATTING ── */
+function formatTime12h(timeStr: string | null): string {
+  if (!timeStr) return '—'
+  const [h, m] = timeStr.split(':').map(Number)
+  const period = h >= 12 ? 'PTG' : 'PG'
+  const h12 = h % 12 || 12
+  return `${h12}:${String(m).padStart(2, '0')} ${period}`
+}
+
+/* ── PROGRAM DATE FORMAT ── */
+function formatProgDate(dateStr: string): { day: string; month: string } {
+  const d = new Date(dateStr + 'T00:00:00+08:00')
+  return {
+    day: d.toLocaleDateString('ms-MY', { day: 'numeric' }),
+    month: d.toLocaleDateString('ms-MY', { month: 'short' }).toUpperCase(),
+  }
+}
+
+/* ── RELATIVE TIME ── */
+function timeAgo(dateStr: string): string {
+  const now = Date.now()
+  const past = new Date(dateStr).getTime()
+  const diff = Math.floor((now - past) / 1000)
+  if (diff < 60) return 'Baru sahaja'
+  if (diff < 3600) return `${Math.floor(diff / 60)}m lepas`
+  if (diff < 86400) return `${Math.floor(diff / 3600)}j lepas`
+  if (diff < 604800) return `${Math.floor(diff / 86400)}h lepas`
+  return new Date(dateStr).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short' })
+}
+
+/* ── QUICK ACTIONS GRID ── */
+// UX RATIONALE: 6 cells = covers 80% of daily use cases.
+// 3 columns on mobile = enough space for icon + label without crowding.
+// Most-used tools first: Jejak Solat (every Muslim), Tasbih (daily), then others.
+// Min 80px height ensures elderly users can tap accurately.
+const quickActions = [
+  { href: '/solat',      Icon: CheckSquare, label: 'Jejak Solat',    color: '#2DD771' },
+  { href: '/tasbih',     Icon: RotateCcw,   label: 'Tasbih',         color: '#10B981' },
+  { href: '/program',    Icon: Calendar,    label: 'Program',         color: '#FBBF24' },
+  { href: '/keperluan',  Icon: Heart,       label: 'Keperluan',       color: '#F87171' },
+  { href: '/derma',      Icon: BookOpen,    label: 'Derma',           color: '#C9A84C' },
+  { href: '/qiblat',     Icon: Compass,     label: 'Kiblat',          color: '#A78BFA' },
 ]
-
-const catColors: Record<string, string> = {
-  kecemasan: '#F87171', ramadan: '#FBBF24', kewangan: '#60A5FA', umum: '#22C55E',
-}
-const catLabel: Record<string, string> = {
-  umum: 'Umum', kecemasan: 'Kecemasan', ramadan: 'Ramadan', kewangan: 'Kewangan',
-}
-const catProgramColors: Record<string, { bg: string; text: string; label: string }> = {
-  solat:         { bg: '#1A4731', text: '#ffffff', label: 'Solat' },
-  kebajikan:     { bg: '#4A3020', text: '#ffffff', label: 'Kebajikan' },
-  ramadan:       { bg: '#7A4A10', text: '#ffffff', label: 'Ramadan' },
-  gotong_royong: { bg: '#2A4A3A', text: '#ffffff', label: 'Gotong Royong' },
-  umum:          { bg: '#1E3A5F', text: '#ffffff', label: 'Umum' },
-}
 
 export default async function HomePage() {
   const supabase = await createClient()
-  const today = new Date().toISOString().split('T')[0]
-
-  /* Malaysia date for display */
-  const mNow = new Date(Date.now() + (8 * 60 - new Date().getTimezoneOffset()) * 60000)
-  const mDateLabel = mNow.toLocaleDateString('ms-MY', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+  const { today, dateLabel } = getMalaysiaDate()
 
   const [
+    { data: todayPrayer },
     { data: announcements },
     { data: programs },
-    { count: totalUsers },
-    { count: totalPrograms },
-    { count: resolvedKeperluan },
   ] = await Promise.all([
-    supabase.from('announcements').select('id, title, content, category, is_pinned, created_at')
+    supabase
+      .from('prayer_times')
+      .select('fajr, syuruk, dhuhr, asr, maghrib, isha')
+      .eq('date', today)
+      .maybeSingle(),
+    supabase
+      .from('announcements')
+      .select('id, title, content, category, is_pinned, created_at')
+      .or('expires_at.is.null,expires_at.gt.now()')
       .order('is_pinned', { ascending: false })
       .order('created_at', { ascending: false })
       .limit(4),
-    supabase.from('programs').select('id, title, category, program_date, start_time, end_time, location, needs_volunteers, volunteer_slots, image_url').eq('is_published', true)
-      .gte('program_date', today).order('program_date').limit(3),
-    supabase.from('profiles').select('id', { count: 'exact', head: true }),
-    supabase.from('programs').select('id', { count: 'exact', head: true }).eq('is_published', true),
-    supabase.from('keperluan').select('id', { count: 'exact', head: true }).eq('status', 'resolved'),
+    supabase
+      .from('programs')
+      .select('id, title, category, program_date, start_time, location, needs_volunteers, volunteer_slots')
+      .eq('is_published', true)
+      .gte('program_date', today)
+      .order('program_date')
+      .limit(3),
   ])
 
-  const safeProgs = programs ?? []
   const safeAnns  = announcements ?? []
+  const safeProgs = programs ?? []
+
+  // Build prayer cards for the hero
+  const prayerData = {
+    fajr:    formatTime12h(todayPrayer?.fajr    ?? null),
+    syuruk:  formatTime12h(todayPrayer?.syuruk  ?? null),
+    dhuhr:   formatTime12h(todayPrayer?.dhuhr   ?? null),
+    asr:     formatTime12h(todayPrayer?.asr     ?? null),
+    maghrib: formatTime12h(todayPrayer?.maghrib ?? null),
+    isha:    formatTime12h(todayPrayer?.isha    ?? null),
+    // raw times for countdown calc
+    fajrRaw:    todayPrayer?.fajr    ?? null,
+    dhuhrRaw:   todayPrayer?.dhuhr   ?? null,
+    asrRaw:     todayPrayer?.asr     ?? null,
+    maghribRaw: todayPrayer?.maghrib ?? null,
+    ishaRaw:    todayPrayer?.isha    ?? null,
+    dateLabel,
+    today,
+  }
 
   return (
-    <div style={{ background: 'var(--void)', overflowX: 'hidden' }}>
+    <div style={{ background: 'var(--void)', minHeight: '100vh' }}>
 
-      {/* Hero — always visible */}
-      <HomeHero
-        totalUsers={totalUsers ?? 0}
-        totalPrograms={totalPrograms ?? 0}
-        resolvedKeperluan={resolvedKeperluan ?? 0}
-      />
-
-      <HomeModeSwitcher>
-
-      {/* ══════════════════════════════════════════
-          IBADAH SECTION — tools mode
-      ══════════════════════════════════════════ */}
-      <div className="home-ibadah-section">
-
-        {/* Mobile ibadah tools */}
-        <div className="md:hidden" style={{ padding: '24px 20px 96px' }}>
-          <GreetingBanner />
-
-          {/* Ibadah Harian */}
-          <section style={{ marginTop: '8px' }}>
-            <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '12px', margin: '0 0 12px' }}>
-              Ibadah Harian
-            </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              {[
-                { href: '/solat',  Icon: CheckSquare, label: 'Jejak Solat',    sub: 'Rekod 5 waktu',   color: '#22C55E' },
-                { href: '/tasbih', Icon: RotateCcw,   label: 'Tasbih & Zikir', sub: '4 jenis zikir',   color: '#10B981' },
-                { href: '/wirid',  Icon: Sun,         label: 'Wirid Harian',   sub: 'Pagi & petang',   color: '#14B8A6' },
-                { href: '/hadis',  Icon: BookMarked,  label: 'Hadis Harian',   sub: 'Koleksi sahih',   color: '#059669' },
-              ].map(({ href, Icon, label, sub, color }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="active:scale-95 transition-transform duration-150"
-                  style={{
-                    textDecoration: 'none',
-                    display: 'flex', flexDirection: 'column',
-                    alignItems: 'center', justifyContent: 'center',
-                    gap: '12px', padding: '20px 12px',
-                    borderRadius: '16px', minHeight: '128px',
-                    background: 'var(--surface)',
-                    border: '1px solid var(--border)',
-                    borderBottom: `2px solid ${color}`,
-                  }}
-                >
-                  <div style={{
-                    width: '48px', height: '48px', borderRadius: '12px',
-                    background: `${color}18`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  }}>
-                    <Icon style={{ width: '22px', height: '22px', color }} strokeWidth={1.8} />
-                  </div>
-                  <div style={{ textAlign: 'center' }}>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px', lineHeight: 1.2 }}>{label}</p>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', lineHeight: 1 }}>{sub}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-
-          {/* Alat & Info */}
-          <section style={{ marginTop: '24px' }}>
-            <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 12px' }}>
-              Alat &amp; Info
-            </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              {[
-                { href: '/qiblat',     Icon: Compass,  label: 'Arah Kiblat',   sub: 'GPS + kompas',      color: '#7C3AED' },
-                { href: '/buka-puasa', Icon: Clock,    label: 'Waktu Berbuka', sub: 'Kiraan masa puasa', color: '#0891B2' },
-                { href: '/hijri',      Icon: Moon,     label: 'Hijri',         sub: 'Kalendar Islam',    color: '#6D28D9' },
-                { href: '/tazkirah',   Icon: Sparkles, label: 'Tazkirah',      sub: 'Peringatan harian', color: '#D97706' },
-              ].map(({ href, Icon, label, sub, color }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="active:scale-95 transition-transform duration-150"
-                  style={{
-                    textDecoration: 'none',
-                    display: 'flex', flexDirection: 'column',
-                    alignItems: 'center', justifyContent: 'center',
-                    gap: '12px', padding: '20px 12px',
-                    borderRadius: '16px', minHeight: '128px',
-                    background: 'var(--surface)',
-                    border: '1px solid var(--border)',
-                    borderBottom: `2px solid ${color}`,
-                  }}
-                >
-                  <div style={{
-                    width: '48px', height: '48px', borderRadius: '12px',
-                    background: `${color}18`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  }}>
-                    <Icon style={{ width: '22px', height: '22px', color }} strokeWidth={1.8} />
-                  </div>
-                  <div style={{ textAlign: 'center' }}>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px', lineHeight: 1.2 }}>{label}</p>
-                    <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '11px', color: 'var(--text-dim)', lineHeight: 1 }}>{sub}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-        </div>
-
-        {/* Desktop ibadah tools */}
-        <div className="hidden md:block max-w-7xl mx-auto px-4 md:px-6 lg:px-10" style={{ paddingTop: '64px', paddingBottom: '80px' }}>
-          <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--text-dim)', fontWeight: 600, marginBottom: '32px' }}>
-            Alat Ibadah Harian
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', maxWidth: '800px' }}>
-            {[
-              { href: '/solat',      Icon: CheckSquare, label: 'Jejak Solat',      sub: 'Rekod 5 waktu solat',   color: '#22C55E' },
-              { href: '/tasbih',     Icon: RotateCcw,   label: 'Tasbih & Zikir',   sub: '4 jenis zikir',          color: '#10B981' },
-              { href: '/wirid',      Icon: Sun,         label: 'Wirid Harian',      sub: 'Wirid & surah pilihan', color: '#14B8A6' },
-              { href: '/hadis',      Icon: BookMarked,  label: 'Hadis Harian',      sub: 'Koleksi sahih',          color: '#6EE7B7' },
-              { href: '/qiblat',     Icon: Compass,     label: 'Arah Kiblat',       sub: 'GPS + kompas',           color: '#A78BFA' },
-              { href: '/buka-puasa', Icon: Clock,       label: 'Waktu Berbuka',     sub: 'Kiraan puasa',           color: '#38BDF8' },
-              { href: '/hijri',      Icon: Moon,        label: 'Kalendar Hijri',    sub: 'Acara Islam',            color: '#C084FC' },
-              { href: '/tazkirah',   Icon: Sparkles,    label: 'Tazkirah',          sub: 'Peringatan harian',      color: '#FCD34D' },
-            ].map(({ href, Icon, label, sub, color }) => (
-              <Link
-                key={href}
-                href={href}
-                className="group hover:-translate-y-1 transition-transform duration-200"
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '16px',
-                  padding: '18px 20px', borderRadius: '16px',
-                  background: 'var(--surface)', border: `1px solid ${color}18`,
-                  textDecoration: 'none',
-                  boxShadow: `0 4px 24px ${color}08`,
-                }}
-              >
-                <div style={{ width: '44px', height: '44px', borderRadius: '12px', flexShrink: 0, background: `${color}14`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Icon style={{ width: '20px', height: '20px', color }} strokeWidth={1.8} />
-                </div>
-                <div>
-                  <p style={{ fontFamily: 'var(--font-playfair)', fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px' }}>{label}</p>
-                  <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)' }}>{sub}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+      {/* ════════════════════════════════════════
+          PRAYER TIME HERO
+          UX RATIONALE: Full-width glassmorphism card. Prayer time is #1 reason
+          users open this app. Countdown is unmissable — Oswald 600 at 4rem.
+          Gold color for Islamic temporal markers (dates, hijri).
+          Client component handles live countdown with setInterval.
+      ════════════════════════════════════════ */}
+      <div style={{ padding: '12px 16px 0' }}>
+        <PrayerHeroSection prayerData={prayerData} />
       </div>
 
-      {/* ══════════════════════════════════════════
-          KOMUNITI SECTION — community mode
-      ══════════════════════════════════════════ */}
-      <div className="home-komuniti-section">
-
-      {/* Marquee ticker */}
-      {safeAnns.length > 0 && (
-        <div className="marquee-track" style={{ background: 'var(--elevated)', borderBottom: '1px solid var(--border)' }}>
-          <div className="marquee-inner">
-            {[...safeAnns, ...safeAnns].map((ann, i) => (
-              <span
-                key={`ticker-${ann.id}-${i}`}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '12px',
-                  padding: '12px 32px', whiteSpace: 'nowrap',
-                  borderRight: '1px solid var(--border)',
-                }}
-              >
-                <span style={{
-                  width: '4px', height: '4px', borderRadius: '50%', flexShrink: 0,
-                  background: catColors[ann.category] ?? catColors.umum,
-                }} />
-                <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '13px',
-                  color: 'var(--text-secondary)', letterSpacing: '0.04em',
-                }}>
-                  {ann.title}
-                </span>
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ══════════════════════════════════════════
-          MOBILE LAYOUT — native app feel
-      ══════════════════════════════════════════ */}
-      <div className="md:hidden" style={{ paddingBottom: '96px' }}>
-
-        {/* ── Date strip ── */}
+      {/* ════════════════════════════════════════
+          QUICK ACTIONS — 3x2 grid
+          UX RATIONALE: Grid of 6 tools covers 80% of daily use cases.
+          Active first: Jejak Solat + Tasbih are the two tools opened every day.
+          Min 80px height = passes WCAG 2.1 for elderly users.
+          Icon + label: never icon-only for Pak Cik/Mak Cik archetype.
+      ════════════════════════════════════════ */}
+      <section style={{ padding: '20px 16px 0' }}>
         <div style={{
-          padding: '22px 20px 0',
-          display: 'flex', alignItems: 'center', gap: '10px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          marginBottom: '12px',
         }}>
-          <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 8px var(--primary)' }} />
-          <span style={{
-            fontFamily: 'var(--font-dm-sans)', fontSize: '14px', fontWeight: 500,
-            color: 'var(--text-secondary)',
+          <h2 style={{
+            fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+            fontSize: '17px', fontWeight: 700,
+            color: 'var(--text-primary)', margin: 0,
           }}>
-            {mDateLabel}
-          </span>
+            Akses Pantas
+          </h2>
         </div>
 
-        {/* ── Personalised greeting (shown only when logged in) ── */}
-        <GreetingBanner />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+          {quickActions.map(({ href, Icon, label, color }) => (
+            <Link
+              key={href}
+              href={href}
+              style={{
+                textDecoration: 'none',
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center',
+                gap: '8px',
+                // UX RATIONALE: 80px minimum height — elderly thumb can comfortably tap
+                minHeight: '84px',
+                padding: '16px 8px',
+                borderRadius: '16px',
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(45,215,113,0.12)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                WebkitTapHighlightColor: 'transparent',
+                transition: 'all 0.15s ease',
+              }}
+              className="active:scale-[0.94] active:bg-[rgba(255,255,255,0.07)]"
+            >
+              {/* Icon container — colored background ring */}
+              <div style={{
+                width: '40px', height: '40px', borderRadius: '12px',
+                background: `${color}14`,
+                border: `1px solid ${color}28`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexShrink: 0,
+              }}>
+                <Icon
+                  style={{ width: '20px', height: '20px', color }}
+                  strokeWidth={1.8}
+                />
+              </div>
 
-        {/* ── Quick community links — 3-column icon grid ── */}
-        <div style={{ padding: '24px 20px 0' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
-            {[
-              { href: '/keperluan',   Icon: Heart,          label: 'Keperluan',   color: '#F87171', bg: 'rgba(248,113,113,0.07)'  },
-              { href: '/program',     Icon: Calendar,       label: 'Program',     color: '#FBBF24', bg: 'rgba(251,191,36,0.07)'   },
-              { href: '/kelas',       Icon: BookOpen,       label: 'Kelas',       color: '#60A5FA', bg: 'rgba(96,165,250,0.07)'   },
-              { href: '/halaqah',     Icon: BookMarked,     label: 'Halaqah',     color: '#34D399', bg: 'rgba(52,211,153,0.07)'   },
-              { href: '/janaiz',      Icon: Heart,          label: 'Janaiz',      color: '#94A3B8', bg: 'rgba(148,163,184,0.07)'  },
-              { href: '/cari-barang', Icon: Search,         label: 'Cari Barang', color: '#A78BFA', bg: 'rgba(167,139,250,0.07)'  },
-            ].map(({ href, Icon, label, color, bg }) => (
-              <Link
-                key={href}
-                href={href}
-                className="active:scale-95 transition-transform duration-150"
-                style={{
-                  textDecoration: 'none',
-                  display: 'flex', flexDirection: 'column',
-                  alignItems: 'center', justifyContent: 'center',
-                  gap: '8px', padding: '16px 8px',
-                  borderRadius: '16px', minHeight: '96px',
-                  background: bg, border: `1px solid ${color}1E`,
-                }}
-              >
-                <div style={{
-                  width: '44px', height: '44px', borderRadius: '12px', flexShrink: 0,
-                  background: `${color}16`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
-                  <Icon style={{ width: '20px', height: '20px', color }} strokeWidth={1.8} />
-                </div>
-                <span style={{
-                  fontFamily: 'var(--font-dm-sans)', fontSize: '12px', fontWeight: 600,
-                  color: 'var(--text-primary)', textAlign: 'center', lineHeight: 1.2,
-                }}>
-                  {label}
-                </span>
-              </Link>
-            ))}
+              {/* UX RATIONALE: Label always visible — icon-only fails elderly users */}
+              <span style={{
+                fontFamily: 'var(--font-nunito, "Nunito", sans-serif)',
+                fontSize: '12px', fontWeight: 700,
+                color: 'var(--text-primary)',
+                textAlign: 'center', lineHeight: 1.2,
+              }}>
+                {label}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════
+          PENGUMUMAN — latest 4 announcements
+          UX RATIONALE: Show 4 items max — beyond this users feel overwhelmed.
+          Featured first item = taller card with excerpt.
+          Compact 2nd-4th items = title + timestamp only.
+          Gold badge on pinned items — culturally resonant signal.
+      ════════════════════════════════════════ */}
+      <section style={{ padding: '24px 16px 0' }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          marginBottom: '12px',
+        }}>
+          <h2 style={{
+            fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+            fontSize: '17px', fontWeight: 700,
+            color: 'var(--text-primary)', margin: 0,
+          }}>
+            Pengumuman
+          </h2>
+          <Link
+            href="/keperluan"
+            style={{
+              display: 'flex', alignItems: 'center', gap: '2px',
+              fontFamily: 'var(--font-nunito, "Nunito", sans-serif)',
+              fontSize: '13px', fontWeight: 600,
+              color: 'var(--accent, #2DD771)',
+              textDecoration: 'none',
+            }}
+          >
+            Semua <ChevronRight style={{ width: '14px', height: '14px' }} />
+          </Link>
+        </div>
+
+        {safeAnns.length === 0 ? (
+          /* UX RATIONALE: Designed empty state — never a blank screen */
+          <div style={{
+            padding: '32px 20px', textAlign: 'center',
+            borderRadius: '20px',
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(45,215,113,0.10)',
+          }}>
+            <div style={{ fontSize: '36px', marginBottom: '12px' }}>📢</div>
+            <p style={{
+              fontFamily: 'var(--font-jakarta,"Plus Jakarta Sans",sans-serif)',
+              fontSize: '16px', fontWeight: 700,
+              color: 'var(--text-primary)', marginBottom: '6px',
+            }}>
+              Tiada pengumuman baru
+            </p>
+            <p style={{
+              fontFamily: 'var(--font-nunito,"Nunito",sans-serif)',
+              fontSize: '14px', color: 'var(--text-muted)', margin: 0,
+            }}>
+              Semak semula nanti
+            </p>
           </div>
-        </div>
-
-        {/* ── Announcements ── */}
-        {safeAnns.length > 0 && (
-          <section style={{ padding: '32px 20px 0' }}>
-
-            {/* Section header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
-              <h2 style={{
-                fontFamily: 'var(--font-playfair)', fontSize: '20px',
-                fontWeight: 700, color: 'var(--text-primary)', margin: 0,
-              }}>
-                Pengumuman
-              </h2>
-              <Link href="/admin/announcements" style={{
-                display: 'flex', alignItems: 'center', gap: '3px',
-                fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600,
-                color: 'var(--primary)', textDecoration: 'none',
-              }}>
-                Semua <ChevronRight style={{ width: '12px', height: '12px' }} />
-              </Link>
-            </div>
-
-            {/* Featured announcement card */}
-            {(() => {
-              const ann = safeAnns[0]
-              const color = catColors[ann.category] ?? catColors.umum
-              return (
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {safeAnns.map((ann, i) => (
+              <Link
+                key={ann.id}
+                href={`/keperluan`}
+                style={{ textDecoration: 'none' }}
+              >
                 <div
                   style={{
-                    borderRadius: '16px', marginBottom: '10px', overflow: 'hidden',
-                    background: 'var(--surface)', border: '1px solid var(--border)',
+                    padding: i === 0 ? '16px' : '12px 16px',
+                    borderRadius: '16px',
+                    background: ann.is_pinned ? 'rgba(201,168,76,0.06)' : 'rgba(255,255,255,0.04)',
+                    border: ann.is_pinned
+                      ? '1px solid rgba(201,168,76,0.22)'
+                      : '1px solid rgba(45,215,113,0.10)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    transition: 'all 0.15s',
+                    WebkitTapHighlightColor: 'transparent',
                   }}
+                  className="active:scale-[0.99]"
                 >
-                  {/* Color top stripe */}
-                  <div style={{ height: '3px', background: `linear-gradient(to right, ${color}, ${color}55)` }} />
-
-                  <div style={{ padding: '18px 18px 20px' }}>
-                    {/* Meta row */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                  {/* Badges row */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: i === 0 ? '8px' : '4px' }}>
+                    {ann.is_pinned && (
                       <span style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '11px', fontWeight: 700,
-                        letterSpacing: '0.18em', textTransform: 'uppercase',
-                        color, padding: '4px 10px', borderRadius: '100px',
-                        background: `${color}14`, border: `1px solid ${color}22`,
+                        display: 'inline-flex', alignItems: 'center', gap: '3px',
+                        height: '20px', padding: '0 7px', borderRadius: '100px',
+                        background: 'rgba(201,168,76,0.12)',
+                        border: '1px solid rgba(201,168,76,0.25)',
+                        fontFamily: 'var(--font-nunito,"Nunito",sans-serif)',
+                        fontSize: '10px', fontWeight: 700,
+                        color: 'var(--gold,#C9A84C)',
+                        letterSpacing: '0.06em', textTransform: 'uppercase',
                       }}>
-                        {catLabel[ann.category] ?? ann.category}
+                        <Pin style={{ width: '8px', height: '8px' }} /> Dicantum
                       </span>
-                      {ann.is_pinned && (
-                        <span style={{
-                          display: 'inline-flex', alignItems: 'center', gap: '4px',
-                          fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: '#FBBF24', fontWeight: 600,
-                        }}>
-                          <Pin style={{ width: '9px', height: '9px' }} />
-                          Disematkan
-                        </span>
-                      )}
-                      <time style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '12px',
-                        color: 'var(--text-dim)', marginLeft: 'auto',
-                      }}>
-                        {new Date(ann.created_at).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short' })}
-                      </time>
-                    </div>
-
-                    {/* Title */}
-                    <h3 style={{
-                      fontFamily: 'var(--font-playfair)', fontSize: '17px', fontWeight: 700,
-                      color: 'var(--text-primary)', lineHeight: 1.25, marginBottom: '10px',
+                    )}
+                    <CategoryBadge category={ann.category ?? 'umum'} />
+                    <span style={{
+                      fontFamily: 'var(--font-nunito,"Nunito",sans-serif)',
+                      fontSize: '11px', color: 'var(--text-dim)', marginLeft: 'auto',
                     }}>
-                      {ann.title}
-                    </h3>
+                      {timeAgo(ann.created_at)}
+                    </span>
+                  </div>
 
-                    {/* Excerpt */}
+                  {/* Title */}
+                  <p style={{
+                    fontFamily: 'var(--font-jakarta,"Plus Jakarta Sans",sans-serif)',
+                    fontSize: i === 0 ? '15px' : '14px',
+                    fontWeight: 700,
+                    color: 'var(--text-primary)',
+                    margin: 0,
+                    // 2-line clamp
+                    display: '-webkit-box',
+                    WebkitLineClamp: i === 0 ? 2 : 1,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    lineHeight: 1.35,
+                    marginBottom: i === 0 ? '6px' : 0,
+                  } as React.CSSProperties}>
+                    {ann.title}
+                  </p>
+
+                  {/* Excerpt — featured item only */}
+                  {i === 0 && ann.content && (
                     <p style={{
-                      fontFamily: 'var(--font-jakarta)', fontSize: '14px',
-                      color: 'var(--text-dim)', lineHeight: 1.7,
+                      fontFamily: 'var(--font-nunito,"Nunito",sans-serif)',
+                      fontSize: '13px', color: 'var(--text-muted)',
+                      margin: 0, lineHeight: 1.5,
                       display: '-webkit-box',
-                      WebkitLineClamp: 3,
+                      WebkitLineClamp: 2,
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden',
-                    }}>
+                    } as React.CSSProperties}>
                       {ann.content}
                     </p>
-                  </div>
+                  )}
                 </div>
-              )
-            })()}
-
-            {/* Compact list items */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {safeAnns.slice(1, 3).map((ann) => {
-                const color = catColors[ann.category] ?? catColors.umum
-                return (
-                  <div
-                    key={ann.id}
-                    style={{
-                      borderRadius: '12px',
-                      background: 'var(--surface)',
-                      border: '1px solid var(--border)',
-                      padding: '14px 16px',
-                      display: 'flex', alignItems: 'center', gap: '12px',
-                    }}
-                  >
-                    {/* Color left bar */}
-                    <div style={{
-                      width: '3px', alignSelf: 'stretch', borderRadius: '2px',
-                      background: `linear-gradient(to bottom, ${color}, ${color}40)`,
-                      flexShrink: 0,
-                    }} />
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <span style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 700,
-                        letterSpacing: '0.14em', textTransform: 'uppercase', color,
-                        display: 'block', marginBottom: '4px',
-                      }}>
-                        {catLabel[ann.category] ?? ann.category}
-                      </span>
-                      <p style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 500,
-                        color: 'var(--text-secondary)', lineHeight: 1.3,
-                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                      }}>
-                        {ann.title}
-                      </p>
-                    </div>
-                    <ChevronRight style={{ width: '14px', height: '14px', color: 'var(--text-muted)', flexShrink: 0 }} />
-                  </div>
-                )
-              })}
-            </div>
-          </section>
-        )}
-
-        {/* ── Programs ── */}
-        <section style={{ padding: '32px 20px 0' }}>
-
-          {/* Section header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
-            <h2 style={{
-              fontFamily: 'var(--font-playfair)', fontSize: '20px',
-              fontWeight: 700, color: 'var(--text-primary)', margin: 0,
-            }}>
-              Program
-            </h2>
-            <Link href="/program" style={{
-              display: 'flex', alignItems: 'center', gap: '3px',
-              fontFamily: 'var(--font-dm-sans)', fontSize: '13px', fontWeight: 600,
-              color: 'var(--primary)', textDecoration: 'none',
-            }}>
-              Semua <ChevronRight style={{ width: '12px', height: '12px' }} />
-            </Link>
+              </Link>
+            ))}
           </div>
+        )}
+      </section>
 
-          {safeProgs.length === 0 ? (
-            <div style={{
-              padding: '36px 20px', textAlign: 'center', borderRadius: '16px',
-              background: 'var(--surface)', border: '1px dashed var(--border)',
+      {/* ════════════════════════════════════════
+          PROGRAM AKAN DATANG — 3 items max
+          UX RATIONALE: Date chip is the most scannable element.
+          Users browse programs by "when" first, "what" second.
+          Oswald for date numbers — consistent with prayer times widget.
+          Volunteer badge only shown if slots are open — reduces noise.
+      ════════════════════════════════════════ */}
+      <section style={{ padding: '24px 16px 0' }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          marginBottom: '12px',
+        }}>
+          <h2 style={{
+            fontFamily: 'var(--font-jakarta,"Plus Jakarta Sans",sans-serif)',
+            fontSize: '17px', fontWeight: 700,
+            color: 'var(--text-primary)', margin: 0,
+          }}>
+            Program Akan Datang
+          </h2>
+          <Link
+            href="/program"
+            style={{
+              display: 'flex', alignItems: 'center', gap: '2px',
+              fontFamily: 'var(--font-nunito,"Nunito",sans-serif)',
+              fontSize: '13px', fontWeight: 600,
+              color: 'var(--accent,#2DD771)',
+              textDecoration: 'none',
+            }}
+          >
+            Semua <ChevronRight style={{ width: '14px', height: '14px' }} />
+          </Link>
+        </div>
+
+        {safeProgs.length === 0 ? (
+          <div style={{
+            padding: '32px 20px', textAlign: 'center',
+            borderRadius: '20px',
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(45,215,113,0.10)',
+          }}>
+            <div style={{ fontSize: '36px', marginBottom: '12px' }}>📅</div>
+            <p style={{
+              fontFamily: 'var(--font-jakarta,"Plus Jakarta Sans",sans-serif)',
+              fontSize: '16px', fontWeight: 700,
+              color: 'var(--text-primary)', marginBottom: '6px',
             }}>
-              <Calendar style={{ width: '24px', height: '24px', color: 'var(--text-muted)', margin: '0 auto 10px' }} />
-              <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)' }}>
-                Tiada program dijadualkan
-              </p>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {safeProgs.map((prog, i) => {
-                const d = new Date(prog.program_date)
-                const cat = catProgramColors[prog.category ?? 'umum'] ?? catProgramColors.umum
-                return (
-                  <Link
-                    key={prog.id}
-                    href={`/program/${prog.id}`}
-                    className="active:scale-[0.98] transition-transform duration-150"
+              Tiada program akan datang
+            </p>
+            <p style={{
+              fontFamily: 'var(--font-nunito,"Nunito",sans-serif)',
+              fontSize: '14px', color: 'var(--text-muted)', margin: 0,
+            }}>
+              Semak semula nanti
+            </p>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {safeProgs.map((prog) => {
+              const { day, month } = formatProgDate(prog.program_date)
+              const hasVolunteerSlots = prog.needs_volunteers &&
+                (prog.volunteer_slots === 0 || prog.volunteer_slots > 0)
+
+              return (
+                <Link
+                  key={prog.id}
+                  href={`/program/${prog.id}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <div
                     style={{
-                      textDecoration: 'none', display: 'flex',
-                      borderRadius: '12px', overflow: 'hidden',
-                      border: '1px solid var(--border)',
-                      background: 'var(--surface)',
+                      display: 'flex', alignItems: 'center', gap: '12px',
+                      padding: '14px 16px',
+                      borderRadius: '16px',
+                      background: 'rgba(255,255,255,0.04)',
+                      border: '1px solid rgba(45,215,113,0.10)',
+                      backdropFilter: 'blur(12px)',
+                      WebkitBackdropFilter: 'blur(12px)',
+                      transition: 'all 0.15s',
+                      WebkitTapHighlightColor: 'transparent',
                     }}
+                    className="active:scale-[0.99]"
                   >
-                    {/* Date column */}
+                    {/* UX RATIONALE: Date chip left — users scan vertically for dates */}
                     <div style={{
-                      width: '68px', flexShrink: 0,
-                      background: `linear-gradient(180deg, ${cat.bg} 0%, ${cat.bg}CC 100%)`,
                       display: 'flex', flexDirection: 'column',
                       alignItems: 'center', justifyContent: 'center',
-                      padding: '18px 0', gap: '3px',
+                      width: '48px', height: '52px',
+                      borderRadius: '12px',
+                      background: 'rgba(45,215,113,0.10)',
+                      border: '1px solid rgba(45,215,113,0.18)',
+                      flexShrink: 0,
                     }}>
                       <span style={{
-                        fontFamily: 'var(--font-jetbrains)', fontSize: '26px', fontWeight: 700,
-                        color: cat.text, lineHeight: 1, letterSpacing: '-0.02em',
+                        fontFamily: 'var(--font-oswald,"Oswald",sans-serif)',
+                        fontSize: '22px', fontWeight: 600, lineHeight: 1,
+                        color: 'var(--accent,#2DD771)',
                       }}>
-                        {String(d.getDate()).padStart(2, '0')}
+                        {day}
                       </span>
                       <span style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '13px',
-                        color: cat.text, opacity: 0.65,
-                        textTransform: 'uppercase', letterSpacing: '0.1em',
+                        fontFamily: 'var(--font-nunito,"Nunito",sans-serif)',
+                        fontSize: '9px', fontWeight: 700,
+                        color: 'var(--accent,#2DD771)', letterSpacing: '0.06em',
                       }}>
-                        {d.toLocaleDateString('ms-MY', { month: 'short' })}
+                        {month}
                       </span>
                     </div>
 
                     {/* Content */}
-                    <div style={{
-                      flex: 1, padding: '14px 16px 14px',
-                      display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                      minWidth: 0,
-                    }}>
-                      <span style={{
-                        fontFamily: 'var(--font-jakarta)', fontSize: '13px',
-                        letterSpacing: '0.14em', textTransform: 'uppercase',
-                        color: 'var(--text-dim)', fontWeight: 600, marginBottom: '5px',
-                      }}>
-                        {cat.label}
-                      </span>
-                      <h3 style={{
-                        fontFamily: 'var(--font-playfair)', fontSize: '15px', fontWeight: 700,
-                        color: 'var(--text-primary)', lineHeight: 1.2, marginBottom: '7px',
-                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                      }}>
-                        {prog.title}
-                      </h3>
-                      <div style={{
-                        display: 'flex', gap: '10px', flexWrap: 'wrap',
-                        fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)',
-                      }}>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: '3px', flexShrink: 0 }}>
-                          <Clock style={{ width: '10px', height: '10px' }} />
-                          {prog.start_time}
-                        </span>
-                        {prog.location && (
-                          <span style={{ display: 'flex', alignItems: 'center', gap: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                            <MapPin style={{ width: '10px', height: '10px', flexShrink: 0 }} />
-                            {prog.location}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px', flexWrap: 'wrap' }}>
+                        <CategoryBadge category={prog.category ?? 'umum'} />
+                        {hasVolunteerSlots && (
+                          <span style={{
+                            display: 'inline-flex', alignItems: 'center',
+                            height: '20px', padding: '0 7px', borderRadius: '100px',
+                            background: 'rgba(251,191,36,0.10)',
+                            border: '1px solid rgba(251,191,36,0.22)',
+                            fontFamily: 'var(--font-nunito,"Nunito",sans-serif)',
+                            fontSize: '10px', fontWeight: 600,
+                            color: '#FBBF24', letterSpacing: '0.04em',
+                          }}>
+                            Sukarelawan
                           </span>
                         )}
                       </div>
-                      {prog.needs_volunteers && prog.volunteer_slots > 0 && (
-                        <span style={{
-                          display: 'inline-flex', alignItems: 'center', gap: '4px',
-                          marginTop: '6px',
-                          fontFamily: 'var(--font-jakarta)', fontSize: '12px',
-                          color: '#FBBF24', fontWeight: 600,
-                        }}>
-                          <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#FBBF24', boxShadow: '0 0 6px #FBBF2480' }} />
-                          {prog.volunteer_slots} slot sukarela terbuka
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Arrow */}
-                    <div style={{ display: 'flex', alignItems: 'center', paddingRight: '14px' }}>
-                      <ChevronRight style={{ width: '14px', height: '14px', color: 'var(--text-muted)' }} />
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
-          )}
-        </section>
-
-        {/* ── KrackedDevs mobile ── */}
-        <div style={{ margin: '32px 20px 0', position: 'relative' }}>
-          <div style={{
-            borderRadius: '16px', overflow: 'hidden',
-            background: 'var(--surface)', border: '1px solid var(--border)',
-            padding: '20px',
-          }}>
-            {/* Subtle geometric watermark */}
-            <div style={{ position: 'absolute', right: '-10px', bottom: '-10px', opacity: 0.025, pointerEvents: 'none' }}>
-              <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
-                <polygon points="50,4 58,32 88,32 64,50 74,78 50,62 26,78 36,50 12,32 42,32" stroke="#22C55E" strokeWidth="1" fill="none"/>
-                <circle cx="50" cy="50" r="46" stroke="#22C55E" strokeWidth="0.5" fill="none"/>
-              </svg>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-              <Image src={kdLogo} alt="KrackedDevs" height={20} style={{ objectFit: 'contain', display: 'block' }} />
-              <span style={{
-                fontSize: '13px', fontWeight: 700, padding: '2px 8px', borderRadius: '100px',
-                background: 'var(--primary-pale)', color: 'var(--primary)',
-                fontFamily: 'var(--font-jakarta)', letterSpacing: '0.1em',
-              }}>
-                RC26
-              </span>
-            </div>
-            <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1.65, marginBottom: '14px' }}>
-              Sajda dibina sempena Ramadan Challenge 2026 oleh KrackedDevs — komuniti developer Malaysia.
-            </p>
-            <a
-              href={process.env.NEXT_PUBLIC_KRACKEDDEVS_REFERRAL ?? '#'}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: '6px',
-                padding: '9px 18px', borderRadius: '100px',
-                background: 'var(--primary)', color: 'var(--text-inverse)',
-                fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600,
-                textDecoration: 'none',
-              }}
-            >
-              Sertai KrackedDevs →
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* ══════════════════════════════════════════
-          DESKTOP LAYOUT — editorial magazine
-      ══════════════════════════════════════════ */}
-      <div className="hidden md:block max-w-7xl mx-auto px-4 md:px-6 lg:px-10">
-
-        {/* ── Editorial headline ── */}
-        <section style={{ padding: 'clamp(60px, 9vw, 120px) 0 clamp(40px, 5vw, 72px)' }}>
-          <div className="grid md:grid-cols-[1fr_auto] gap-8 items-end">
-            <div>
-              <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '13px',
-                letterSpacing: '0.26em', textTransform: 'uppercase',
-                color: 'var(--primary)', fontWeight: 700, marginBottom: '20px',
-                display: 'flex', alignItems: 'center', gap: '10px',
-              }}>
-                <span style={{ width: '22px', height: '1.5px', background: 'var(--primary)', display: 'inline-block' }} />
-                Platform Komuniti Digital
-              </p>
-              <h2 style={{
-                fontFamily: 'var(--font-playfair)',
-                fontSize: 'clamp(2.8rem, 7.5vw, 7rem)',
-                fontWeight: 800, lineHeight: 0.90,
-                letterSpacing: '-0.03em', color: 'var(--text-primary)',
-              }}>
-                Dari sujud,<br />
-                <em style={{ color: 'var(--primary)', fontStyle: 'italic' }}>lahir komuniti.</em>
-              </h2>
-            </div>
-            <p
-              className="hidden md:block"
-              style={{
-                maxWidth: '210px',
-                fontFamily: 'var(--font-jakarta)', fontSize: '13px',
-                color: 'var(--text-dim)', lineHeight: 1.75, textAlign: 'right',
-              }}
-            >
-              Waktu solat, sukarela, keperluan komuniti dan kelas agama — semuanya di satu tempat.
-            </p>
-          </div>
-        </section>
-
-        {/* ── Quick access pill strip ── */}
-        <section style={{ marginBottom: 'clamp(60px, 8vw, 108px)' }}>
-          <p style={{
-            fontFamily: 'var(--font-jakarta)', fontSize: '13px',
-            letterSpacing: '0.20em', textTransform: 'uppercase',
-            color: 'var(--text-dim)', fontWeight: 600, marginBottom: '18px',
-          }}>
-            Akses Pantas
-          </p>
-          <div
-            className="scrollbar-none"
-            style={{ display: 'flex', gap: '10px', overflowX: 'auto', paddingBottom: '6px' }}
-          >
-            {quickAccess.map(({ href, icon: Icon, label, color, bg }) => (
-              <Link
-                key={href}
-                href={href}
-                className="hover:-translate-y-1.5 active:scale-95"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '10px',
-                  padding: '11px 20px', borderRadius: '100px',
-                  background: bg,
-                  border: `1.5px solid ${color}28`,
-                  flexShrink: 0, textDecoration: 'none',
-                  transition: 'transform 0.2s cubic-bezier(0.34,1.2,0.64,1), box-shadow 0.2s ease',
-                }}
-              >
-                <Icon style={{ color, width: '15px', height: '15px' }} strokeWidth={2} />
-                <span style={{
-                  fontFamily: 'var(--font-jakarta)', fontSize: '13px',
-                  fontWeight: 600, color, whiteSpace: 'nowrap',
-                }}>
-                  {label}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Programs ── */}
-        <section style={{ marginBottom: 'clamp(60px, 8vw, 108px)' }}>
-          <div
-            className="flex flex-col md:flex-row md:items-end justify-between gap-5"
-            style={{ marginBottom: '44px' }}
-          >
-            <div>
-              <p style={{
-                fontFamily: 'var(--font-jakarta)', fontSize: '13px',
-                letterSpacing: '0.20em', textTransform: 'uppercase',
-                color: 'var(--primary)', fontWeight: 600, marginBottom: '12px',
-              }}>
-                Program Komuniti &middot; {new Date().getFullYear()}
-              </p>
-              <h2 style={{
-                fontFamily: 'var(--font-playfair)',
-                fontSize: 'clamp(2.2rem, 5.5vw, 5rem)',
-                fontWeight: 800, lineHeight: 0.88,
-                letterSpacing: '-0.03em', color: 'var(--text-primary)',
-              }}>
-                Sertai<br />Program
-              </h2>
-            </div>
-            <Link
-              href="/program"
-              className="hover:border-[var(--primary)] hover:text-[var(--primary)]"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: '6px',
-                padding: '10px 20px', borderRadius: '100px',
-                border: '1.5px solid var(--border)',
-                fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 500,
-                color: 'var(--text-secondary)', textDecoration: 'none',
-                transition: 'all 0.18s', flexShrink: 0, alignSelf: 'flex-start',
-              }}
-            >
-              Lihat Semua <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          {safeProgs.length === 0 ? (
-            <div style={{
-              padding: '64px 24px', textAlign: 'center',
-              borderRadius: '20px', border: '1px dashed var(--border)',
-            }}>
-              <Calendar className="w-10 h-10 mx-auto mb-3 opacity-20" style={{ color: 'var(--text-dim)' }} />
-              <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '14px', color: 'var(--text-dim)' }}>
-                Tiada program dijadualkan buat masa ini
-              </p>
-            </div>
-          ) : safeProgs.length >= 3 ? (
-            <div
-              className="grid md:grid-cols-[3fr_2fr] grid-cols-1 gap-4"
-              style={{ alignItems: 'start' }}
-            >
-              {(() => {
-                const prog = safeProgs[0]
-                const d = new Date(prog.program_date)
-                const cat = catProgramColors[prog.category ?? 'umum'] ?? catProgramColors.umum
-                return (
-                  <Link
-                    href={`/program/${prog.id}`}
-                    className="group scatter-card overflow-hidden rounded-3xl glass-card-amber block"
-                    style={{ transform: 'rotate(-1.3deg)', transformOrigin: 'center 92%' }}
-                  >
-                    <span aria-hidden style={{
-                      position: 'absolute', right: '-14px', bottom: '-20px',
-                      fontFamily: 'var(--font-jetbrains)',
-                      fontSize: 'clamp(100px, 16vw, 170px)',
-                      fontWeight: 700, color: 'rgba(217,119,6,0.07)',
-                      lineHeight: 1, userSelect: 'none', pointerEvents: 'none',
-                    }}>
-                      {String(d.getDate()).padStart(2, '0')}
-                    </span>
-                    <div style={{ background: cat.bg, padding: '20px 28px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', letterSpacing: '0.20em', textTransform: 'uppercase', color: cat.text, opacity: 0.75, fontWeight: 600 }}>
-                        {cat.label}
-                      </span>
-                      {prog.needs_volunteers && (
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '4px 10px', borderRadius: '100px', background: 'rgba(255,255,255,0.22)', fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 600, color: cat.text }}>
-                          <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#4ADE80' }} />
-                          Perlu Sukarela
-                        </span>
-                      )}
-                    </div>
-                    <div style={{ padding: '24px 28px 28px', position: 'relative' }}>
-                      <div style={{ display: 'flex', gap: '18px', alignItems: 'flex-start', marginBottom: '18px' }}>
-                        <div style={{ flexShrink: 0 }}>
-                          <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: 'clamp(42px, 6vw, 60px)', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1, letterSpacing: '-0.03em' }}>
-                            {d.getDate()}
-                          </p>
-                          <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.14em', marginTop: '2px' }}>
-                            {d.toLocaleDateString('ms-MY', { month: 'short' })} {d.getFullYear()}
-                          </p>
-                        </div>
-                        <div style={{ flex: 1, paddingTop: '6px' }}>
-                          <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: 'clamp(1.2rem, 2.4vw, 1.7rem)', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.2, marginBottom: '10px' }}>
-                            {prog.title}
-                          </h3>
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)' }}>
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Clock className="w-3 h-3" /> {prog.start_time}</span>
-                            {prog.location && <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><MapPin className="w-3 h-3" /> {prog.location}</span>}
-                          </div>
-                        </div>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--primary)', fontWeight: 600 }}>
-                          Lihat butiran <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                )
-              })()}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {safeProgs.slice(1, 3).map((prog, si) => {
-                  const d = new Date(prog.program_date)
-                  const cat = catProgramColors[prog.category ?? 'umum'] ?? catProgramColors.umum
-                  const rot = si === 0 ? 'rotate(0.9deg)' : 'rotate(-0.6deg)'
-                  return (
-                    <Link
-                      key={prog.id}
-                      href={`/program/${prog.id}`}
-                      className={`group scatter-card overflow-hidden rounded-2xl block ${si === 0 ? 'glass-card-green' : 'glass-card-indigo'}`}
-                      style={{ transform: rot, transformOrigin: 'center 90%' }}
-                    >
-                      <div style={{ display: 'flex' }}>
-                        <div style={{ width: '64px', flexShrink: 0, background: cat.bg, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '18px 0' }}>
-                          <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '26px', fontWeight: 700, color: cat.text, lineHeight: 1 }}>{d.getDate()}</p>
-                          <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: cat.text, opacity: 0.65, textTransform: 'uppercase', letterSpacing: '0.12em', marginTop: '4px' }}>{d.toLocaleDateString('ms-MY', { month: 'short' })}</p>
-                        </div>
-                        <div style={{ flex: 1, padding: '14px 18px' }}>
-                          <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-dim)', fontWeight: 600 }}>{cat.label}</span>
-                          <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.25, marginTop: '4px', marginBottom: '7px' }}>{prog.title}</h3>
-                          <div style={{ display: 'flex', gap: '8px', fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)' }}>
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><Clock className="w-2.5 h-2.5" /> {prog.start_time}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  )
-                })}
-              </div>
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-              {safeProgs.map((prog, i) => {
-                const d = new Date(prog.program_date)
-                const cat = catProgramColors[prog.category ?? 'umum'] ?? catProgramColors.umum
-                return (
-                  <Link key={prog.id} href={`/program/${prog.id}`} className="group overflow-hidden rounded-2xl glass-card-amber block animate-slideUp" style={{ animationDelay: `${i * 0.08}s` }}>
-                    <div style={{ background: cat.bg, padding: '16px 20px' }}>
-                      <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', color: cat.text, opacity: 0.75, fontWeight: 600 }}>{cat.label}</span>
-                    </div>
-                    <div style={{ padding: '16px 20px 20px' }}>
-                      <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px' }}>{prog.title}</h3>
-                      <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--text-dim)' }}>
-                        {d.getDate()} {d.toLocaleDateString('ms-MY', { month: 'short' })} &middot; {prog.start_time}
+                      <p style={{
+                        fontFamily: 'var(--font-jakarta,"Plus Jakarta Sans",sans-serif)',
+                        fontSize: '14px', fontWeight: 700,
+                        color: 'var(--text-primary)', margin: '0 0 3px',
+                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                      }}>
+                        {prog.title}
                       </p>
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
-          )}
-        </section>
-
-        {/* ── Announcements + sidebar ── */}
-        <div
-          className="grid md:grid-cols-5 gap-10 md:gap-14"
-          style={{ marginBottom: 'clamp(60px, 8vw, 108px)' }}
-        >
-          <div className="md:col-span-3">
-            <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '36px', gap: '16px' }}>
-              <div>
-                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', letterSpacing: '0.20em', textTransform: 'uppercase', color: 'var(--primary)', fontWeight: 600, marginBottom: '10px' }}>Maklumat Terkini</p>
-                <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: 'clamp(1.8rem, 4vw, 3.2rem)', fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>Pengumuman</h2>
-              </div>
-              <Link href="/" style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'var(--primary)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', flexShrink: 0 }}>
-                Semua <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-            {safeAnns.length === 0 ? (
-              <div style={{ padding: '48px 0', textAlign: 'center', borderTop: '1px solid var(--border)' }}>
-                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '14px', color: 'var(--text-dim)' }}>Tiada pengumuman buat masa ini</p>
-              </div>
-            ) : (
-              <div>
-                {safeAnns.map((ann, i) => (
-                  <div
-                    key={ann.id}
-                    className="animate-slideUp"
-                    style={{
-                      borderTop: `1px solid ${i === 0 ? 'var(--border-lit)' : 'var(--border)'}`,
-                      paddingTop: '22px',
-                      paddingBottom: i < safeAnns.length - 1 ? '22px' : 0,
-                      animationDelay: `${i * 0.07}s`,
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                      <span style={{ width: '7px', height: '7px', borderRadius: '50%', flexShrink: 0, background: catColors[ann.category] ?? catColors.umum }} />
-                      <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: catColors[ann.category] ?? catColors.umum }}>
-                        {catLabel[ann.category] ?? ann.category}
-                      </span>
-                      {ann.is_pinned && (
-                        <span style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: '#D97706', letterSpacing: '0.06em' }}>
-                          <Pin className="w-2.5 h-2.5 inline mr-0.5" /> Disematkan
-                        </span>
+                      {prog.location && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                          <MapPin style={{ width: '11px', height: '11px', color: 'var(--text-dim)', flexShrink: 0 }} />
+                          <span style={{
+                            fontFamily: 'var(--font-nunito,"Nunito",sans-serif)',
+                            fontSize: '12px', color: 'var(--text-muted)',
+                            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                          }}>
+                            {prog.location}
+                          </span>
+                        </div>
                       )}
-                      <time style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', marginLeft: 'auto' }}>
-                        {new Date(ann.created_at).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short' })}
-                      </time>
                     </div>
-                    <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: i === 0 ? 'clamp(1.35rem, 2.6vw, 1.9rem)' : '1.05rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.2, marginBottom: '8px' }}>
-                      {ann.title}
-                    </h3>
-                    <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', lineHeight: 1.65 }}>
-                      {ann.content.slice(0, i === 0 ? 145 : 85)}{ann.content.length > (i === 0 ? 145 : 85) ? '…' : ''}
-                    </p>
+
+                    <ChevronRight style={{ width: '16px', height: '16px', color: 'var(--text-dim)', flexShrink: 0 }} />
                   </div>
-                ))}
-              </div>
-            )}
+                </Link>
+              )
+            })}
           </div>
+        )}
+      </section>
 
-          <div className="md:col-span-2 flex flex-col gap-4">
-            <Link href="/hadis" className="group relative rounded-2xl p-6 glass-card-deep-green" style={{ minHeight: '155px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <div className="absolute inset-0 pattern-overlay opacity-[0.06]" />
-              <div className="relative">
-                <BookMarked className="w-6 h-6 text-white mb-4" style={{ opacity: 0.85 }} strokeWidth={1.8} />
-                <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: '18px', fontWeight: 700, color: '#fff', marginBottom: '6px' }}>Hadis Harian</h3>
-                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '12px', color: 'rgba(255,255,255,0.58)' }}>1 hadis pilihan setiap hari dari koleksi sahih</p>
-              </div>
-              <div className="relative flex justify-end">
-                <ArrowRight className="w-4 h-4 text-white opacity-40 group-hover:translate-x-0.5 transition-transform" />
-              </div>
+      {/* ════════════════════════════════════════
+          DESKTOP: QUICK ACCESS PILL STRIP
+          UX RATIONALE: Desktop users have more horizontal space.
+          Pill strip gives faster access without needing to scroll down.
+          Horizontal scroll handles overflow gracefully.
+      ════════════════════════════════════════ */}
+      <div className="hidden md:block max-w-7xl mx-auto px-6 lg:px-10" style={{ marginTop: '40px' }}>
+        <p style={{
+          fontFamily: 'var(--font-nunito,"Nunito",sans-serif)',
+          fontSize: '12px', fontWeight: 700, letterSpacing: '0.18em',
+          textTransform: 'uppercase', color: 'var(--text-dim)', marginBottom: '16px',
+        }}>
+          Akses Pantas
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          {[
+            { href: '/solat',       label: 'Jejak Solat',    Icon: CheckSquare },
+            { href: '/tasbih',      label: 'Tasbih & Zikir', Icon: RotateCcw },
+            { href: '/wirid',       label: 'Wirid Harian',   Icon: Sun },
+            { href: '/hadis',       label: 'Hadis Harian',   Icon: BookMarked },
+            { href: '/program',     label: 'Program',         Icon: Calendar },
+            { href: '/keperluan',   label: 'Keperluan',       Icon: Heart },
+            { href: '/kelas',       label: 'Kelas',           Icon: BookOpen },
+            { href: '/qiblat',      label: 'Kiblat',          Icon: Compass },
+            { href: '/buka-puasa',  label: 'Waktu Berbuka',   Icon: Clock },
+            { href: '/hijri',       label: 'Kalendar Hijri',  Icon: Moon },
+            { href: '/tazkirah',    label: 'Tazkirah',        Icon: Sparkles },
+          ].map(({ href, label, Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                padding: '8px 14px', borderRadius: '100px', textDecoration: 'none',
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(45,215,113,0.14)',
+                fontFamily: 'var(--font-nunito,"Nunito",sans-serif)',
+                fontSize: '14px', fontWeight: 600,
+                color: 'var(--text-secondary)',
+                transition: 'all 0.15s',
+                whiteSpace: 'nowrap',
+              }}
+              className="hover:bg-[rgba(45,215,113,0.06)] hover:text-[var(--accent,#2DD771)] hover:border-[rgba(45,215,113,0.25)]"
+            >
+              <Icon style={{ width: '14px', height: '14px' }} strokeWidth={1.8} />
+              {label}
             </Link>
-            <div className="grid grid-cols-2 gap-3">
-              <Link href="/qiblat" className="group relative rounded-2xl p-4 glass-card-indigo">
-                <Compass className="w-5 h-5 mb-3" style={{ color: '#6366F1' }} strokeWidth={1.8} />
-                <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px' }}>Qiblat</h3>
-                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)' }}>Arah tepat</p>
-              </Link>
-              <Link href="/buka-puasa" className="group relative rounded-2xl p-4 glass-card-amber">
-                <Clock className="w-5 h-5 mb-3" style={{ color: '#D97706' }} strokeWidth={1.8} />
-                <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2px' }}>Berbuka</h3>
-                <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)' }}>Kiraan masa</p>
-              </Link>
-            </div>
-          </div>
+          ))}
         </div>
-
-        {/* ── KrackedDevs desktop ── */}
-        <div
-          className="rounded-2xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-          style={{ background: 'var(--surface)', borderColor: 'var(--border)', padding: '20px 24px', marginBottom: '48px' }}
-        >
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-              <Image src={kdLogo} alt="KrackedDevs" height={28} style={{ objectFit: 'contain', display: 'block' }} />
-              <span style={{ fontSize: '12px', fontWeight: 600, padding: '3px 8px', borderRadius: '100px', background: 'var(--primary-pale)', color: 'var(--primary)', fontFamily: 'var(--font-jakarta)' }}>RC26</span>
-            </div>
-            <p style={{ fontFamily: 'var(--font-jakarta)', fontSize: '13px', color: 'var(--text-dim)', lineHeight: 1.6 }}>
-              Sajda dibina sempena Ramadan Challenge 2026 oleh KrackedDevs &mdash; komuniti developer Malaysia yang build real products.
-            </p>
-          </div>
-          <a
-            href={process.env.NEXT_PUBLIC_KRACKEDDEVS_REFERRAL ?? '#'}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ flexShrink: 0, padding: '10px 20px', borderRadius: '100px', background: 'var(--primary)', color: '#fff', fontFamily: 'var(--font-jakarta)', fontSize: '13px', fontWeight: 600, textDecoration: 'none' }}
-          >
-            Sertai KrackedDevs &rarr;
-          </a>
-        </div>
-
       </div>
 
-      </div> {/* end home-komuniti-section */}
-      </HomeModeSwitcher>
+      {/* Bottom breathing room */}
+      <div style={{ height: '32px' }} />
     </div>
   )
 }

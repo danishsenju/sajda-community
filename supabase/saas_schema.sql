@@ -34,7 +34,7 @@ create table if not exists subscriptions (
   mosque_id             uuid    references mosques(id) on delete cascade,
   plan                  text    not null,         -- 'surau' | 'kariah' | 'komuniti'
   status                text    default 'pending',-- 'pending' | 'active' | 'expired' | 'cancelled'
-  toyyibpay_bill_code   text,                     -- ToyyibPay bill reference
+  billplz_bill_id       text,                     -- Billplz bill reference
   amount_rm             int     not null,         -- 49 | 99 | 199
   billing_cycle         text    default 'monthly',
   starts_at             timestamptz,

@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 6. Create Billplz bill — {bill_id} is a Billplz URL template placeholder, replaced by Billplz on redirect
-    const { billId, paymentUrl } = await createBill({
+    const { billId, billUrl: paymentUrl } = await createBill({
       mosqueId,
       plan:        plan as PlanKey,
       email:       admin.email,
@@ -110,10 +110,10 @@ export async function POST(req: NextRequest) {
       callbackUrl: `${origin}/api/payment/callback`,
     })
 
-    // 7. Save the Billplz bill ID on the subscription row (column named toyyibpay_bill_code — repurposed)
+    // 7. Save the Billplz bill ID on the subscription row
     await adminClient
       .from('subscriptions')
-      .update({ toyyibpay_bill_code: billId })
+      .update({ billplz_bill_id: billId })
       .eq('id', sub.id)
 
     return NextResponse.json({ checkoutUrl: paymentUrl })

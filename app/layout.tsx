@@ -1,24 +1,35 @@
 import type { Metadata, Viewport } from 'next'
-import { Cormorant_Garamond, Plus_Jakarta_Sans, Amiri, JetBrains_Mono, Poppins } from 'next/font/google'
+import { Plus_Jakarta_Sans, Nunito, Oswald, Amiri } from 'next/font/google'
 import './globals.css'
 
-// Cormorant Garamond — ultra-luxury high-contrast serif (Hermès, editorial)
-const playfair = Cormorant_Garamond({
-  variable: '--font-playfair',
+// UX RATIONALE: Plus Jakarta Sans — geometric humanist, premium editorial feel.
+// Highest legibility in display sizes. Used for headings, hero text, nav brand.
+const jakarta = Plus_Jakarta_Sans({
+  variable: '--font-jakarta',
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  style: ['normal', 'italic'],
+  weight: ['400', '600', '700', '800'],
   display: 'swap',
 })
 
-// Plus Jakarta Sans — premium modern sans, SE Asian designed
-const dmSans = Plus_Jakarta_Sans({
-  variable: '--font-dm-sans',
+// UX RATIONALE: Nunito — rounded humanist, extremely legible at small body sizes.
+// Critical for elderly Pak Cik/Mak Cik archetype — more open apertures than DM Sans.
+const nunito = Nunito({
+  variable: '--font-nunito',
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   display: 'swap',
 })
 
+// UX RATIONALE: Oswald — condensed display for numbers. Tight metrics let us
+// show large countdowns (prayer times, tasbih) without reflow on small screens.
+const oswald = Oswald({
+  variable: '--font-oswald',
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  display: 'swap',
+})
+
+// Arabic — Amiri for Quran / Arabic text sections
 const amiri = Amiri({
   variable: '--font-amiri',
   subsets: ['arabic', 'latin'],
@@ -26,29 +37,15 @@ const amiri = Amiri({
   display: 'swap',
 })
 
-const jetbrains = JetBrains_Mono({
-  variable: '--font-jetbrains',
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  display: 'swap',
-})
-
-const poppins = Poppins({
-  variable: '--font-poppins',
-  subsets: ['latin'],
-  weight: ['400', '600', '700', '800'],
-  display: 'swap',
-})
-
 export const metadata: Metadata = {
-  title: 'Sajda — Masjid Saujana Utama',
+  title: 'SAJDA — Platform Komuniti Masjid',
   description:
-    'Platform komuniti Masjid Saujana Utama. Waktu solat, program, keperluan komuniti, kelas agama dan hadis harian.',
+    'Platform komuniti masjid Malaysia. Waktu solat, program, keperluan komuniti, kelas agama dan lebih lagi.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
-    title: 'Sajda',
+    statusBarStyle: 'black-translucent',
+    title: 'SAJDA',
   },
   icons: {
     icon: [
@@ -60,10 +57,11 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#08090E',
+  themeColor: '#050C09',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
+  viewportFit: 'cover', // Required for safe-area-inset on notched phones
 }
 
 // Root layout — fonts and base HTML only.
@@ -74,7 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="ms"
       suppressHydrationWarning
-      className={`${playfair.variable} ${dmSans.variable} ${amiri.variable} ${jetbrains.variable} ${poppins.variable}`}
+      className={`${jakarta.variable} ${nunito.variable} ${oswald.variable} ${amiri.variable}`}
     >
       <body suppressHydrationWarning>{children}</body>
     </html>
